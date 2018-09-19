@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kevin
  */
 @Entity
-@Table(name = "Tipo_eleccion")
+@Table(name = "Departamento")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "TipoeleccionEntity.findAll", query = "SELECT t FROM TipoeleccionEntity t")
-    , @NamedQuery(name = "TipoeleccionEntity.findById", query = "SELECT t FROM TipoeleccionEntity t WHERE t.id = :id")
-    , @NamedQuery(name = "TipoeleccionEntity.findByDescripcion", query = "SELECT t FROM TipoeleccionEntity t WHERE t.descripcion = :descripcion")})
-public class TipoeleccionEntity implements Serializable {
+    @NamedQuery(name = "DepartamentoEntity.findAll", query = "SELECT d FROM DepartamentoEntity d")
+    , @NamedQuery(name = "DepartamentoEntity.findById", query = "SELECT d FROM DepartamentoEntity d WHERE d.id = :id")
+    , @NamedQuery(name = "DepartamentoEntity.findByDescripcion", query = "SELECT d FROM DepartamentoEntity d WHERE d.descripcion = :descripcion")})
+public class DepartamentoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,19 +42,19 @@ public class TipoeleccionEntity implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
+    @Size(min = 1, max = 50)
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipo")
-    private List<EleccionEntity> eleccionEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
+    private List<MunicipioEntity> municipioEntityList;
 
-    public TipoeleccionEntity() {
+    public DepartamentoEntity() {
     }
 
-    public TipoeleccionEntity(Integer id) {
+    public DepartamentoEntity(Integer id) {
         this.id = id;
     }
 
-    public TipoeleccionEntity(Integer id, String descripcion) {
+    public DepartamentoEntity(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -76,12 +76,12 @@ public class TipoeleccionEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<EleccionEntity> getEleccionEntityList() {
-        return eleccionEntityList;
+    public List<MunicipioEntity> getMunicipioEntityList() {
+        return municipioEntityList;
     }
 
-    public void setEleccionEntityList(List<EleccionEntity> eleccionEntityList) {
-        this.eleccionEntityList = eleccionEntityList;
+    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
+        this.municipioEntityList = municipioEntityList;
     }
 
     @Override
@@ -94,10 +94,10 @@ public class TipoeleccionEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoeleccionEntity)) {
+        if (!(object instanceof DepartamentoEntity)) {
             return false;
         }
-        TipoeleccionEntity other = (TipoeleccionEntity) object;
+        DepartamentoEntity other = (DepartamentoEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +106,7 @@ public class TipoeleccionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.TipoeleccionEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.models.DepartamentoEntity[ id=" + id + " ]";
     }
     
 }

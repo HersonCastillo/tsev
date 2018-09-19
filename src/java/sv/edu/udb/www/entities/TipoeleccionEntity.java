@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,14 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kevin
  */
 @Entity
-@Table(name = "Partido")
+@Table(name = "Tipo_eleccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PartidoEntity.findAll", query = "SELECT p FROM PartidoEntity p")
-    , @NamedQuery(name = "PartidoEntity.findById", query = "SELECT p FROM PartidoEntity p WHERE p.id = :id")
-    , @NamedQuery(name = "PartidoEntity.findByNombre", query = "SELECT p FROM PartidoEntity p WHERE p.nombre = :nombre")
-    , @NamedQuery(name = "PartidoEntity.findByImg", query = "SELECT p FROM PartidoEntity p WHERE p.img = :img")})
-public class PartidoEntity implements Serializable {
+    @NamedQuery(name = "TipoeleccionEntity.findAll", query = "SELECT t FROM TipoeleccionEntity t")
+    , @NamedQuery(name = "TipoeleccionEntity.findById", query = "SELECT t FROM TipoeleccionEntity t WHERE t.id = :id")
+    , @NamedQuery(name = "TipoeleccionEntity.findByDescripcion", query = "SELECT t FROM TipoeleccionEntity t WHERE t.descripcion = :descripcion")})
+public class TipoeleccionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,22 +43,20 @@ public class PartidoEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 40)
-    private String nombre;
-    @Size(max = 150)
-    private String img;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartido")
-    private List<CandidatoEntity> candidatoEntityList;
+    private String descripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipo")
+    private List<EleccionEntity> eleccionEntityList;
 
-    public PartidoEntity() {
+    public TipoeleccionEntity() {
     }
 
-    public PartidoEntity(Integer id) {
+    public TipoeleccionEntity(Integer id) {
         this.id = id;
     }
 
-    public PartidoEntity(Integer id, String nombre) {
+    public TipoeleccionEntity(Integer id, String descripcion) {
         this.id = id;
-        this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -70,29 +67,21 @@ public class PartidoEntity implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @XmlTransient
-    public List<CandidatoEntity> getCandidatoEntityList() {
-        return candidatoEntityList;
+    public List<EleccionEntity> getEleccionEntityList() {
+        return eleccionEntityList;
     }
 
-    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
-        this.candidatoEntityList = candidatoEntityList;
+    public void setEleccionEntityList(List<EleccionEntity> eleccionEntityList) {
+        this.eleccionEntityList = eleccionEntityList;
     }
 
     @Override
@@ -105,10 +94,10 @@ public class PartidoEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PartidoEntity)) {
+        if (!(object instanceof TipoeleccionEntity)) {
             return false;
         }
-        PartidoEntity other = (PartidoEntity) object;
+        TipoeleccionEntity other = (TipoeleccionEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,7 +106,7 @@ public class PartidoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.PartidoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.models.TipoeleccionEntity[ id=" + id + " ]";
     }
     
 }

@@ -5,9 +5,12 @@
  */
 package sv.edu.udb.www.models;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import sv.edu.udb.www.entities.EstadopartidoEntity;
 import sv.edu.udb.www.entities.PartidoEntity;
 
 /**
@@ -42,4 +45,25 @@ public class PartidoModel {
         }
     }
 
+    public int eliminarPartido(int id){
+        try{
+            PartidoEntity partido = em.find(PartidoEntity.class, id);
+            partido.setIdEstado(em.find(EstadopartidoEntity.class, 2));
+            em.merge(partido);
+            em.flush();
+            return 1;
+        }catch(Exception ex){
+            System.out.println("Error - eliminando partido: " + ex.toString());
+            return 0;
+        }
+    }
+    
+    public List<PartidoEntity> listarPartidosHabilitados(){
+        Query query = em.createQuery("SELECT p FROM PartidoEntity p WHERE e.idEstado = 1");
+        return query.getResultList();
+    }
+    
+    public PartidoEntity obtenerPartido(int id){
+        return em.find(PartidoEntity.class, id);
+    }
 }

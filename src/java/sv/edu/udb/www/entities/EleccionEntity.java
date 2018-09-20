@@ -63,14 +63,14 @@ public class EleccionEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechRealizacion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
-    private List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList;
+    private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoeleccionEntity idTipo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<CandidatoEntity> candidatoEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
-    private List<JTVEntity> jTVEntityList;
+    private List<JRVEntity> jRVEntityList;
 
     public EleccionEntity() {
     }
@@ -119,12 +119,12 @@ public class EleccionEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleciudadanoeleccionEntity> getDetalleciudadanoeleccionEntityList() {
-        return detalleciudadanoeleccionEntityList;
+    public List<DetalleCEEntity> getDetalleCEEntityList() {
+        return detalleCEEntityList;
     }
 
-    public void setDetalleciudadanoeleccionEntityList(List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList) {
-        this.detalleciudadanoeleccionEntityList = detalleciudadanoeleccionEntityList;
+    public void setDetalleCEEntityList(List<DetalleCEEntity> detalleCEEntityList) {
+        this.detalleCEEntityList = detalleCEEntityList;
     }
 
     public TipoeleccionEntity getIdTipo() {
@@ -145,12 +145,12 @@ public class EleccionEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<JTVEntity> getJTVEntityList() {
-        return jTVEntityList;
+    public List<JRVEntity> getJRVEntityList() {
+        return jRVEntityList;
     }
 
-    public void setJTVEntityList(List<JTVEntity> jTVEntityList) {
-        this.jTVEntityList = jTVEntityList;
+    public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
+        this.jRVEntityList = jRVEntityList;
     }
 
     @Override
@@ -175,7 +175,7 @@ public class EleccionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.EleccionEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.EleccionEntity[ id=" + id + " ]";
     }
     
 }

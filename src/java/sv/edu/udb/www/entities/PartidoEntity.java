@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -49,6 +51,9 @@ public class PartidoEntity implements Serializable {
     private String img;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartido")
     private List<CandidatoEntity> candidatoEntityList;
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EstadopartidoEntity idEstado;
 
     public PartidoEntity() {
     }
@@ -95,6 +100,14 @@ public class PartidoEntity implements Serializable {
         this.candidatoEntityList = candidatoEntityList;
     }
 
+    public EstadopartidoEntity getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(EstadopartidoEntity idEstado) {
+        this.idEstado = idEstado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,7 +130,7 @@ public class PartidoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.PartidoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.PartidoEntity[ id=" + id + " ]";
     }
     
 }

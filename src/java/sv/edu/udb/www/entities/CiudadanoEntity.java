@@ -43,7 +43,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "CiudadanoEntity.findByDui", query = "SELECT c FROM CiudadanoEntity c WHERE c.dui = :dui")
     , @NamedQuery(name = "CiudadanoEntity.findByDireccion", query = "SELECT c FROM CiudadanoEntity c WHERE c.direccion = :direccion")
     , @NamedQuery(name = "CiudadanoEntity.findByImg", query = "SELECT c FROM CiudadanoEntity c WHERE c.img = :img")
-    , @NamedQuery(name = "CiudadanoEntity.findByCorreo", query = "SELECT c FROM CiudadanoEntity c WHERE c.correo = :correo")
     , @NamedQuery(name = "CiudadanoEntity.findByFechNac", query = "SELECT c FROM CiudadanoEntity c WHERE c.fechNac = :fechNac")
     , @NamedQuery(name = "CiudadanoEntity.findByGenero", query = "SELECT c FROM CiudadanoEntity c WHERE c.genero = :genero")})
 public class CiudadanoEntity implements Serializable {
@@ -73,8 +72,6 @@ public class CiudadanoEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 150)
     private String img;
-    @Size(max = 150)
-    private String correo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fech_nac")
@@ -86,7 +83,7 @@ public class CiudadanoEntity implements Serializable {
     @OneToMany(mappedBy = "idCiudadano")
     private List<UsuarioEntity> usuarioEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudadano")
-    private List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList;
+    private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_cdv", referencedColumnName = "id")
     @ManyToOne
     private CDVEntity idCdv;
@@ -162,14 +159,6 @@ public class CiudadanoEntity implements Serializable {
         this.img = img;
     }
 
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
     public Date getFechNac() {
         return fechNac;
     }
@@ -196,12 +185,12 @@ public class CiudadanoEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleciudadanoeleccionEntity> getDetalleciudadanoeleccionEntityList() {
-        return detalleciudadanoeleccionEntityList;
+    public List<DetalleCEEntity> getDetalleCEEntityList() {
+        return detalleCEEntityList;
     }
 
-    public void setDetalleciudadanoeleccionEntityList(List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList) {
-        this.detalleciudadanoeleccionEntityList = detalleciudadanoeleccionEntityList;
+    public void setDetalleCEEntityList(List<DetalleCEEntity> detalleCEEntityList) {
+        this.detalleCEEntityList = detalleCEEntityList;
     }
 
     public CDVEntity getIdCdv() {
@@ -251,7 +240,7 @@ public class CiudadanoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.CiudadanoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.CiudadanoEntity[ id=" + id + " ]";
     }
     
 }

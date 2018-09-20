@@ -141,7 +141,7 @@ public class MunicipioEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.MunicipioEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.MunicipioEntity[ id=" + id + " ]";
     }
     
 }

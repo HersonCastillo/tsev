@@ -43,7 +43,7 @@ public class RolEntity implements Serializable {
     @Size(min = 1, max = 50)
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRol")
-    private List<DetalleusuariojrvEntity> detalleusuariojrvEntityList;
+    private List<DetalleUJEntity> detalleUJEntityList;
 
     public RolEntity() {
     }
@@ -74,12 +74,12 @@ public class RolEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleusuariojrvEntity> getDetalleusuariojrvEntityList() {
-        return detalleusuariojrvEntityList;
+    public List<DetalleUJEntity> getDetalleUJEntityList() {
+        return detalleUJEntityList;
     }
 
-    public void setDetalleusuariojrvEntityList(List<DetalleusuariojrvEntity> detalleusuariojrvEntityList) {
-        this.detalleusuariojrvEntityList = detalleusuariojrvEntityList;
+    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
+        this.detalleUJEntityList = detalleUJEntityList;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class RolEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.RolEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.RolEntity[ id=" + id + " ]";
     }
     
 }

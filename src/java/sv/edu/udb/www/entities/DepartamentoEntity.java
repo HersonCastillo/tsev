@@ -106,7 +106,7 @@ public class DepartamentoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.DepartamentoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.DepartamentoEntity[ id=" + id + " ]";
     }
     
 }

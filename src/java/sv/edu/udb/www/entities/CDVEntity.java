@@ -46,7 +46,7 @@ public class CDVEntity implements Serializable {
     @OneToMany(mappedBy = "idCdv")
     private List<CiudadanoEntity> ciudadanoEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCdv")
-    private List<JTVEntity> jTVEntityList;
+    private List<JRVEntity> jRVEntityList;
     @JoinColumn(name = "id_municipio", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private MunicipioEntity idMunicipio;
@@ -84,12 +84,12 @@ public class CDVEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<JTVEntity> getJTVEntityList() {
-        return jTVEntityList;
+    public List<JRVEntity> getJRVEntityList() {
+        return jRVEntityList;
     }
 
-    public void setJTVEntityList(List<JTVEntity> jTVEntityList) {
-        this.jTVEntityList = jTVEntityList;
+    public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
+        this.jRVEntityList = jRVEntityList;
     }
 
     public MunicipioEntity getIdMunicipio() {
@@ -122,7 +122,7 @@ public class CDVEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.CDVEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.CDVEntity[ id=" + id + " ]";
     }
     
 }

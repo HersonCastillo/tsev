@@ -15,9 +15,9 @@ public class LoginModel {
      public UsuarioEntity login(String email, String pass){
         try{
             UsuarioEntity user;
-            String query = "SELECT u FROM UsuarioEntity u INNER JOIN CiudadanoEntity c WHERE c.correo = :correo AND u.password = SHA2(:password)";
+            String query = "SELECT u FROM UsuarioEntity u JOIN u.ciudadano c ON c.id = u.id_ciudadano WHERE c.correo = :correo AND u.password = :password";
             
-            Query con = em.createQuery(query);
+            Query con = em.createQuery(query, UsuarioEntity.class);
             con.setParameter("correo", email);
             con.setParameter("password", pass);
             

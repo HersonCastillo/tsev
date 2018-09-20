@@ -19,18 +19,19 @@ public class LoginBean implements Serializable {
     private String pass;
     private String correo;
 
-    public String validaLogin() {
+    public String validaLogin() throws Exception {
         LoginModel log = new LoginModel();
         UsuarioEntity u = log.login(correo, pass);
 
         if (u != null) {
-            if (u.getIdTipo().equals(1)) {
+            int tipo = Integer.parseInt(u.getIdTipo().toString());
+            if (tipo == 1) {
                 return "admingen";
-            } else if (u.getIdTipo().equals(2)) {
+            } else if (tipo == 2) {
                 return "emp";
-            } else if (u.getIdTipo().equals(3)) {
+            } else if (tipo == 3) {
                 return "admindep";
-            } else if (u.getIdTipo().equals(4)) {
+            } else if (tipo == 4) {
                 return "president";
             }
         }

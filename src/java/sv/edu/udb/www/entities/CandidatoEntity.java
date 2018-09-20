@@ -131,7 +131,7 @@ public class CandidatoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.CandidatoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.CandidatoEntity[ id=" + id + " ]";
     }
     
 }

@@ -45,7 +45,7 @@ public class EstadoJRVEntity implements Serializable {
     @Size(min = 1, max = 50)
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
-    private List<JTVEntity> jTVEntityList;
+    private List<JRVEntity> jRVEntityList;
 
     public EstadoJRVEntity() {
     }
@@ -76,12 +76,12 @@ public class EstadoJRVEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<JTVEntity> getJTVEntityList() {
-        return jTVEntityList;
+    public List<JRVEntity> getJRVEntityList() {
+        return jRVEntityList;
     }
 
-    public void setJTVEntityList(List<JTVEntity> jTVEntityList) {
-        this.jTVEntityList = jTVEntityList;
+    public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
+        this.jRVEntityList = jRVEntityList;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class EstadoJRVEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.EstadoJRVEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.EstadoJRVEntity[ id=" + id + " ]";
     }
     
 }

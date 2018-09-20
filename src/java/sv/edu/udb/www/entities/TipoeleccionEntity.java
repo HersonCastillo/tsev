@@ -106,7 +106,7 @@ public class TipoeleccionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.TipoeleccionEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.TipoeleccionEntity[ id=" + id + " ]";
     }
     
 }

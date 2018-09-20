@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,11 +13,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -27,36 +28,34 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kevin
  */
 @Entity
-@Table(name = "Estado_JRV")
+@Table(name = "CDV")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EstadoJRVEntity.findAll", query = "SELECT e FROM EstadoJRVEntity e")
-    , @NamedQuery(name = "EstadoJRVEntity.findById", query = "SELECT e FROM EstadoJRVEntity e WHERE e.id = :id")
-    , @NamedQuery(name = "EstadoJRVEntity.findByDescripcion", query = "SELECT e FROM EstadoJRVEntity e WHERE e.descripcion = :descripcion")})
-public class EstadoJRVEntity implements Serializable {
+    @NamedQuery(name = "CDVEntity.findAll", query = "SELECT c FROM CDVEntity c")
+    , @NamedQuery(name = "CDVEntity.findById", query = "SELECT c FROM CDVEntity c WHERE c.id = :id")
+    , @NamedQuery(name = "CDVEntity.findByDireccion", query = "SELECT c FROM CDVEntity c WHERE c.direccion = :direccion")})
+public class CDVEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
-    private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    @Size(max = 150)
+    private String direccion;
+    @OneToMany(mappedBy = "idCdv")
+    private List<CiudadanoEntity> ciudadanoEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCdv")
     private List<JTVEntity> jTVEntityList;
+    @JoinColumn(name = "id_municipio", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private MunicipioEntity idMunicipio;
 
-    public EstadoJRVEntity() {
+    public CDVEntity() {
     }
 
-    public EstadoJRVEntity(Integer id) {
+    public CDVEntity(Integer id) {
         this.id = id;
-    }
-
-    public EstadoJRVEntity(Integer id, String descripcion) {
-        this.id = id;
-        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -67,12 +66,21 @@ public class EstadoJRVEntity implements Serializable {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    @XmlTransient
+    public List<CiudadanoEntity> getCiudadanoEntityList() {
+        return ciudadanoEntityList;
+    }
+
+    public void setCiudadanoEntityList(List<CiudadanoEntity> ciudadanoEntityList) {
+        this.ciudadanoEntityList = ciudadanoEntityList;
     }
 
     @XmlTransient
@@ -82,6 +90,14 @@ public class EstadoJRVEntity implements Serializable {
 
     public void setJTVEntityList(List<JTVEntity> jTVEntityList) {
         this.jTVEntityList = jTVEntityList;
+    }
+
+    public MunicipioEntity getIdMunicipio() {
+        return idMunicipio;
+    }
+
+    public void setIdMunicipio(MunicipioEntity idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
     @Override
@@ -94,10 +110,10 @@ public class EstadoJRVEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EstadoJRVEntity)) {
+        if (!(object instanceof CDVEntity)) {
             return false;
         }
-        EstadoJRVEntity other = (EstadoJRVEntity) object;
+        CDVEntity other = (CDVEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +122,7 @@ public class EstadoJRVEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.EstadoJRVEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.models.CDVEntity[ id=" + id + " ]";
     }
     
 }

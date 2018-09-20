@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -35,10 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "JRV")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "JTVEntity.findAll", query = "SELECT j FROM JTVEntity j")
-    , @NamedQuery(name = "JTVEntity.findById", query = "SELECT j FROM JTVEntity j WHERE j.id = :id")
-    , @NamedQuery(name = "JTVEntity.findByHoraCierre", query = "SELECT j FROM JTVEntity j WHERE j.horaCierre = :horaCierre")})
-public class JTVEntity implements Serializable {
+    @NamedQuery(name = "JRVEntity.findAll", query = "SELECT j FROM JRVEntity j")
+    , @NamedQuery(name = "JRVEntity.findById", query = "SELECT j FROM JRVEntity j WHERE j.id = :id")
+    , @NamedQuery(name = "JRVEntity.findByHoraCierre", query = "SELECT j FROM JRVEntity j WHERE j.horaCierre = :horaCierre")})
+public class JRVEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,7 +51,7 @@ public class JTVEntity implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date horaCierre;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJrv")
-    private List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList;
+    private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_cdv", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private CDVEntity idCdv;
@@ -62,18 +62,18 @@ public class JTVEntity implements Serializable {
     @ManyToOne(optional = false)
     private EstadoJRVEntity idEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJrv")
-    private List<DetalleusuariojrvEntity> detalleusuariojrvEntityList;
+    private List<DetalleUJEntity> detalleUJEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJRV")
     private List<VotoEntity> votoEntityList;
 
-    public JTVEntity() {
+    public JRVEntity() {
     }
 
-    public JTVEntity(Integer id) {
+    public JRVEntity(Integer id) {
         this.id = id;
     }
 
-    public JTVEntity(Integer id, Date horaCierre) {
+    public JRVEntity(Integer id, Date horaCierre) {
         this.id = id;
         this.horaCierre = horaCierre;
     }
@@ -95,12 +95,12 @@ public class JTVEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleciudadanoeleccionEntity> getDetalleciudadanoeleccionEntityList() {
-        return detalleciudadanoeleccionEntityList;
+    public List<DetalleCEEntity> getDetalleCEEntityList() {
+        return detalleCEEntityList;
     }
 
-    public void setDetalleciudadanoeleccionEntityList(List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList) {
-        this.detalleciudadanoeleccionEntityList = detalleciudadanoeleccionEntityList;
+    public void setDetalleCEEntityList(List<DetalleCEEntity> detalleCEEntityList) {
+        this.detalleCEEntityList = detalleCEEntityList;
     }
 
     public CDVEntity getIdCdv() {
@@ -128,12 +128,12 @@ public class JTVEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleusuariojrvEntity> getDetalleusuariojrvEntityList() {
-        return detalleusuariojrvEntityList;
+    public List<DetalleUJEntity> getDetalleUJEntityList() {
+        return detalleUJEntityList;
     }
 
-    public void setDetalleusuariojrvEntityList(List<DetalleusuariojrvEntity> detalleusuariojrvEntityList) {
-        this.detalleusuariojrvEntityList = detalleusuariojrvEntityList;
+    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
+        this.detalleUJEntityList = detalleUJEntityList;
     }
 
     @XmlTransient
@@ -155,10 +155,10 @@ public class JTVEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof JTVEntity)) {
+        if (!(object instanceof JRVEntity)) {
             return false;
         }
-        JTVEntity other = (JTVEntity) object;
+        JRVEntity other = (JRVEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -167,7 +167,7 @@ public class JTVEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.JTVEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.JRVEntity[ id=" + id + " ]";
     }
     
 }

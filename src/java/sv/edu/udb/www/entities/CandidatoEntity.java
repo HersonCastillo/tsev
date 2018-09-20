@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,43 +16,47 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kevin
  */
 @Entity
-@Table(name = "Detalle_ciudadano_eleccion")
+@Table(name = "Candidato")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DetalleciudadanoeleccionEntity.findAll", query = "SELECT d FROM DetalleciudadanoeleccionEntity d")
-    , @NamedQuery(name = "DetalleciudadanoeleccionEntity.findById", query = "SELECT d FROM DetalleciudadanoeleccionEntity d WHERE d.id = :id")})
-public class DetalleciudadanoeleccionEntity implements Serializable {
+    @NamedQuery(name = "CandidatoEntity.findAll", query = "SELECT c FROM CandidatoEntity c")
+    , @NamedQuery(name = "CandidatoEntity.findById", query = "SELECT c FROM CandidatoEntity c WHERE c.id = :id")})
+public class CandidatoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
-    @JoinColumn(name = "id_ciudadano", referencedColumnName = "id")
+    @JoinColumn(name = "id_ciudano", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private CiudadanoEntity idCiudadano;
+    private CiudadanoEntity idCiudano;
     @JoinColumn(name = "id_eleccion", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EleccionEntity idEleccion;
-    @JoinColumn(name = "id_jrv", referencedColumnName = "id")
+    @JoinColumn(name = "id_municipio", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private JTVEntity idJrv;
-    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    private MunicipioEntity idMunicipio;
+    @JoinColumn(name = "id_partido", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private EstadociudadanoeleccionEntity idEstado;
+    private PartidoEntity idPartido;
+    @OneToMany(mappedBy = "idCandidato")
+    private List<VotoEntity> votoEntityList;
 
-    public DetalleciudadanoeleccionEntity() {
+    public CandidatoEntity() {
     }
 
-    public DetalleciudadanoeleccionEntity(Integer id) {
+    public CandidatoEntity(Integer id) {
         this.id = id;
     }
 
@@ -63,12 +68,12 @@ public class DetalleciudadanoeleccionEntity implements Serializable {
         this.id = id;
     }
 
-    public CiudadanoEntity getIdCiudadano() {
-        return idCiudadano;
+    public CiudadanoEntity getIdCiudano() {
+        return idCiudano;
     }
 
-    public void setIdCiudadano(CiudadanoEntity idCiudadano) {
-        this.idCiudadano = idCiudadano;
+    public void setIdCiudano(CiudadanoEntity idCiudano) {
+        this.idCiudano = idCiudano;
     }
 
     public EleccionEntity getIdEleccion() {
@@ -79,20 +84,29 @@ public class DetalleciudadanoeleccionEntity implements Serializable {
         this.idEleccion = idEleccion;
     }
 
-    public JTVEntity getIdJrv() {
-        return idJrv;
+    public MunicipioEntity getIdMunicipio() {
+        return idMunicipio;
     }
 
-    public void setIdJrv(JTVEntity idJrv) {
-        this.idJrv = idJrv;
+    public void setIdMunicipio(MunicipioEntity idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
-    public EstadociudadanoeleccionEntity getIdEstado() {
-        return idEstado;
+    public PartidoEntity getIdPartido() {
+        return idPartido;
     }
 
-    public void setIdEstado(EstadociudadanoeleccionEntity idEstado) {
-        this.idEstado = idEstado;
+    public void setIdPartido(PartidoEntity idPartido) {
+        this.idPartido = idPartido;
+    }
+
+    @XmlTransient
+    public List<VotoEntity> getVotoEntityList() {
+        return votoEntityList;
+    }
+
+    public void setVotoEntityList(List<VotoEntity> votoEntityList) {
+        this.votoEntityList = votoEntityList;
     }
 
     @Override
@@ -105,10 +119,10 @@ public class DetalleciudadanoeleccionEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetalleciudadanoeleccionEntity)) {
+        if (!(object instanceof CandidatoEntity)) {
             return false;
         }
-        DetalleciudadanoeleccionEntity other = (DetalleciudadanoeleccionEntity) object;
+        CandidatoEntity other = (CandidatoEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,7 +131,7 @@ public class DetalleciudadanoeleccionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.DetalleciudadanoeleccionEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.CandidatoEntity[ id=" + id + " ]";
     }
     
 }

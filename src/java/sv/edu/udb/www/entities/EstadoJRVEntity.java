@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,14 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kevin
  */
 @Entity
-@Table(name = "Partido")
+@Table(name = "Estado_JRV")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PartidoEntity.findAll", query = "SELECT p FROM PartidoEntity p")
-    , @NamedQuery(name = "PartidoEntity.findById", query = "SELECT p FROM PartidoEntity p WHERE p.id = :id")
-    , @NamedQuery(name = "PartidoEntity.findByNombre", query = "SELECT p FROM PartidoEntity p WHERE p.nombre = :nombre")
-    , @NamedQuery(name = "PartidoEntity.findByImg", query = "SELECT p FROM PartidoEntity p WHERE p.img = :img")})
-public class PartidoEntity implements Serializable {
+    @NamedQuery(name = "EstadoJRVEntity.findAll", query = "SELECT e FROM EstadoJRVEntity e")
+    , @NamedQuery(name = "EstadoJRVEntity.findById", query = "SELECT e FROM EstadoJRVEntity e WHERE e.id = :id")
+    , @NamedQuery(name = "EstadoJRVEntity.findByDescripcion", query = "SELECT e FROM EstadoJRVEntity e WHERE e.descripcion = :descripcion")})
+public class EstadoJRVEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,23 +42,21 @@ public class PartidoEntity implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 40)
-    private String nombre;
-    @Size(max = 150)
-    private String img;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartido")
-    private List<CandidatoEntity> candidatoEntityList;
+    @Size(min = 1, max = 50)
+    private String descripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    private List<JRVEntity> jRVEntityList;
 
-    public PartidoEntity() {
+    public EstadoJRVEntity() {
     }
 
-    public PartidoEntity(Integer id) {
+    public EstadoJRVEntity(Integer id) {
         this.id = id;
     }
 
-    public PartidoEntity(Integer id, String nombre) {
+    public EstadoJRVEntity(Integer id, String descripcion) {
         this.id = id;
-        this.nombre = nombre;
+        this.descripcion = descripcion;
     }
 
     public Integer getId() {
@@ -70,29 +67,21 @@ public class PartidoEntity implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     @XmlTransient
-    public List<CandidatoEntity> getCandidatoEntityList() {
-        return candidatoEntityList;
+    public List<JRVEntity> getJRVEntityList() {
+        return jRVEntityList;
     }
 
-    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
-        this.candidatoEntityList = candidatoEntityList;
+    public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
+        this.jRVEntityList = jRVEntityList;
     }
 
     @Override
@@ -105,10 +94,10 @@ public class PartidoEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PartidoEntity)) {
+        if (!(object instanceof EstadoJRVEntity)) {
             return false;
         }
-        PartidoEntity other = (PartidoEntity) object;
+        EstadoJRVEntity other = (EstadoJRVEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -117,7 +106,7 @@ public class PartidoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.PartidoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.EstadoJRVEntity[ id=" + id + " ]";
     }
     
 }

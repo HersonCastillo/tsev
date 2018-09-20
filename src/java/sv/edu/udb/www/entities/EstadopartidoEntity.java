@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kevin
  */
 @Entity
-@Table(name = "Estado_ciudadano_eleccion")
+@Table(name = "Estado_partido")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EstadociudadanoeleccionEntity.findAll", query = "SELECT e FROM EstadociudadanoeleccionEntity e")
-    , @NamedQuery(name = "EstadociudadanoeleccionEntity.findById", query = "SELECT e FROM EstadociudadanoeleccionEntity e WHERE e.id = :id")
-    , @NamedQuery(name = "EstadociudadanoeleccionEntity.findByDescripcion", query = "SELECT e FROM EstadociudadanoeleccionEntity e WHERE e.descripcion = :descripcion")})
-public class EstadociudadanoeleccionEntity implements Serializable {
+    @NamedQuery(name = "EstadopartidoEntity.findAll", query = "SELECT e FROM EstadopartidoEntity e")
+    , @NamedQuery(name = "EstadopartidoEntity.findById", query = "SELECT e FROM EstadopartidoEntity e WHERE e.id = :id")
+    , @NamedQuery(name = "EstadopartidoEntity.findByDescripcion", query = "SELECT e FROM EstadopartidoEntity e WHERE e.descripcion = :descripcion")})
+public class EstadopartidoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,16 +45,16 @@ public class EstadociudadanoeleccionEntity implements Serializable {
     @Size(min = 1, max = 50)
     private String descripcion;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
-    private List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList;
+    private List<PartidoEntity> partidoEntityList;
 
-    public EstadociudadanoeleccionEntity() {
+    public EstadopartidoEntity() {
     }
 
-    public EstadociudadanoeleccionEntity(Integer id) {
+    public EstadopartidoEntity(Integer id) {
         this.id = id;
     }
 
-    public EstadociudadanoeleccionEntity(Integer id, String descripcion) {
+    public EstadopartidoEntity(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -76,12 +76,12 @@ public class EstadociudadanoeleccionEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleciudadanoeleccionEntity> getDetalleciudadanoeleccionEntityList() {
-        return detalleciudadanoeleccionEntityList;
+    public List<PartidoEntity> getPartidoEntityList() {
+        return partidoEntityList;
     }
 
-    public void setDetalleciudadanoeleccionEntityList(List<DetalleciudadanoeleccionEntity> detalleciudadanoeleccionEntityList) {
-        this.detalleciudadanoeleccionEntityList = detalleciudadanoeleccionEntityList;
+    public void setPartidoEntityList(List<PartidoEntity> partidoEntityList) {
+        this.partidoEntityList = partidoEntityList;
     }
 
     @Override
@@ -94,10 +94,10 @@ public class EstadociudadanoeleccionEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EstadociudadanoeleccionEntity)) {
+        if (!(object instanceof EstadopartidoEntity)) {
             return false;
         }
-        EstadociudadanoeleccionEntity other = (EstadociudadanoeleccionEntity) object;
+        EstadopartidoEntity other = (EstadopartidoEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +106,7 @@ public class EstadociudadanoeleccionEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.EstadociudadanoeleccionEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.EstadopartidoEntity[ id=" + id + " ]";
     }
     
 }

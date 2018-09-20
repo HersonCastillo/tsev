@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "UsuarioEntity.findAll", query = "SELECT u FROM UsuarioEntity u")
     , @NamedQuery(name = "UsuarioEntity.findById", query = "SELECT u FROM UsuarioEntity u WHERE u.id = :id")
+    , @NamedQuery(name = "UsuarioEntity.findByCorreo", query = "SELECT u FROM UsuarioEntity u WHERE u.correo = :correo")
     , @NamedQuery(name = "UsuarioEntity.findByPassword", query = "SELECT u FROM UsuarioEntity u WHERE u.password = :password")})
 public class UsuarioEntity implements Serializable {
 
@@ -42,6 +43,10 @@ public class UsuarioEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    private String correo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64)
@@ -53,7 +58,7 @@ public class UsuarioEntity implements Serializable {
     @ManyToOne(optional = false)
     private TipousuarioEntity idTipo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
-    private List<DetalleusuariojrvEntity> detalleusuariojrvEntityList;
+    private List<DetalleUJEntity> detalleUJEntityList;
 
     public UsuarioEntity() {
     }
@@ -62,8 +67,9 @@ public class UsuarioEntity implements Serializable {
         this.id = id;
     }
 
-    public UsuarioEntity(Integer id, String password) {
+    public UsuarioEntity(Integer id, String correo, String password) {
         this.id = id;
+        this.correo = correo;
         this.password = password;
     }
 
@@ -73,6 +79,14 @@ public class UsuarioEntity implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getPassword() {
@@ -100,12 +114,12 @@ public class UsuarioEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<DetalleusuariojrvEntity> getDetalleusuariojrvEntityList() {
-        return detalleusuariojrvEntityList;
+    public List<DetalleUJEntity> getDetalleUJEntityList() {
+        return detalleUJEntityList;
     }
 
-    public void setDetalleusuariojrvEntityList(List<DetalleusuariojrvEntity> detalleusuariojrvEntityList) {
-        this.detalleusuariojrvEntityList = detalleusuariojrvEntityList;
+    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
+        this.detalleUJEntityList = detalleUJEntityList;
     }
 
     @Override
@@ -130,7 +144,7 @@ public class UsuarioEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.UsuarioEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.UsuarioEntity[ id=" + id + " ]";
     }
     
 }

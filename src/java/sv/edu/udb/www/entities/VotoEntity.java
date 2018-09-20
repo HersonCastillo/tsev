@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -40,7 +40,7 @@ public class VotoEntity implements Serializable {
     private CandidatoEntity idCandidato;
     @JoinColumn(name = "id_JRV", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private JTVEntity idJRV;
+    private JRVEntity idJRV;
 
     public VotoEntity() {
     }
@@ -65,11 +65,11 @@ public class VotoEntity implements Serializable {
         this.idCandidato = idCandidato;
     }
 
-    public JTVEntity getIdJRV() {
+    public JRVEntity getIdJRV() {
         return idJRV;
     }
 
-    public void setIdJRV(JTVEntity idJRV) {
+    public void setIdJRV(JRVEntity idJRV) {
         this.idJRV = idJRV;
     }
 
@@ -95,7 +95,7 @@ public class VotoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.VotoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.VotoEntity[ id=" + id + " ]";
     }
     
 }

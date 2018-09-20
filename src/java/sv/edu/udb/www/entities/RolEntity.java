@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,34 +25,34 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author kevin
  */
 @Entity
-@Table(name = "Estado_JRV")
+@Table(name = "Rol")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EstadoJRVEntity.findAll", query = "SELECT e FROM EstadoJRVEntity e")
-    , @NamedQuery(name = "EstadoJRVEntity.findById", query = "SELECT e FROM EstadoJRVEntity e WHERE e.id = :id")
-    , @NamedQuery(name = "EstadoJRVEntity.findByDescripcion", query = "SELECT e FROM EstadoJRVEntity e WHERE e.descripcion = :descripcion")})
-public class EstadoJRVEntity implements Serializable {
+    @NamedQuery(name = "RolEntity.findAll", query = "SELECT r FROM RolEntity r")
+    , @NamedQuery(name = "RolEntity.findById", query = "SELECT r FROM RolEntity r WHERE r.id = :id")
+    , @NamedQuery(name = "RolEntity.findByDescripcion", query = "SELECT r FROM RolEntity r WHERE r.descripcion = :descripcion")})
+public class RolEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
-    private List<JTVEntity> jTVEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idRol")
+    private List<DetalleUJEntity> detalleUJEntityList;
 
-    public EstadoJRVEntity() {
+    public RolEntity() {
     }
 
-    public EstadoJRVEntity(Integer id) {
+    public RolEntity(Integer id) {
         this.id = id;
     }
 
-    public EstadoJRVEntity(Integer id, String descripcion) {
+    public RolEntity(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -76,12 +74,12 @@ public class EstadoJRVEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<JTVEntity> getJTVEntityList() {
-        return jTVEntityList;
+    public List<DetalleUJEntity> getDetalleUJEntityList() {
+        return detalleUJEntityList;
     }
 
-    public void setJTVEntityList(List<JTVEntity> jTVEntityList) {
-        this.jTVEntityList = jTVEntityList;
+    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
+        this.detalleUJEntityList = detalleUJEntityList;
     }
 
     @Override
@@ -94,10 +92,10 @@ public class EstadoJRVEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EstadoJRVEntity)) {
+        if (!(object instanceof RolEntity)) {
             return false;
         }
-        EstadoJRVEntity other = (EstadoJRVEntity) object;
+        RolEntity other = (RolEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +104,7 @@ public class EstadoJRVEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.EstadoJRVEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.RolEntity[ id=" + id + " ]";
     }
     
 }

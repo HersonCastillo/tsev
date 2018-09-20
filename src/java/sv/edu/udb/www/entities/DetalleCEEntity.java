@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.edu.udb.www.models;
+package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -23,32 +23,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author kevin
  */
 @Entity
-@Table(name = "Detalle_usuario_jrv")
+@Table(name = "Detalle_ciudadano_eleccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "DetalleusuariojrvEntity.findAll", query = "SELECT d FROM DetalleusuariojrvEntity d")
-    , @NamedQuery(name = "DetalleusuariojrvEntity.findById", query = "SELECT d FROM DetalleusuariojrvEntity d WHERE d.id = :id")})
-public class DetalleusuariojrvEntity implements Serializable {
+    @NamedQuery(name = "DetalleCEEntity.findAll", query = "SELECT d FROM DetalleCEEntity d")
+    , @NamedQuery(name = "DetalleCEEntity.findById", query = "SELECT d FROM DetalleCEEntity d WHERE d.id = :id")})
+public class DetalleCEEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
+    @JoinColumn(name = "id_ciudadano", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private CiudadanoEntity idCiudadano;
+    @JoinColumn(name = "id_eleccion", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EleccionEntity idEleccion;
     @JoinColumn(name = "id_jrv", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private JTVEntity idJrv;
-    @JoinColumn(name = "id_rol", referencedColumnName = "id")
+    private JRVEntity idJrv;
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private RolEntity idRol;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private UsuarioEntity idUsuario;
+    private EstadoCEEntity idEstado;
 
-    public DetalleusuariojrvEntity() {
+    public DetalleCEEntity() {
     }
 
-    public DetalleusuariojrvEntity(Integer id) {
+    public DetalleCEEntity(Integer id) {
         this.id = id;
     }
 
@@ -60,28 +63,36 @@ public class DetalleusuariojrvEntity implements Serializable {
         this.id = id;
     }
 
-    public JTVEntity getIdJrv() {
+    public CiudadanoEntity getIdCiudadano() {
+        return idCiudadano;
+    }
+
+    public void setIdCiudadano(CiudadanoEntity idCiudadano) {
+        this.idCiudadano = idCiudadano;
+    }
+
+    public EleccionEntity getIdEleccion() {
+        return idEleccion;
+    }
+
+    public void setIdEleccion(EleccionEntity idEleccion) {
+        this.idEleccion = idEleccion;
+    }
+
+    public JRVEntity getIdJrv() {
         return idJrv;
     }
 
-    public void setIdJrv(JTVEntity idJrv) {
+    public void setIdJrv(JRVEntity idJrv) {
         this.idJrv = idJrv;
     }
 
-    public RolEntity getIdRol() {
-        return idRol;
+    public EstadoCEEntity getIdEstado() {
+        return idEstado;
     }
 
-    public void setIdRol(RolEntity idRol) {
-        this.idRol = idRol;
-    }
-
-    public UsuarioEntity getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(UsuarioEntity idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdEstado(EstadoCEEntity idEstado) {
+        this.idEstado = idEstado;
     }
 
     @Override
@@ -94,10 +105,10 @@ public class DetalleusuariojrvEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DetalleusuariojrvEntity)) {
+        if (!(object instanceof DetalleCEEntity)) {
             return false;
         }
-        DetalleusuariojrvEntity other = (DetalleusuariojrvEntity) object;
+        DetalleCEEntity other = (DetalleCEEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +117,7 @@ public class DetalleusuariojrvEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.models.DetalleusuariojrvEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.DetalleCEEntity[ id=" + id + " ]";
     }
     
 }

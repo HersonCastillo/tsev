@@ -63,6 +63,11 @@ public class PartidoModel {
         return query.getResultList();
     }
     
+    public List<PartidoEntity> listarPartidos(){
+        Query query = em.createNamedQuery("PartidoEntity.findAll");
+        return query.getResultList();
+    }
+    
     public PartidoEntity obtenerPartido(int id){
         return em.find(PartidoEntity.class, id);
     }

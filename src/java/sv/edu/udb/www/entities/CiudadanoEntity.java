@@ -62,6 +62,7 @@ public class CiudadanoEntity implements Serializable {
     private String apellido;
     @Basic(optional = false)
     @NotNull
+    @Column(unique=true)
     @Size(min = 1, max = 10)
     private String dui;
     @Basic(optional = false)

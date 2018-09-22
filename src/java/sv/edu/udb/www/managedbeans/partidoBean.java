@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
@@ -28,6 +29,7 @@ public class partidoBean {
     private static PartidoEntity partido = new PartidoEntity();
     private List<PartidoEntity> listaPartidos;
     private static Part imagen;
+    private String respuesta = "";
 
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -60,12 +62,37 @@ public class partidoBean {
         this.imagen = imagen;
     }
 
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
+    
     public String ingresarPartido() {
         return "insertarPartido";
     }
 
-    public void insertarPartido(){
-        System.out.println("si");
+    public String insertarPartido(){
+        partido.setImg("Hola");
+        int resultado = partidoModel.insertarPartido(partido);
+        if(resultado == 1){
+            this.respuesta = "Partido insertado correctamente";
+            partido = new PartidoEntity();
+            return "listaPartidos";
+        }
+        FacesContext.getCurrentInstance().getMessageList().add(new FacesMessage("Nombre de partido ya existente"));
+        return "insertarPartido";
+    }
+    
+    public String deshabilitarPartido(int id){
+        int resultado = partidoModel.eliminarPartido(id);
+        if(resultado == 1){
+            this.respuesta = "Partido deshabilitado correctamente";
+        }
+        FacesContext.getCurrentInstance().getMessageList().add(new FacesMessage("No se pudo deshabilitar el partido"));
+        return "listaPartidos";
     }
 
 }

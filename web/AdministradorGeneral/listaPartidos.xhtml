@@ -2,30 +2,79 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Partidos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!--css-->
         <link href="../resource/css/estilo.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+        <!--JS-->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+        <!--alertify-->
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                var texto = $('#respuesta').val();
+                console.log(texto);
+                if(texto != ""){
+                    alertify.success(texto);   
+                }
+            })
+        </script>
     </h:head>
     <h:body>
         <ui:include src="template/menu.xhtml"/>
         <div id="container" class="container-fluid p-0">
             <ui:include src="template/sidebar.xhtml"/>
-            <div id="contenido" class="col-md-10 offset-md-2 col-sm-12 bg-light pt-2">
+            <div id="contenido" class="col-md-10 offset-md-2 col-sm-12 pt-2">
+                <input type="hidden" id="respuesta" value="#{partidoBean.respuesta}"/>
                 <div class="row">
                     <h1 class="text-center mx-auto">Lista de partidos</h1>
                 </div>
-                <div class="row pl-2">
+                <div class="row pl-2 mb-2">
                     <h:form>
                         <h:commandButton value="Nuevo partido" action="#{partidoBean.ingresarPartido()}" styleClass="btn btn-primary"/>
                     </h:form>
                 </div>
-                
+                <div class="row pl-2 pr-2">
+                    <f:view>
+                        <h:form>
+                            <p:dataTable styleClass="table table-hover" value="#{partidoBean.listaPartidos}" var="item">
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Imagen"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.img}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Estado"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idEstado.descripcion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Operaciones"/>
+                                    </f:facet>
+                                    <h:commandButton value="Actualizar" styleClass="btn btn-info"/>
+                                    <h:commandButton value="Deshabilitar" action="#{partidoBean.deshabilitarPartido(item.id)}" styleClass="btn btn-danger" rendered="#{item.idEstado.id == 1}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </f:view>
+                </div>
             </div>
         </div>
     </h:body>

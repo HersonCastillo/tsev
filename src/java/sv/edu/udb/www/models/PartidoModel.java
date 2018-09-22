@@ -25,6 +25,7 @@ public class PartidoModel {
     
     public int insertarPartido(PartidoEntity partido){
         try{
+            partido.setIdEstado(em.find(EstadopartidoEntity.class, 1));
             em.persist(partido);
             em.flush();
             return 1;

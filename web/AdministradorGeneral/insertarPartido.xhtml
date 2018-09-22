@@ -29,7 +29,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="row">
-                            <h:panelGroup styleClass="alert alert-danger mx-auto" layout="block" rendered="${facesContext.getMessageList().size() > 0}">
+                            <h:panelGroup styleClass="alert alert-danger col-sm-4 mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                                <h5 class="alert-heading">Revise lo ingresado:</h5>
                                 <h:messages/>
                             </h:panelGroup>
                         </div>
@@ -43,7 +44,7 @@
                                     <h:inputText id="nombre" value="#{partidoBean.partido.nombre}" required="true" styleClass="form-control"
                                                  requiredMessage="El nombre es obligatorio"/>
                                 </div>
-                                <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success"/>
+                                <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success mx-auto"/>
                             </h:form>
                         </div>
                     </div>

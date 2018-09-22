@@ -34,13 +34,22 @@ and open the template in the editor.
         height: 100%;
         overflow: auto;
     }
-    
 }
 
 @media screen and (max-width: 767px){
     #img-perfil{
         display: none;
-    }   
+    } 
+    #sidebar{
+        height: auto;
+        overflow: auto;
+    }
+    #contenido{
+        padding-top: 64px !important;
+    }
+}
+#sidebar{
+    z-index: 1000000;
 }
 #img-perfil{
     border-radius: 50%;

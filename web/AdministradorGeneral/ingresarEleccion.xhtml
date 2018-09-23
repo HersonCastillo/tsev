@@ -6,7 +6,8 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns="http://www.w3.org/1999/xhtml">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui">
 
     <ui:define name="titulo">
         Eleccion
@@ -60,11 +61,12 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">*</span>
                             </div>
-                            <h:selectOneMenu value="#{eleccionBean.eleccion.idTipo}" styleClass="form-control">
+                            <h:selectOneMenu id="tipo" styleClass="form-control" value="#{eleccionBean.eleccion.idTipo}" converter="sv.edu.udb.www.converters.TipoEleccionConverter">
                                 <f:selectItems value="#{eleccionBean.listaTipos}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo}"/>
                             </h:selectOneMenu>
                         </div>
-                        <h:commandButton immediate="true" value="Insertar" actionListener="#{eleccionBean.insertarEleccion()}"/>
+                        <h:commandButton value="Insertar" action="#{eleccionBean.insertarEleccion()}" styleClass="btn btn-success mr-2"/>
+                        <h:commandButton value="Cancelar" styleClass="btn btn-danger"/>
                     </h:form>
                 </div>
             </div>

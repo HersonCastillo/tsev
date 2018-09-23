@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -62,6 +63,8 @@ public class EleccionEntity implements Serializable {
     @Column(name = "fech_realizacion")
     @Temporal(TemporalType.DATE)
     private Date fechRealizacion;
+    @Transient
+    private boolean ingresable;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
@@ -144,6 +147,17 @@ public class EleccionEntity implements Serializable {
 
     public void setIdEstado(EstadoEleccionEntity idEstado) {
         this.idEstado = idEstado;
+    }
+
+    public boolean getIngresable() {
+        if(this.idTipo.getId() == 2 && this.idEstado.getId() == 1){
+            this.ingresable = true;
+        }
+        return ingresable;
+    }
+
+    public void setIngresable(boolean ingresable) {
+        this.ingresable = ingresable;
     }
 
     @XmlTransient

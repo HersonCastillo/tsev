@@ -25,10 +25,12 @@ public class EleccionModel {
 
     public int insertarEleccion(EleccionEntity eleccion){
         try{
-            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idEstado = 1 AND e.idTipo = :tipo");
-            query.setParameter("tipo", eleccion.getIdTipo().getId());
+            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idEstado = :estado AND e.idTipo = :tipo");
+            query.setParameter("estado", em.find(EstadoEleccionEntity.class, 1));
+            query.setParameter("tipo", eleccion.getIdTipo());
             int resultado = query.getResultList().size();
             if(resultado == 0){
+                eleccion.setIdEstado(em.find(EstadoEleccionEntity.class, 1));
                 em.persist(eleccion);
                 em.flush();
                 return 1;

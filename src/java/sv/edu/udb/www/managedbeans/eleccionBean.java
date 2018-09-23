@@ -5,10 +5,13 @@
  */
 package sv.edu.udb.www.managedbeans;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import sv.edu.udb.www.entities.EleccionEntity;
 import sv.edu.udb.www.entities.TipoEleccionEntity;
 import sv.edu.udb.www.models.EleccionModel;
@@ -27,12 +30,12 @@ public class eleccionBean {
     @EJB
     private EleccionModel eleccionModel;
     
-
-    private static EleccionEntity eleccion = new EleccionEntity();
-    private static boolean editando;
-    private String respuesta = "";
+    
+    private EleccionEntity eleccion = new EleccionEntity();
+    private boolean editando;
     private List<EleccionEntity> listaElecciones;
     private List<TipoEleccionEntity> listaTipos;
+    private String respuesta = "";
 
     public EleccionEntity getEleccion() {
         return eleccion;
@@ -49,13 +52,9 @@ public class eleccionBean {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
-
-    public String getRespuesta() {
-        return respuesta;
-    }
-
-    public void setRespuesta(String respuesta) {
-        this.respuesta = respuesta;
+    
+    public String ingresarInformacion(){
+        return "ingresarEleccion";
     }
 
     public List<EleccionEntity> getListaElecciones() {
@@ -74,17 +73,41 @@ public class eleccionBean {
         this.listaTipos = listaTipos;
     }
 
-    public String ingresarInformacion(){
-        this.eleccion = new EleccionEntity();
-        this.editando = false;
-        return "ingresarEleccion";
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
     }
     
-    public void insertarEleccion(){
+    public String insertarEleccion(){
         try{
-            System.out.println(eleccion.getIdTipo().getId());
+            //Establecer dia actual como fecha de inicio
+            eleccion.setFechIniRegistro(new Date());
+            //Verificar que la fecha sea mayor a la actual
+            if(eleccion.getFechFinRegistro().before(eleccion.getFechIniRegistro())){
+                FacesContext.getCurrentInstance().addMessage("fechaFin", new FacesMessage("La fecha de finalizacion de registro debe ser mayor a la actual"));
+            }
+            //Verificar que la fecha de realizacio sea mayor a la de finalizacion de registro
+            if(eleccion.getFechRealizacion().before(eleccion.getFechFinRegistro())){
+                FacesContext.getCurrentInstance().addMessage("fechaRealizacion", new FacesMessage("La fecha de realizacion debe ser mayor a la de finalizacion de registro"));
+            }
+            //verificar que no se encuentren errores
+            if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
+                int resultado = eleccionModel.insertarEleccion(eleccion);
+                if(resultado == 1){
+                    this.respuesta = "Eleccion ingresada corrrectamente";
+                    eleccion = new EleccionEntity();
+                    return "listaElecciones";
+                }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ya hay una eleccion de ese tipo pendiente"));
+                return "ingresarEleccion";
+            }
+            return "ingresarEleccion";
         }catch(Exception ex){
-            System.out.println("Error insertando eleccion (Bean) - " + ex.toString());
+            System.out.println("Error insertando eleccion (bean) - " + ex.toString());
+            return "ingresarEleccion";
         }
     }
 }

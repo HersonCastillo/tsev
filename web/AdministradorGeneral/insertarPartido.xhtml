@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <title>Partidos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -24,7 +25,12 @@
             <ui:include src="template/sidebar.xhtml"/>
             <div id="contenido" class="col-md-10 offset-md-2 col-sm-12 pt-2">
                 <div class="row">
-                    <h1 class="text-center mx-auto">Ingresar partido</h1>
+                    <c:if test="#{partidoBean.editando}">
+                        <h1 class="text-center mx-auto">Actualizar partido</h1>
+                    </c:if>
+                    <c:if test="#{!partidoBean.editando}">
+                        <h1 class="text-center mx-auto">Insertar partido</h1>
+                    </c:if>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
@@ -35,7 +41,7 @@
                             </h:panelGroup>
                         </div>
                         <div class="row">
-                            <h:form class="mx-auto">
+                            <h:form class="mx-auto" enctype="multipart/form-data">
                                 <h:outputLabel value="Nombre del partido:" for="nombre"/>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
@@ -44,7 +50,13 @@
                                     <h:inputText id="nombre" value="#{partidoBean.partido.nombre}" required="true" styleClass="form-control"
                                                  requiredMessage="El nombre es obligatorio"/>
                                 </div>
-                                <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success mx-auto"/>
+                                <c:if test="#{!partidoBean.editando}">
+                                    <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success mr-2"/>
+                                </c:if>
+                                <c:if test="#{partidoBean.editando}">
+                                    <h:commandButton value="Actualizar" action="#{partidoBean.actualizarPartido()}" styleClass="btn btn-info mr-2"/>
+                                </c:if>
+                                <h:commandButton value="Cancelar" immediate="true" action="#{partidoBean.cancelar()}" styleClass="btn btn-danger mx-auto"/>
                             </h:form>
                         </div>
                     </div>

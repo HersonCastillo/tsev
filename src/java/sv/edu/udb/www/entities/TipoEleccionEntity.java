@@ -6,30 +6,34 @@
 package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kevin
  */
 @Entity
-@Table(name = "Estado_partido")
+@Table(name = "Tipo_eleccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EstadopartidoEntity.findAll", query = "SELECT e FROM EstadopartidoEntity e")
-    , @NamedQuery(name = "EstadopartidoEntity.findById", query = "SELECT e FROM EstadopartidoEntity e WHERE e.id = :id")
-    , @NamedQuery(name = "EstadopartidoEntity.findByDescripcion", query = "SELECT e FROM EstadopartidoEntity e WHERE e.descripcion = :descripcion")})
-public class EstadopartidoEntity implements Serializable {
+    @NamedQuery(name = "TipoEleccionEntity.findAll", query = "SELECT t FROM TipoEleccionEntity t")
+    , @NamedQuery(name = "TipoEleccionEntity.findById", query = "SELECT t FROM TipoEleccionEntity t WHERE t.id = :id")
+    , @NamedQuery(name = "TipoEleccionEntity.findByDescripcion", query = "SELECT t FROM TipoEleccionEntity t WHERE t.descripcion = :descripcion")})
+public class TipoEleccionEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,17 +42,19 @@ public class EstadopartidoEntity implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 40)
     private String descripcion;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipo")
+    private List<EleccionEntity> eleccionEntityList;
 
-    public EstadopartidoEntity() {
+    public TipoEleccionEntity() {
     }
 
-    public EstadopartidoEntity(Integer id) {
+    public TipoEleccionEntity(Integer id) {
         this.id = id;
     }
 
-    public EstadopartidoEntity(Integer id, String descripcion) {
+    public TipoEleccionEntity(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -69,6 +75,15 @@ public class EstadopartidoEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
+    @XmlTransient
+    public List<EleccionEntity> getEleccionEntityList() {
+        return eleccionEntityList;
+    }
+
+    public void setEleccionEntityList(List<EleccionEntity> eleccionEntityList) {
+        this.eleccionEntityList = eleccionEntityList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -79,10 +94,10 @@ public class EstadopartidoEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EstadopartidoEntity)) {
+        if (!(object instanceof TipoEleccionEntity)) {
             return false;
         }
-        EstadopartidoEntity other = (EstadopartidoEntity) object;
+        TipoEleccionEntity other = (TipoEleccionEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -91,7 +106,7 @@ public class EstadopartidoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.entities.EstadopartidoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.TipoEleccionEntity[ id=" + id + " ]";
     }
     
 }

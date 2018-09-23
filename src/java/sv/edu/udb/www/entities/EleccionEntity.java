@@ -66,7 +66,10 @@ public class EleccionEntity implements Serializable {
     private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private TipoeleccionEntity idTipo;
+    private TipoEleccionEntity idTipo;
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EstadoEleccionEntity idEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<CandidatoEntity> candidatoEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
@@ -127,12 +130,20 @@ public class EleccionEntity implements Serializable {
         this.detalleCEEntityList = detalleCEEntityList;
     }
 
-    public TipoeleccionEntity getIdTipo() {
+    public TipoEleccionEntity getIdTipo() {
         return idTipo;
     }
 
-    public void setIdTipo(TipoeleccionEntity idTipo) {
+    public void setIdTipo(TipoEleccionEntity idTipo) {
         this.idTipo = idTipo;
+    }
+
+    public EstadoEleccionEntity getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(EstadoEleccionEntity idEstado) {
+        this.idEstado = idEstado;
     }
 
     @XmlTransient

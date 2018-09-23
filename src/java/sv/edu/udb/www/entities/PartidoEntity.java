@@ -6,7 +6,9 @@
 package sv.edu.udb.www.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,10 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -45,9 +49,11 @@ public class PartidoEntity implements Serializable {
     private String nombre;
     @Size(max = 150)
     private String img;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPartido")
+    private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private EstadopartidoEntity idEstado;
+    private EstadoPartidoEntity idEstado;
 
     public PartidoEntity() {
     }
@@ -85,11 +91,20 @@ public class PartidoEntity implements Serializable {
         this.img = img;
     }
 
-    public EstadopartidoEntity getIdEstado() {
+    @XmlTransient
+    public List<CandidatoEntity> getCandidatoEntityList() {
+        return candidatoEntityList;
+    }
+
+    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
+        this.candidatoEntityList = candidatoEntityList;
+    }
+
+    public EstadoPartidoEntity getIdEstado() {
         return idEstado;
     }
 
-    public void setIdEstado(EstadopartidoEntity idEstado) {
+    public void setIdEstado(EstadoPartidoEntity idEstado) {
         this.idEstado = idEstado;
     }
 

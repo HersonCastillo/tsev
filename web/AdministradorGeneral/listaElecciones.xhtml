@@ -13,6 +13,7 @@
 
     <ui:define name="contenido">
         <input type="hidden" id="respuesta" value="#{eleccionBean.respuesta}"/>
+        <input type="hidden" id="error" value="#{eleccionBean.error}"/>
         <div class="row">
             <h1 class="text-center mx-auto">Lista de elecciones</h1>
         </div>
@@ -66,8 +67,8 @@
                                 <h:outputText value="Operaciones"/>
                             </f:facet>
                             <h:commandButton value="Ingresar Candidato" styleClass="btn btn-success" rendered="#{item.ingresable}"/>
-                            <h:commandButton value="Actualizar" styleClass="btn btn-info"/>
-                            <h:commandButton value="Descartar" styleClass="btn btn-danger"/>
+                            <h:commandButton value="Actualizar" styleClass="btn btn-info" action="#{eleccionBean.obtenerEleccion(item.id)}" rendered="#{item.idEstado.id == 1}"/>
+                            <h:commandButton value="Descartar" styleClass="btn btn-danger" action="#{eleccionBean.DescartarEleccion(item.id)}" rendered="#{item.idEstado.id == 1}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>

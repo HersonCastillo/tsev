@@ -4,7 +4,8 @@
                 template="./../WEB-INF/template_admin_general.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-                xmlns="http://www.w3.org/1999/xhtml">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="titulo">
         Partido
@@ -36,6 +37,14 @@
                             </div>
                             <h:inputText id="nombre" value="#{partidoBean.partido.nombre}" required="true" styleClass="form-control"
                                          requiredMessage="El nombre es obligatorio"/>
+                        </div>
+                        <h:outputLabel value="Bandera del partido:" for="nombre"/>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">*</span>
+                            </div>
+                            <h:inputFile value="#{partidoBean.imagen}">
+                            </h:inputFile>
                         </div>
                         <c:if test="#{!partidoBean.editando}">
                             <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success mr-2"/>

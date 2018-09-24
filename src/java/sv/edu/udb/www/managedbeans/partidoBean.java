@@ -5,6 +5,9 @@
  */
 package sv.edu.udb.www.managedbeans;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -29,10 +32,10 @@ public class partidoBean {
     private PartidoModel partidoModel;
     private static PartidoEntity partido = new PartidoEntity();
     private List<PartidoEntity> listaPartidos;
-    private static UploadedFile imagen;
+    private Part imagen;
     private String respuesta = "";
     private static boolean editando;
-
+    
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
     String realPath = (String) servletContext.getRealPath("/");
@@ -56,11 +59,11 @@ public class partidoBean {
         this.listaPartidos = listaPartidos;
     }
 
-    public UploadedFile getImagen() {
+    public Part getImagen() {
         return imagen;
     }
 
-    public void setImagen(UploadedFile imagen) {
+    public void setImagen(Part imagen) {
         this.imagen = imagen;
     }
 
@@ -150,4 +153,26 @@ public class partidoBean {
         return "listaPartidos";
     }
     
+    public void guardarImagen(){
+        try{
+            /*InputStream in=imagen.getInputStream();
+            
+            File f=new File(imagen.getSubmittedFileName());
+            f.createNewFile();
+            FileOutputStream out=new FileOutputStream(f);
+            
+            byte[] buffer=new byte[1024];
+            int length;
+            
+            while((length=in.read(buffer))>0){
+                out.write(buffer, 0, length);
+            }
+            
+            out.close();
+            in.close();
+            */
+        }catch(Exception e){
+            e.printStackTrace(System.out);
+        }
+    }
 }

@@ -65,8 +65,13 @@
                                 <f:selectItems value="#{eleccionBean.listaTipos}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo}"/>
                             </h:selectOneMenu>
                         </div>
-                        <h:commandButton value="Insertar" action="#{eleccionBean.insertarEleccion()}" styleClass="btn btn-success mr-2"/>
-                        <h:commandButton value="Cancelar" styleClass="btn btn-danger"/>
+                        <c:if test="#{!eleccionBean.editando}">
+                            <h:commandButton value="Insertar" action="#{eleccionBean.insertarEleccion()}" styleClass="btn btn-success mr-2"/>
+                        </c:if>
+                        <c:if test="#{eleccionBean.editando}">
+                            <h:commandButton value="Actualizar" action="#{eleccionBean.actualizarEleccion()}" styleClass="btn btn-info mr-2"/>
+                        </c:if>
+                        <h:commandButton value="Cancelar" immediate="true" action="#{eleccionBean.cancelar()}" styleClass="btn btn-danger"/>
                     </h:form>
                 </div>
             </div>

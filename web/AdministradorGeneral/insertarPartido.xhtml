@@ -29,7 +29,7 @@
                     </h:panelGroup>
                 </div>
                 <div class="row">
-                    <h:form class="mx-auto" enctype="multipart/form-data">
+                    <h:form class="mx-auto formularioPartido" enctype="multipart/form-data">
                         <h:outputLabel value="Nombre del partido:" for="nombre"/>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -38,13 +38,24 @@
                             <h:inputText id="nombre" value="#{partidoBean.partido.nombre}" required="true" styleClass="form-control"
                                          requiredMessage="El nombre es obligatorio"/>
                         </div>
+                        <h:panelGroup rendered="#{partidoBean.editando}">
+                            <h:outputLabel value="Bandera actual:"/>
+                            <div>
+                                <center>
+                                <h:graphicImage class="bandera-actualizar" value="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/banderas/#{partidoBean.partido.img}"/>
+                                </center>
+                            </div>
+                        </h:panelGroup>
                         <h:outputLabel value="Bandera del partido:" for="nombre"/>
                         <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon3">*</span>
+                            <div class="button-update">
+                                <h:inputFile id="imagen" class="imagen" value="#{partidoBean.imagen}" required="true" requiredMessage="La bandera del partido es necesaria">
+                                    <f:passThroughAttribute name="accept" value="image/png, .jpg, .jpeg"/>
+                                </h:inputFile>
                             </div>
-                            <h:inputFile value="#{partidoBean.imagen}">
-                            </h:inputFile>
+                            <div>
+                                <output id="list" class="mx-auto"></output>
+                            </div>
                         </div>
                         <c:if test="#{!partidoBean.editando}">
                             <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success mr-2"/>

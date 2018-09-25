@@ -24,7 +24,7 @@
         <div class="row pl-2 pr-2">
             <f:view>
                 <h:form>
-                    <p:dataTable styleClass="table table-hover" pageLinks="5" paginator="true" value="#{partidoBean.listaPartidos}" var="item">
+                    <p:dataTable id="items" styleClass="table table-hover" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" paginator="true" value="#{partidoBean.listaPartidos}" var="item">
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Nombre"/>
@@ -35,7 +35,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Imagen"/>
                             </f:facet>
-                            <h:outputText value="#{item.img}"/>
+                            <h:graphicImage class="bandera" value="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/banderas/#{item.img}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">

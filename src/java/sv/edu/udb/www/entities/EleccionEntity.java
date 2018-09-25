@@ -23,6 +23,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -59,6 +60,8 @@ public class EleccionEntity implements Serializable {
     @Column(name = "fech_realizacion")
     @Temporal(TemporalType.DATE)
     private Date fechRealizacion;
+    @Transient
+    private boolean ingresable;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
@@ -156,6 +159,14 @@ public class EleccionEntity implements Serializable {
 
     public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
         this.jRVEntityList = jRVEntityList;
+    }
+
+    public boolean isIngresable() {
+        return ingresable;
+    }
+
+    public void setIngresable(boolean ingresable) {
+        this.ingresable = ingresable;
     }
 
     @Override

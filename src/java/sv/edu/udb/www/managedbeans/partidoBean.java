@@ -7,6 +7,7 @@ package sv.edu.udb.www.managedbeans;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.InputStream;
 import java.util.List;
 import javax.ejb.EJB;
@@ -35,10 +36,10 @@ public class partidoBean {
     private Part imagen;
     private String respuesta = "";
     private static boolean editando;
-    
+
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-    String realPath = (String) servletContext.getRealPath("/");
+    String realPath = (String) servletContext.getRealPath("/resources/img/banderas");
 
     public partidoBean() {
     }
@@ -91,18 +92,24 @@ public class partidoBean {
 
     public String insertarPartido() {
         try {
-            partido.setImg("Hola");
+            if(imagen.getSubmittedFileName().equals("")){
+                FacesContext.getCurrentInstance().addMessage("imagen", new FacesMessage("La bandera del partido es obligatoria"));
+                return "insertarPartido";
+            }
+            int random = (int) (Math.random() * 100000) + 1;
+            partido.setImg(partido.getNombre() + random + "_" + imagen.getSubmittedFileName());
             int resultado = partidoModel.insertarPartido(partido);
             if (resultado == 1) {
                 this.respuesta = "Partido insertado correctamente";
+                guardarImagen(partido.getNombre(), random);
                 partido = new PartidoEntity();
                 return "listaPartidos";
             }
-            FacesContext.getCurrentInstance().addMessage("nombre",new FacesMessage("Nombre de partido ya existente"));
+            FacesContext.getCurrentInstance().addMessage("nombre", new FacesMessage("Nombre de partido ya existente"));
             return "insertarPartido";
         } catch (Exception e) {
             System.out.println("Error insertando partido: " + e.toString());
-            FacesContext.getCurrentInstance().addMessage("nombre",new FacesMessage("Nombre de partido ya existente"));
+            FacesContext.getCurrentInstance().addMessage("nombre", new FacesMessage("Nombre de partido ya existente"));
             return "insertarPartido";
         }
     }
@@ -131,48 +138,88 @@ public class partidoBean {
 
     public String actualizarPartido() {
         try {
+            int random = 0;
+            String imagenAntigua = partido.getImg();
+            if(!imagen.getSubmittedFileName().equals("")){
+                random = (int) (Math.random() * 100000) + 1;
+                partido.setImg(partido.getNombre() + random + "_" + imagen.getSubmittedFileName());
+            }
             int resultado = partidoModel.actualizarPartido(partido);
             if (resultado == 1) {
                 this.respuesta = "Partido actualizado correctamente";
+                if(!imagen.getSubmittedFileName().equals("")){
+                    this.borrarImagen(imagenAntigua,random);
+                }
                 partido = new PartidoEntity();
                 this.editando = false;
                 return "listaPartidos";
             }
-            FacesContext.getCurrentInstance().addMessage("nombre",new FacesMessage("Nombre de partido ya existente"));
+            FacesContext.getCurrentInstance().addMessage("nombre", new FacesMessage("Nombre de partido ya existente"));
             return "insertarPartido";
         } catch (Exception e) {
             System.out.println("Error actualizando: " + e.toString());
-            FacesContext.getCurrentInstance().addMessage("nombre",new FacesMessage("Nombre de partido ya existente"));
+            FacesContext.getCurrentInstance().addMessage("nombre", new FacesMessage("Nombre de partido ya existente"));
             return "insertarPartido";
         }
     }
-    
-    public String cancelar(){
+
+    public String cancelar() {
         this.partido = new PartidoEntity();
         this.editando = false;
         return "listaPartidos";
     }
-    
-    public void guardarImagen(){
-        try{
-            /*InputStream in=imagen.getInputStream();
-            
-            File f=new File(imagen.getSubmittedFileName());
+
+    public void guardarImagen(String partido, int correlativo) {
+        try {
+            InputStream in = imagen.getInputStream();
+            File f = new File(realPath + '/' + partido + correlativo + '_' + imagen.getSubmittedFileName());
             f.createNewFile();
-            FileOutputStream out=new FileOutputStream(f);
-            
-            byte[] buffer=new byte[1024];
+            FileOutputStream out = new FileOutputStream(f);
+
+            byte[] buffer = new byte[1024];
             int length;
-            
-            while((length=in.read(buffer))>0){
+
+            while ((length = in.read(buffer)) > 0) {
                 out.write(buffer, 0, length);
             }
-            
+
             out.close();
             in.close();
-            */
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace(System.out);
+        }
+    }
+
+    public void borrarImagen(String nombreImagen, int random) {
+        try {
+            boolean bandera = false;
+            File dir = new File(realPath);
+            FilenameFilter filter = new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.startsWith(nombreImagen);
+                }
+            };
+            String[] archivos = dir.list();
+            for(String archivo : archivos ){
+                if(archivo.equals(nombreImagen)){
+                    bandera = true;
+                    break;
+                }
+            }
+            if(!bandera){
+                //No se encontro ninguna imagen con ese nombre
+                guardarImagen(partido.getNombre(), random);
+            }else{
+                File file = new File(realPath + '/' + nombreImagen);
+                if (file.delete()) {
+                    guardarImagen(partido.getNombre(), random);
+                } else {
+                    System.out.println("No se borro la imagen");
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println("Error cambiando imagen (bean) - " + ex.toString());
         }
     }
 }

@@ -23,9 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -33,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Eleccion")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EleccionEntity.findAll", query = "SELECT e FROM EleccionEntity e")
     , @NamedQuery(name = "EleccionEntity.findById", query = "SELECT e FROM EleccionEntity e WHERE e.id = :id")
@@ -62,11 +60,16 @@ public class EleccionEntity implements Serializable {
     @Column(name = "fech_realizacion")
     @Temporal(TemporalType.DATE)
     private Date fechRealizacion;
+    @Transient
+    private boolean ingresable;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private TipoeleccionEntity idTipo;
+    private TipoEleccionEntity idTipo;
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private EstadoEleccionEntity idEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<CandidatoEntity> candidatoEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
@@ -118,7 +121,6 @@ public class EleccionEntity implements Serializable {
         this.fechRealizacion = fechRealizacion;
     }
 
-    @XmlTransient
     public List<DetalleCEEntity> getDetalleCEEntityList() {
         return detalleCEEntityList;
     }
@@ -127,15 +129,22 @@ public class EleccionEntity implements Serializable {
         this.detalleCEEntityList = detalleCEEntityList;
     }
 
-    public TipoeleccionEntity getIdTipo() {
+    public TipoEleccionEntity getIdTipo() {
         return idTipo;
     }
 
-    public void setIdTipo(TipoeleccionEntity idTipo) {
+    public void setIdTipo(TipoEleccionEntity idTipo) {
         this.idTipo = idTipo;
     }
 
-    @XmlTransient
+    public EstadoEleccionEntity getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(EstadoEleccionEntity idEstado) {
+        this.idEstado = idEstado;
+    }
+
     public List<CandidatoEntity> getCandidatoEntityList() {
         return candidatoEntityList;
     }
@@ -144,13 +153,20 @@ public class EleccionEntity implements Serializable {
         this.candidatoEntityList = candidatoEntityList;
     }
 
-    @XmlTransient
     public List<JRVEntity> getJRVEntityList() {
         return jRVEntityList;
     }
 
     public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
         this.jRVEntityList = jRVEntityList;
+    }
+
+    public boolean isIngresable() {
+        return ingresable;
+    }
+
+    public void setIngresable(boolean ingresable) {
+        this.ingresable = ingresable;
     }
 
     @Override

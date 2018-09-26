@@ -19,21 +19,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author kevin
  */
 @Entity
-@Table(name = "Tipo_usuario")
-@XmlRootElement
+@Table(name = "Estado_ciudadano")
 @NamedQueries({
-    @NamedQuery(name = "TipousuarioEntity.findAll", query = "SELECT t FROM TipousuarioEntity t")
-    , @NamedQuery(name = "TipousuarioEntity.findById", query = "SELECT t FROM TipousuarioEntity t WHERE t.id = :id")
-    , @NamedQuery(name = "TipousuarioEntity.findByDescripcion", query = "SELECT t FROM TipousuarioEntity t WHERE t.descripcion = :descripcion")})
-public class TipousuarioEntity implements Serializable {
+    @NamedQuery(name = "EstadoCiudadanoEntity.findAll", query = "SELECT e FROM EstadoCiudadanoEntity e")
+    , @NamedQuery(name = "EstadoCiudadanoEntity.findById", query = "SELECT e FROM EstadoCiudadanoEntity e WHERE e.id = :id")
+    , @NamedQuery(name = "EstadoCiudadanoEntity.findByDescripcion", query = "SELECT e FROM EstadoCiudadanoEntity e WHERE e.descripcion = :descripcion")})
+public class EstadoCiudadanoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,17 +41,17 @@ public class TipousuarioEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipo")
-    private List<UsuarioEntity> usuarioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEstado")
+    private List<CiudadanoEntity> ciudadanoEntityList;
 
-    public TipousuarioEntity() {
+    public EstadoCiudadanoEntity() {
     }
 
-    public TipousuarioEntity(Integer id) {
+    public EstadoCiudadanoEntity(Integer id) {
         this.id = id;
     }
 
-    public TipousuarioEntity(Integer id, String descripcion) {
+    public EstadoCiudadanoEntity(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -75,13 +72,12 @@ public class TipousuarioEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public List<UsuarioEntity> getUsuarioEntityList() {
-        return usuarioEntityList;
+    public List<CiudadanoEntity> getCiudadanoEntityList() {
+        return ciudadanoEntityList;
     }
 
-    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
-        this.usuarioEntityList = usuarioEntityList;
+    public void setCiudadanoEntityList(List<CiudadanoEntity> ciudadanoEntityList) {
+        this.ciudadanoEntityList = ciudadanoEntityList;
     }
 
     @Override
@@ -94,10 +90,10 @@ public class TipousuarioEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipousuarioEntity)) {
+        if (!(object instanceof EstadoCiudadanoEntity)) {
             return false;
         }
-        TipousuarioEntity other = (TipousuarioEntity) object;
+        EstadoCiudadanoEntity other = (EstadoCiudadanoEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -106,7 +102,7 @@ public class TipousuarioEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.entities.TipousuarioEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.EstadoCiudadanoEntity[ id=" + id + " ]";
     }
     
 }

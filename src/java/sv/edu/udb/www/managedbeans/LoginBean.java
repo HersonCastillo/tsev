@@ -20,6 +20,7 @@ public class LoginBean implements Serializable {
     private String correo;
 
     public String validaLogin() throws Exception {
+        System.out.println("si");
         LoginModel log = new LoginModel();
         UsuarioEntity u = log.login(correo, pass);
 

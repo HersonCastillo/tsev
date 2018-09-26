@@ -27,13 +27,13 @@ public class LoginBean implements Serializable {
         if (u != null) {
             int tipo = Integer.parseInt(u.getIdTipo().toString());
             if (tipo == 1) {
-                return "admingen";
+                return "/admingen/admingen";
             } else if (tipo == 2) {
-                return "emp";
+                return "/empleado/emp";
             } else if (tipo == 3) {
-                return "admindep";
+                return "/admin/admindep";
             } else if (tipo == 4) {
-                return "president";
+                return "/presidente/president";
             }
         }
         return "index";

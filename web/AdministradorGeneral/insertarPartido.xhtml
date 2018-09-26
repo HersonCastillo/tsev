@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template_admin_general.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Partido
+    </ui:define>
+
+    <ui:define name="contenido">
+        <div class="row">
+            <c:if test="#{partidoBean.editando}">
+                <h1 class="text-center mx-auto">Actualizar partido</h1>
+            </c:if>
+            <c:if test="#{!partidoBean.editando}">
+                <h1 class="text-center mx-auto">Insertar partido</h1>
+            </c:if>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h:panelGroup styleClass="alert alert-danger col-sm-4 mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                        <h5 class="alert-heading">Revise lo ingresado:</h5>
+                        <h:messages/>
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <h:form class="mx-auto formularioPartido" enctype="multipart/form-data">
+                        <h:outputLabel value="Nombre del partido:" for="nombre"/>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">*</span>
+                            </div>
+                            <h:inputText id="nombre" value="#{partidoBean.partido.nombre}" required="true" styleClass="form-control"
+                                         requiredMessage="El nombre es obligatorio"/>
+                        </div>
+                        <h:panelGroup rendered="#{partidoBean.editando}">
+                            <h:outputLabel value="Bandera actual:"/>
+                            <div>
+                                <center>
+                                <h:graphicImage class="bandera-actualizar" value="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/banderas/#{partidoBean.partido.img}"/>
+                                </center>
+                            </div>
+                        </h:panelGroup>
+                        <h:outputLabel value="Bandera del partido:" for="nombre"/>
+                        <div class="input-group mb-3">
+                            <div class="button-update">
+                                <h:inputFile id="imagen" class="imagen" value="#{partidoBean.imagen}" required="true" requiredMessage="La bandera del partido es necesaria">
+                                    <f:passThroughAttribute name="accept" value="image/png, .jpg, .jpeg"/>
+                                </h:inputFile>
+                            </div>
+                            <div>
+                                <output id="list" class="mx-auto"></output>
+                            </div>
+                        </div>
+                        <c:if test="#{!partidoBean.editando}">
+                            <h:commandButton value="Insertar" action="#{partidoBean.insertarPartido()}" styleClass="btn btn-success mr-2"/>
+                        </c:if>
+                        <c:if test="#{partidoBean.editando}">
+                            <h:commandButton value="Actualizar" action="#{partidoBean.actualizarPartido()}" styleClass="btn btn-info mr-2"/>
+                        </c:if>
+                        <h:commandButton value="Cancelar" immediate="true" action="#{partidoBean.cancelar()}" styleClass="btn btn-danger mx-auto"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

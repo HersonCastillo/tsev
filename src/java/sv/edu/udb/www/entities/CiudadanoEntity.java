@@ -25,8 +25,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,7 +32,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "Ciudadano")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CiudadanoEntity.findAll", query = "SELECT c FROM CiudadanoEntity c")
     , @NamedQuery(name = "CiudadanoEntity.findById", query = "SELECT c FROM CiudadanoEntity c WHERE c.id = :id")
@@ -87,9 +84,9 @@ public class CiudadanoEntity implements Serializable {
     @JoinColumn(name = "id_cdv", referencedColumnName = "id")
     @ManyToOne
     private CDVEntity idCdv;
-    @JoinColumn(name = "id_municipio", referencedColumnName = "id")
+    @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private MunicipioEntity idMunicipio;
+    private EstadoCiudadanoEntity idEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudano")
     private List<CandidatoEntity> candidatoEntityList;
 
@@ -175,7 +172,6 @@ public class CiudadanoEntity implements Serializable {
         this.genero = genero;
     }
 
-    @XmlTransient
     public List<UsuarioEntity> getUsuarioEntityList() {
         return usuarioEntityList;
     }
@@ -184,7 +180,6 @@ public class CiudadanoEntity implements Serializable {
         this.usuarioEntityList = usuarioEntityList;
     }
 
-    @XmlTransient
     public List<DetalleCEEntity> getDetalleCEEntityList() {
         return detalleCEEntityList;
     }
@@ -201,15 +196,14 @@ public class CiudadanoEntity implements Serializable {
         this.idCdv = idCdv;
     }
 
-    public MunicipioEntity getIdMunicipio() {
-        return idMunicipio;
+    public EstadoCiudadanoEntity getIdEstado() {
+        return idEstado;
     }
 
-    public void setIdMunicipio(MunicipioEntity idMunicipio) {
-        this.idMunicipio = idMunicipio;
+    public void setIdEstado(EstadoCiudadanoEntity idEstado) {
+        this.idEstado = idEstado;
     }
 
-    @XmlTransient
     public List<CandidatoEntity> getCandidatoEntityList() {
         return candidatoEntityList;
     }

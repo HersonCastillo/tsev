@@ -17,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -41,6 +42,10 @@ public class DepartamentoEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     private String descripcion;
+    @Transient
+    private int ciudadanos;
+    @Transient
+    private String municipios = "";
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
     private List<MunicipioEntity> municipioEntityList;
 
@@ -80,6 +85,41 @@ public class DepartamentoEntity implements Serializable {
         this.municipioEntityList = municipioEntityList;
     }
 
+    public int getCiudadanos() {
+        this.ciudadanos = 0;
+        try{
+            for(MunicipioEntity municipio:this.getMunicipioEntityList()){
+                for(CDVEntity cdv: municipio.getCDVEntityList()){
+                    ciudadanos += cdv.getCiudadanoEntityList().size();
+                }
+            }
+        }catch(Exception ex){
+            this.ciudadanos = 0;
+        }
+        return ciudadanos;
+    }
+
+    public void setCiudadanos(int ciudadanos) {
+        this.ciudadanos = ciudadanos;
+    }
+
+    public String getMunicipios() {
+        try{
+            for(MunicipioEntity municipio:this.getMunicipioEntityList()){
+                this.municipios += municipio.getDescripcion();
+                this.municipios += ", ";
+            }
+            this.municipios = municipios.substring(0, municipios.length() - 2);
+        }catch(Exception ex){
+            this.municipios  = "";
+        }
+        return municipios;
+    }
+
+    public void setMunicipios(String municipios) {
+        this.municipios = municipios;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

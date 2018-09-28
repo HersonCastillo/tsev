@@ -19,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -43,6 +44,10 @@ public class MunicipioEntity implements Serializable {
     @NotNull
     @Size(min = 1, max = 50)
     private String descripcion;
+    @Transient
+    private int ciudadanos;
+    @Transient
+    private String cdv;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
     private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_departamento", referencedColumnName = "id")
@@ -103,6 +108,40 @@ public class MunicipioEntity implements Serializable {
         this.cDVEntityList = cDVEntityList;
     }
 
+    public int getCiudadanos() {
+        this.ciudadanos = 0;
+        try{
+            for(CDVEntity c:this.getCDVEntityList()){
+                ciudadanos += c.getCiudadanoEntityList().size();
+            }
+        }catch(Exception ex){
+            this.ciudadanos = 0;
+        }
+        return ciudadanos;
+    }
+
+    public void setCiudadanos(int ciudadanos) {
+        this.ciudadanos = ciudadanos;
+    }
+
+    public String getCdv() {
+        this.cdv ="";
+        try{
+            for(CDVEntity c:this.getCDVEntityList()){
+                cdv += c.getDireccion().toString();
+                cdv += ", ";
+            }
+            this.cdv = cdv.substring(0, cdv.length()-2);
+        }catch(Exception ex){
+            this.cdv = "";
+        }
+        return cdv;
+    }
+
+    public void setCdv(String cdv) {
+        this.cdv = cdv;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

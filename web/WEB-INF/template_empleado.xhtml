@@ -2,9 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>TSE-<ui:insert name="titulo"/></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -43,31 +41,7 @@
             </div>
         </header>
         <div id="container" class="container-fluid p-0">
-            <div id="sidebar" class="col-md-2 col-sm-12 position-fixed bg-dark p-0">
-                <div class="">
-                    <img id="img-perfil" src="../resource/img/badge.png"/>
-                </div>
-                <div class="pos-f-t">
-                    <nav class="navbar navbar-dark bg-dark">
-                        <span class="text-light">Administrador<br/> general</span>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </nav>
-                    <div class="collapse" id="navbarToggleExternalContent">
-                        <div class="bg-dark">
-                            <ul class="list-group list-group-flush">
-                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Elecciones" outcome="/AdministradorGeneral/listaElecciones"/>
-                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Partidos" outcome="/AdministradorGeneral/listaPartidos"/>
-                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Departamentos" outcome="/AdministradorGeneral/listaDepartamentos"/>
-                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Municipios" outcome="/AdministradorGeneral/listaMunicipios"/>
-                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Usuarios" outcome="/AdministradorGeneral/listaElecciones"/>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="contenido" class="col-md-10 offset-md-2 col-sm-12 pt-2">
+            <div id="contenido" class="col-md-12 col-sm-12 pt-2">
                 <ui:insert name="contenido"/>
             </div>
         </div>

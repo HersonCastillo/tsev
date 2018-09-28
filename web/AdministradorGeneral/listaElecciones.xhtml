@@ -24,53 +24,55 @@
         </div>
         <div class="row pl-2 pr-2">
             <f:view>
-                <h:form>
-                    <p:dataTable paginator="true" rows="10" styleClass="table table-hover" value="#{eleccionBean.listaElecciones}" var="item">
-                        <p:column>
+                <h:form styleClass="col-sm-12" prependId="false">
+                    <h:dataTable id="data" styleClass="table table-hover text-center" value="#{eleccionBean.listaElecciones}" var="item">
+                        <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Fecha de inicio de registro"/>
+                                <h:outputText value="Inicio de registro"/>
                             </f:facet>
                             <h:outputText value="#{item.fechIniRegistro}">
                                 <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Fecha de finalizacion de registro"/>
+                                <h:outputText value="Finalizacion de registro"/>
                             </f:facet>
                             <h:outputText value="#{item.fechFinRegistro}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Fecha de realiacion"/>
+                                <h:outputText value="Fecha de Realizacion"/>
                             </f:facet>
                             <h:outputText value="#{item.fechRealizacion}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
                             </h:outputText>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Tipo de eleccion"/>
+                                <h:outputText value="Tipo"/>
                             </f:facet>
                             <h:outputText value="#{item.idTipo.descripcion}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Estado"/>
                             </f:facet>
                             <h:outputText value="#{item.idEstado.descripcion}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Operaciones"/>
                             </f:facet>
-                            <h:commandButton value="Ingresar Candidato" styleClass="btn btn-success" rendered="#{item.ingresable}"/>
+                            <h:panelGroup rendered="#{item.ingresable}">
+                                <center><h:commandButton value="Ingresar Candidato" styleClass="btn btn-success"/></center>
+                            </h:panelGroup>
                             <h:commandButton value="Actualizar" styleClass="btn btn-info" action="#{eleccionBean.obtenerEleccion(item.id)}" rendered="#{item.idEstado.id == 1}"/>
                             <h:commandButton value="Descartar" styleClass="btn btn-danger" action="#{eleccionBean.DescartarEleccion(item.id)}" rendered="#{item.idEstado.id == 1}"/>
-                        </p:column>
-                    </p:dataTable>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </f:view>
         </div>

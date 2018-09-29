@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>TSE-<ui:insert name="titulo"/></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!--css-->
+        <h:outputStylesheet name="css/estilo.css"/>
+        <!--Boststrap-->
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <!--JS-->
+        <h:outputScript name="js/jquery.min.js"/>
+        <h:outputScript name="js/bootstrap.min.js"/>
+        <!--SweetAlert-->
+        <h:outputScript name="js/sweetAlert2.min.js"/>
+        <h:outputStylesheet name="css/sweetAlert2.min.css"/>
+        <!--dataTable-->
+        <h:outputStylesheet name="css/dataTableBootstrap4.min.css"/>
+        <h:outputScript name="js/dataTable.min.js"/>
+        <h:outputScript name="js/dataTableBootstrap.min.js"/>
+        <!--propios-->
+        <h:outputScript name="js/alert.js"/>
+        <h:outputScript name="js/imagen.js"/>
+    </h:head>
+    <h:body>
+        <header class='navbar navbar-expand-lg navbar-dark bg-primary pt-0 pb-0 fixed-top'>
+            <a class="navbar-brand " href="#">TSE</a>
+            <div id="menu">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link active text-light mt-1 mb-1">Kevin Romero</a>
+                    </li>
+                    <li class="nav-item">
+                        <h:form>
+                            <h:commandButton immediate="true" value="Logout" styleClass="btn btn-outline-light mt-1 mb-1"/>
+                        </h:form>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div id="container" class="container-fluid p-0">
+            <div id="contenido" class="col-md-12 col-sm-12 pt-2">
+                <ui:insert name="contenido"/>
+            </div>
+        </div>
+    </h:body>
+</html>
+

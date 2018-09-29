@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template_empleado.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <ui:define name="titulo">
+        Ciudadano
+    </ui:define>
+
+    <ui:define name="contenido">
+        <div class="row">
+            <c:if test="#{!ciudadanoBean.editable}">
+                <h1 class="text-center mx-auto">Ingresar ciudadano</h1>
+            </c:if>
+            <c:if test="#{ciudadanoBean.editable}">
+                <h1 class="text-center mx-auto">Actualizar ciudadano</h1>
+            </c:if>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h:panelGroup styleClass="alert alert-danger col-sm-4 mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                        <h5 class="alert-heading">Revise lo ingresado:</h5>
+                        <h:messages/>
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <h:form prependId="false" styleClass="col-md-10 offset-md-1 col-sm-12" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <h:outputLabel value="Nombre:" for="nombre"/>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:inputText id="nombre" value="#{ciudadanoBean.ciudadano.nombre}" styleClass="form-control"
+                                                 required="true" requiredMessage="El nombre es necesario"/>
+                                </div>
+                                <h:outputLabel value="Apellido:" for="apellido"/>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:inputText id="apellido" value="#{ciudadanoBean.ciudadano.apellido}" styleClass="form-control"
+                                                 required="true" requiredMessage="El apellido es necesario"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <h:outputLabel value="Foto:" for="imagen"/>
+                                <div class="input-group mb-3">
+                                    <h:graphicImage styleClass="foto mr-1" value="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/ciudadanos/#{ciudadanoBean.ciudadano.img}" rendered="#{ciudadanoBean.editable}"/>
+                                    <div class="button-update">
+                                        <h:inputFile id="imagen" class="imagen" value="#{ciudadanoBean.imagen}" required="true" requiredMessage="La foto del ciudadano es necesaria">
+                                            <f:passThroughAttribute name="accept" value="image/png, .jpg, .jpeg"/>
+                                        </h:inputFile>
+                                    </div>
+                                    <div>
+                                        <output id="list" class="foto mx-auto"></output>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h:panelGroup rendered="#{ciudadanoBean.editable}">
+                                <div class="col-md-4 col-sm-12">
+                                    <h:outputLabel value="DUI:" />
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon3">*</span>
+                                        </div>
+                                        <h:inputText value="#{ciudadanoBean.ciudadano.dui}" styleClass="form-control"
+                                                     rendered="true" requiredMessage="El DUI es necesario" 
+                                                     validatorMessage="El DUI debe seguir el patron ########-#"
+                                                     readonly="true">
+                                            <f:validateRegex pattern="^[0-9]{8}-[0-9]$"/>
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{!ciudadanoBean.editable}">
+                                <div class="col-md-4 col-sm-12">
+                                    <h:outputLabel value="DUI:" for="dui"/>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="basic-addon3">*</span>
+                                        </div>
+                                        <h:inputText id="dui" value="#{ciudadanoBean.ciudadano.dui}" styleClass="form-control"
+                                                     rendered="true" requiredMessage="El DUI es necesario" 
+                                                     validatorMessage="El DUI debe seguir el patron ########-#">
+                                            <f:validateRegex pattern="^[0-9]{8}-[0-9]$"/>
+                                        </h:inputText>
+                                    </div>
+                                </div>
+                            </h:panelGroup>
+                            <div class="col-md-4 col-sm-12">
+                                <h:outputLabel value="Fecha de nacimiento:" for="fechaNac"/>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:inputText id="fechaNac" value="#{ciudadanoBean.ciudadano.fechNac}" styleClass="form-control"
+                                                 required="true" requiredMessage="Debes ingresar la fecha de nacimiento" 
+                                                 converterMessage="Debes ingresar una fecha correcta"
+                                                 a:type="date">
+                                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                                    </h:inputText>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <h:outputLabel value="Sexo:" for="genero" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:selectOneMenu id="genero" value="#{ciudadanoBean.ciudadano.genero}" styleClass="form-control">
+                                        <f:selectItem itemValue="0" itemLabel="Seleccione una opcion"/>
+                                        <f:selectItem itemValue="1" itemLabel="Masculino"/>
+                                        <f:selectItem itemValue="2" itemLabel="Femenino"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <h:outputLabel value="Departamento:" for="departamento" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:selectOneMenu id="departamento" value="#{ciudadanoBean.departamento}" valueChangeListener="#{ciudadanoBean.cambiarMunicipios()}" 
+                                                     styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
+                                        <f:selectItems value="#{ciudadanoBean.listaDepartamentos}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <h:outputLabel value="Municipio:" for="municipio" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:selectOneMenu id="municipio" value="#{ciudadanoBean.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" converterMessage="No se puede convertir">
+                                        <f:selectItems value="#{ciudadanoBean.listaMunicipiosPorDepartamento}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <h:outputLabel value="Direccion:" for="direccion"/>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:inputText id="direccion" value="#{ciudadanoBean.direccion}" styleClass="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <h:outputLabel value="CDV:" for="cdv" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:selectOneMenu id="cdv" styleClass="form-control" value="#{ciudadanoBean.ciudadano.idCdv}" converter="sv.edu.udb.www.converters.CDVConverter">
+                                        <f:selectItems value="#{ciudadanoBean.listaCDVPorMunicipio}" var="cdv" itemLabel="#{cdv.direccion}" itemValue="#{cdv}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h:commandButton id="cambiarMunicipios" value="rellenar" actionListener="#{ciudadanoBean.cambiarMunicipios()}" style="display: none;"/>
+                            <h:commandButton id="cambiarCDV" value="relenar2" actionListener="#{ciudadanoBean.cambiarCDV()}" style="display: none;"/>
+                            <h:commandButton value="Insertar" styleClass="btn btn-success mr-2" action="#{ciudadanoBean.insertar()}" rendered="#{!ciudadanoBean.editable}"/>
+                            <h:commandButton value="Actualizar" styleClass="btn btn-info mr-2" action="#{ciudadanoBean.actualizar()}" rendered="#{ciudadanoBean.editable}"/>
+                            <h:commandButton immediate="true" value="Cancelar" styleClass="btn btn-danger" action="#{ciudadanoBean.cancelar()}"/>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

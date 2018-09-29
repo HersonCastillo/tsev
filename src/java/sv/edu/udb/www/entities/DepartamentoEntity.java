@@ -119,7 +119,7 @@ public class DepartamentoEntity implements Serializable {
     public void setMunicipios(String municipios) {
         this.municipios = municipios;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

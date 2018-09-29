@@ -3,7 +3,9 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./../WEB-INF/template_empleado.xhtml"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="titulo">
         Ciudadanos
@@ -19,72 +21,74 @@
                 <h:commandButton value="Nuevo ciudadano" styleClass="btn btn-primary" action="#{ciudadanoBean.ingresarCiudadano()}"/>
             </h:form>
         </div>
-        <div class="row p-2">
+        <div class="row">
             <f:view>
                 <h:form prependId="false" styleClass="col-sm-12">
-                    <h:dataTable id="data" styleClass="table table-hover text-center" value="#{ciudadanoBean.listaCiudadanos}" var="item">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Nombre"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nombre}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Apellido"/>
-                            </f:facet>
-                            <h:outputText value="#{item.apellido}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="DUI"/>
-                            </f:facet>
-                            <h:outputText value="#{item.dui}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Direccion"/>
-                            </f:facet>
-                            <h:outputText value="#{item.direccion}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Foto"/>
-                            </f:facet>
-                            <h:outputText value="#{item.img}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Nacimiento"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechNac}">
-                                <f:convertDateTime pattern="MM/dd/yyyy" />
-                            </h:outputText>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Genero"/>
-                            </f:facet>
-                            <h:outputText value="#{item.genero}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="CDV"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idCdv.direccion}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="Estado"/>
-                            </f:facet>
-                            <h:outputText value="#{item.idEstado.descripcion}"/>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputLabel value="Operaciones"/>
-                            </f:facet>
-                        </h:column>
-                    </h:dataTable>
+                    <div class="row">
+                        <div class="col-sm-12">
+                        <h:dataTable id="data" styleClass="table table-hover text-center" value="#{ciudadanoBean.listaCiudadanos}" var="item">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+                                <h:outputText value="#{item.nombre}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Apellido"/>
+                                </f:facet>
+                                <h:outputText value="#{item.apellido}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="DUI"/>
+                                </f:facet>
+                                <h:outputText value="#{item.dui}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Municipio"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idCdv.idMunicipio.descripcion}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Nacimiento"/>
+                                </f:facet>
+                                <h:outputText value="#{item.fechNac}">
+                                    <f:convertDateTime pattern="MM/dd/yyyy" />
+                                </h:outputText>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputLabel value="Sexo"/>
+                                </f:facet>
+                                <h:outputLabel value="Masculino" rendered="#{item.genero == 1}"/>
+                                <h:outputLabel value="Femenino" rendered="#{item.genero == 2}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Foto"/>
+                                </f:facet>
+                                <h:graphicImage styleClass="foto" value="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/ciudadanos/#{item.img}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Estado"/>
+                                </f:facet>
+                                <h:outputText value="#{item.idEstado.descripcion}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputLabel value="Operaciones"/>
+                                </f:facet>
+                                <h:commandButton value="Actualizar" action="#{ciudadanoBean.obtenerCiudadano(item.id)}" 
+                                                 rendered="#{item.idEstado.id == 1}" styleClass="btn btn-info mr-1"/>
+                                <h:commandButton value="Cambiar estado" onclick="return confirmacion('Seguro desea cambiar el estado de este ciudadano?')" action="#{ciudadanoBean.desactivar(item.id)}" rendered="#{item.idEstado.id == 1}" styleClass="btn btn-danger"/>
+                            </h:column>
+                        </h:dataTable>
+                        </div>
+                    </div>
                 </h:form>
             </f:view>
         </div>

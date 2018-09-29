@@ -49,6 +49,8 @@ public class MunicipioEntity implements Serializable {
     @Transient
     private String cdv;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
+    private List<UsuarioEntity> usuarioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
     private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_departamento", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -82,6 +84,14 @@ public class MunicipioEntity implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public List<UsuarioEntity> getUsuarioEntityList() {
+        return usuarioEntityList;
+    }
+
+    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
+        this.usuarioEntityList = usuarioEntityList;
     }
 
     public List<CandidatoEntity> getCandidatoEntityList() {
@@ -141,7 +151,7 @@ public class MunicipioEntity implements Serializable {
     public void setCdv(String cdv) {
         this.cdv = cdv;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;

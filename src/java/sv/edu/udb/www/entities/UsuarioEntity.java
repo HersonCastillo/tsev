@@ -54,6 +54,9 @@ public class UsuarioEntity implements Serializable {
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoUsuarioEntity idTipo;
+    @JoinColumn(name = "id_municipio", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private MunicipioEntity idMunicipio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<DetalleUJEntity> detalleUJEntityList;
 
@@ -108,6 +111,14 @@ public class UsuarioEntity implements Serializable {
 
     public void setIdTipo(TipoUsuarioEntity idTipo) {
         this.idTipo = idTipo;
+    }
+
+    public MunicipioEntity getIdMunicipio() {
+        return idMunicipio;
+    }
+
+    public void setIdMunicipio(MunicipioEntity idMunicipio) {
+        this.idMunicipio = idMunicipio;
     }
 
     public List<DetalleUJEntity> getDetalleUJEntityList() {

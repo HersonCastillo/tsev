@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.www.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,4 +28,13 @@ public class MunicipioModel {
         return query.getResultList();
     }
     
+    public List<MunicipioEntity> listaMunicipiosPorDepartamento(int id){
+        Query query = em.createQuery("SELECT m FROM MunicipioEntity m WHERE m.id != 1 AND m.idDepartamento.id = :departamento");
+        query.setParameter("departamento", id);
+        MunicipioEntity mun = em.find(MunicipioEntity.class, 1);
+        List<MunicipioEntity> lista = new ArrayList();
+        lista.add(mun);
+        lista.addAll(query.getResultList());
+        return lista;
+    }
 }

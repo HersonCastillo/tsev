@@ -31,4 +31,14 @@ public class DepartamentoModel {
             return null;
         }
     }
+    
+    public List<DepartamentoEntity> listaDepartamentosCombo(){
+        try{
+            Query query = em.createQuery("SELECT d FROM DepartamentoEntity d");
+            return query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Error listando departamentos (model) - " + ex.toString());
+            return null;
+        }
+    }
 }

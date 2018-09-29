@@ -76,7 +76,7 @@ public class CiudadanoEntity implements Serializable {
     private Date fechNac;
     @Basic(optional = false)
     @NotNull
-    private boolean genero;
+    private int genero;
     @OneToMany(mappedBy = "idCiudadano")
     private List<UsuarioEntity> usuarioEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudadano")
@@ -97,7 +97,7 @@ public class CiudadanoEntity implements Serializable {
         this.id = id;
     }
 
-    public CiudadanoEntity(Integer id, String nombre, String apellido, String dui, String direccion, String img, Date fechNac, boolean genero) {
+    public CiudadanoEntity(Integer id, String nombre, String apellido, String dui, String direccion, String img, Date fechNac, int genero) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -164,11 +164,11 @@ public class CiudadanoEntity implements Serializable {
         this.fechNac = fechNac;
     }
 
-    public boolean getGenero() {
+    public int getGenero() {
         return genero;
     }
 
-    public void setGenero(boolean genero) {
+    public void setGenero(int genero) {
         this.genero = genero;
     }
 

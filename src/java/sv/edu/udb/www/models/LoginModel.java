@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import sv.edu.udb.www.entities.UsuarioEntity;
+import sv.edu.udb.www.utils.SecurityUtils;
 
 @Stateless
 public class LoginModel {
@@ -12,20 +13,16 @@ public class LoginModel {
     @PersistenceContext(unitName = "TSEVPU")
     private EntityManager em;
 
-     public UsuarioEntity login(String email, String pass){
-        try{
-            UsuarioEntity user;
-            String query = "SELECT u FROM UsuarioEntity u JOIN u.ciudadano c ON c.id = u.id_ciudadano WHERE c.correo = :correo AND u.password = :password";
-            
-            Query con = em.createQuery(query, UsuarioEntity.class);
-            con.setParameter("correo", email);
-            con.setParameter("password", pass);
-            
-            user = (UsuarioEntity) con.getSingleResult();
-            return user;
-        }catch(Exception e){
+    public UsuarioEntity login(String email, String pass) {
+        try {
+            Query query = em.createNamedQuery("UsuarioEntity.checkLogin");
+            query.setParameter("correo", email);
+            query.setParameter("password", SecurityUtils.encriptarSHA(pass));
+            System.out.println(query.getSingleResult());
+            return (UsuarioEntity) query.getSingleResult();
+        } catch (Exception e) {
             return null;
         }
     }
-    
+
 }

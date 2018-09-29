@@ -15,6 +15,17 @@ public class JsfUtils {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put(key, obj);
     }
     
+    public static void addErrorMesages(String id, String msj){
+        FacesContext.getCurrentInstance().addMessage(id, 
+                    new FacesMessage(msj));
+        
+    }
+    
+    public static void addFlashMesages(String id, Object msj){
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put(id, msj);
+        
+    }
+    
     public static HttpServletRequest getRequest(){
         return (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
     }

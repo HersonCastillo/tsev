@@ -15,9 +15,14 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <!--alertify-->
-        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+        <!--SweetAlert-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.1/sweetalert2.all.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.28.1/sweetalert2.min.css"/>
+        <!--dataTable-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css"/>
+        <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+        <!--propios-->
         <h:outputScript name="js/alert.js"/>
         <h:outputScript name="js/imagen.js"/>
     </h:head>
@@ -53,11 +58,11 @@
                     <div class="collapse" id="navbarToggleExternalContent">
                         <div class="bg-dark">
                             <ul class="list-group list-group-flush">
-                                <a class="list-group-item list-group-item-action list-group-item-dark txt-dark" href="${pageContext.request.contextPath}/tsev/faces/AdministradorGeneral/listaElecciones.xhtml">Eleccion</a>
-                                <a class="list-group-item list-group-item-action list-group-item-dark txt-dark" href="${pageContext.request.contextPath}/tsev/faces/AdministradorGeneral/listaPartidos.xhtml">Partidos</a>
-                                <a class="list-group-item list-group-item-action list-group-item-dark txt-dark" href="#">Departamentos</a>
-                                <a class="list-group-item list-group-item-action list-group-item-dark txt-dark" href="#">Municipios</a>
-                                <a class="list-group-item list-group-item-action list-group-item-dark txt-dark" href="#">Usuarios</a>
+                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Elecciones" outcome="/AdministradorGeneral/listaElecciones"/>
+                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Partidos" outcome="/AdministradorGeneral/listaPartidos"/>
+                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Departamentos" outcome="/AdministradorGeneral/listaDepartamentos"/>
+                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Municipios" outcome="/AdministradorGeneral/listaMunicipios"/>
+                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Usuarios" outcome="/AdministradorGeneral/listaElecciones"/>
                             </ul>
                         </div>
                     </div>

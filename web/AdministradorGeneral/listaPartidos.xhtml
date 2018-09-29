@@ -21,36 +21,37 @@
                 <h:commandButton value="Nuevo partido" action="#{partidoBean.ingresarPartido()}" styleClass="btn btn-primary"/>
             </h:form>
         </div>
-        <div class="row pl-2 pr-2">
+        <div class="row p-2">
             <f:view>
-                <h:form>
-                    <p:dataTable id="items" styleClass="table table-hover" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" paginator="true" value="#{partidoBean.listaPartidos}" var="item">
-                        <p:column>
+                <h:form styleClass="col-sm-12" prependId="false">
+                    <h:dataTable styleClass="table table-hover text-center" id="data" value="#{partidoBean.listaPartidos}" var="item">
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Nombre"/>
                             </f:facet>
                             <h:outputText value="#{item.nombre}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Imagen"/>
+                                <h:outputText value="Bandera"/>
                             </f:facet>
                             <h:graphicImage class="bandera" value="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/banderas/#{item.img}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Estado"/>
                             </f:facet>
                             <h:outputText value="#{item.idEstado.descripcion}"/>
-                        </p:column>
-                        <p:column>
+                        </h:column>
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Operaciones"/>
                             </f:facet>
                             <h:commandButton value="Actualizar" action="#{partidoBean.seleccionarPartido(item.id)}" styleClass="btn btn-info mr-2" rendered="#{item.idEstado.id == 1}"/>
-                            <h:commandButton value="Deshabilitar" actionListener="#{partidoBean.deshabilitarPartido(item.id)}" styleClass="btn btn-danger" rendered="#{item.idEstado.id == 1}"/>
-                        </p:column>
-                    </p:dataTable>
+                            <h:commandButton value="Deshabilitar" actionListener="#{partidoBean.deshabilitarPartido(item.id)}" onclick="return confirmacion('Seguro desea deshabilitar este partido')" 
+                                             styleClass="btn btn-danger" rendered="#{item.idEstado.id == 1}"/>
+                        </h:column>
+                    </h:dataTable>
                 </h:form>
             </f:view>
         </div>

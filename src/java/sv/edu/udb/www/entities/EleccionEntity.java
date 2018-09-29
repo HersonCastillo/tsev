@@ -162,6 +162,9 @@ public class EleccionEntity implements Serializable {
     }
 
     public boolean isIngresable() {
+        if(this.idTipo.getId() == 2 && this.idEstado.getId() == 1){
+            this.ingresable = true;
+        }
         return ingresable;
     }
 

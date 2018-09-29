@@ -25,9 +25,8 @@ public class EleccionModel {
 
     public int insertarEleccion(EleccionEntity eleccion) {
         try {
-            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE (e.idEstado.id != 2 OR e.idEstado.id = 3) AND e.idTipo = :tipo");
-            query.setParameter("estado", em.find(EstadoEleccionEntity.class, 1));
-            query.setParameter("tipo", eleccion.getIdTipo());
+            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idTipo.id = :tipo AND (e.idEstado.id = 1 OR e.idEstado.id = 4 OR e.idEstado.id = 5)");
+            query.setParameter("tipo", eleccion.getIdTipo().getId());
             int resultado = query.getResultList().size();
             if (resultado == 0) {
                 eleccion.setIdEstado(em.find(EstadoEleccionEntity.class, 1));
@@ -44,12 +43,11 @@ public class EleccionModel {
 
     public int actualizarEleccion(EleccionEntity eleccion) {
         try {
-            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE (e.idEstado.id != 2 OR e.idEstado.id != 3) AND e.idTipo = :tipo AND e.id != :id");
-            query.setParameter("estado", em.find(EstadoEleccionEntity.class, 1));
+            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE (e.idEstado.id = 1 OR e.idEstado.id = 4 OR e.idEstado.id = 5) AND e.idTipo = :tipo AND e.id != :id");
             query.setParameter("tipo", eleccion.getIdTipo());
             query.setParameter("id", eleccion.getId());
             int resultado = query.getResultList().size();
-            query = em.createQuery("SELECT c FROM CandidatoEntity c WHERE c.idEleccion.id = :id AND c.idEleccion.idTipo != :tipo AND (c.idEleccion.idEstado.id != 2 OR c.idEleccion.idEstado.id != 3) ");
+            query = em.createQuery("SELECT c FROM CandidatoEntity c WHERE c.idEleccion.id = :id AND c.idEleccion.idTipo != :tipo AND (c.idEleccion.idEstado.id = 1 OR c.idEleccion.idEstado.id = 4 OR c.idEleccion.idEstado.id = 5) ");
             query.setParameter("id", eleccion.getId());
             query.setParameter("tipo", eleccion.getIdTipo());
             int candidatos = query.getResultList().size();

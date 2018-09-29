@@ -34,7 +34,7 @@ public class partidoBean {
     private static PartidoEntity partido = new PartidoEntity();
     private List<PartidoEntity> listaPartidos;
     private Part imagen;
-    private String respuesta = "";
+    private static String respuesta = "";
     private static boolean editando;
 
     //Obtener ruta fisica
@@ -87,6 +87,7 @@ public class partidoBean {
     public String ingresarPartido() {
         partido = new PartidoEntity();
         this.editando = false;
+        this.respuesta = "";
         return "insertarPartido";
     }
 
@@ -103,7 +104,7 @@ public class partidoBean {
                 this.respuesta = "Partido insertado correctamente";
                 guardarImagen(partido.getNombre(), random);
                 partido = new PartidoEntity();
-                return "listaPartidos";
+                return "listaPartidos?faces-redirect=true";
             }
             FacesContext.getCurrentInstance().addMessage("nombre", new FacesMessage("Nombre de partido ya existente"));
             return "insertarPartido";
@@ -117,23 +118,25 @@ public class partidoBean {
     public String deshabilitarPartido(int id) {
         try {
             int resultado = partidoModel.eliminarPartido(id);
+            this.respuesta = "";
             if (resultado == 1) {
                 this.respuesta = "Partido deshabilitado correctamente";
             }
         } catch (Exception ex) {
             System.out.println("Error deshabilitando partido - " + ex.toString());
         }
-        return "listaPartidos";
+        return "listaPartidos?faces-redirect=true";
     }
 
     public String seleccionarPartido(int id) {
         partido = partidoModel.obtenerPartido(id);
         if (partido != null) {
             this.editando = true;
+            this.respuesta = "";
             System.out.println(partido.getId());
             return "insertarPartido";
         }
-        return "listarPartidos";
+        return "listarPartidos?faces-redirect=true";
     }
 
     public String actualizarPartido() {
@@ -152,7 +155,7 @@ public class partidoBean {
                 }
                 partido = new PartidoEntity();
                 this.editando = false;
-                return "listaPartidos";
+                return "listaPartidos?faces-redirect=true";
             }
             FacesContext.getCurrentInstance().addMessage("nombre", new FacesMessage("Nombre de partido ya existente"));
             return "insertarPartido";
@@ -166,7 +169,8 @@ public class partidoBean {
     public String cancelar() {
         this.partido = new PartidoEntity();
         this.editando = false;
-        return "listaPartidos";
+        this.respuesta ="";
+        return "listaPartidos?faces-redirect=true";
     }
 
     public void guardarImagen(String partido, int correlativo) {
@@ -194,12 +198,6 @@ public class partidoBean {
         try {
             boolean bandera = false;
             File dir = new File(realPath);
-            FilenameFilter filter = new FilenameFilter() {
-                @Override
-                public boolean accept(File dir, String name) {
-                    return name.startsWith(nombreImagen);
-                }
-            };
             String[] archivos = dir.list();
             for(String archivo : archivos ){
                 if(archivo.equals(nombreImagen)){

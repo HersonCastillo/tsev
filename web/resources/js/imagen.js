@@ -1,6 +1,4 @@
 $(document).ready(function(){
-    //$(".imagen")[0].addEventListener('change', archivo, false);
-    //console.log($(".imagen")[0].value)
     $(".imagen").on('change',archivo);
     if($(".imagen")[0].value != null){
         $(".imagen").trigger('change');

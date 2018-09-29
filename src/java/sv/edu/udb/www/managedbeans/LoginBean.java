@@ -33,14 +33,18 @@ public class LoginBean implements Serializable {
             HttpServletRequest request= JsfUtils.getRequest();
             request.getSession().setAttribute("user", usuario);
             request.getSession().setAttribute("tipo",u.getIdTipo());
-            if (u.getIdTipo().getId() == 1) {
-                return "/AdministradorGeneral/admingen";
-            } else if (u.getIdTipo().getId() == 2) {
-                return "/empleado/emp";
-            } else if (u.getIdTipo().getId() == 3) {
-                return "/admin/admindep";
-            } else if (u.getIdTipo().getId() == 4) {
-                return "/presidente/president";
+            if (null != u.getIdTipo().getId()) 
+            switch (u.getIdTipo().getId()) {
+                case 1:
+                    return "/AdministradorGeneral/admingen?faces-redirect=true";
+                case 2:
+                    return "/empleado/emp?faces-redirect=true";
+                case 3:
+                    return "/admin/admindep?faces-redirect=true";
+                case 4:
+                    return "/presidente/president?faces-redirect=true";
+                default:
+                    break;
             }
         }
         return "index";

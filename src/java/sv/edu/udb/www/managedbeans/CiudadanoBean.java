@@ -229,7 +229,7 @@ public class CiudadanoBean {
         try {
             //validar imagen
             if (imagen.getSubmittedFileName().equals("")) {
-                JsfUtils.addErrorMesages("imagen", "La foto es necesaria");
+                JsfUtils.addErrorMessages("imagen", "La foto es necesaria");
             }
             //validar fecha
             Date now = new Date();
@@ -240,19 +240,19 @@ public class CiudadanoBean {
             long mili = inicio.getTimeInMillis() - finalizacion.getTimeInMillis();
             long y = mili / 365 / 24 / 60 / 60 / 1000;
             if (y < 18) {
-                JsfUtils.addErrorMesages("fechaNac", "El ciudadano debe ser mayor de 18");
+                JsfUtils.addErrorMessages("fechaNac", "El ciudadano debe ser mayor de 18");
             }
             //validar sexo
             if(ciudadano.getGenero() == 0){
-                JsfUtils.addErrorMesages("genero", "Debe seleccionar el sexo");
+                JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
             //validar direccion
             if (this.direccion.trim().equals("") || this.direccion.trim().length() == 0) {
-                JsfUtils.addErrorMesages("direccion", "La direccion es necesaria");
+                JsfUtils.addErrorMessages("direccion", "La direccion es necesaria");
             }
             //validar cdv
             if (ciudadano.getIdCdv() == null) {
-                JsfUtils.addErrorMesages("cdv", "Debe seleccionar un centro de votacion");
+                JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
                 ciudadano.setDireccion(direccion);
@@ -266,7 +266,7 @@ public class CiudadanoBean {
                     ciudadano = new CiudadanoEntity();
                     return "listaCiudadanos?faces-redirect=true";
                 }
-                JsfUtils.addErrorMesages(null, "Numero de DUI repetido");
+                JsfUtils.addErrorMessages(null, "Numero de DUI repetido");
             } else {
                 return null;
             }
@@ -309,19 +309,19 @@ public class CiudadanoBean {
             long mili = inicio.getTimeInMillis() - finalizacion.getTimeInMillis();
             long y = mili / 365 / 24 / 60 / 60 / 1000;
             if (y < 18) {
-                JsfUtils.addErrorMesages("fechaNac", "El ciudadano debe ser mayor de 18");
+                JsfUtils.addErrorMessages("fechaNac", "El ciudadano debe ser mayor de 18");
             }
             //validar sexo
             if(ciudadano.getGenero() == 0){
-                JsfUtils.addErrorMesages("genero", "Debe seleccionar el sexo");
+                JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
             //validar direccion
             if (this.direccion.trim().equals("") || this.direccion.trim().length() == 0) {
-                JsfUtils.addErrorMesages("direccion", "La direccion es necesaria");
+                JsfUtils.addErrorMessages("direccion", "La direccion es necesaria");
             }
             //validar cdv
             if (ciudadano.getIdCdv() == null) {
-                JsfUtils.addErrorMesages("cdv", "Debe seleccionar un centro de votacion");
+                JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
                 ciudadano.setDireccion(direccion);
@@ -341,7 +341,7 @@ public class CiudadanoBean {
                     ciudadano = new CiudadanoEntity();
                     return "listaCiudadanos?faces-redirect=true";
                 }
-                JsfUtils.addErrorMesages(null, "No se pudo actualizar");
+                JsfUtils.addErrorMessages(null, "No se pudo actualizar");
             } else {
                 return null;
             }

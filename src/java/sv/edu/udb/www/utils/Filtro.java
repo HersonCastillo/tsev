@@ -88,30 +88,30 @@ public class Filtro implements Filter {
             wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/login.xhtml");
             return;
         } else {
-            int perfil = Integer.parseInt(wrappedRequest.getSession().getAttribute("tipo").toString());
+            String perfil = wrappedRequest.getSession().getAttribute("tipo").toString();
             switch (perfil) {
-                case 1:
+                case "1":
                     if (url.contains("/AdministradorGeneral")) {
                         chain.doFilter(request, response);
                         return;
                     }
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/AdministradorGeneral/admingen.xhtml");
                     break;
-                case 2:
+                case "2":
                     if (url.contains("/empleado")) {
                         chain.doFilter(request, response);
                         return;
                     }
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/empleado/emp.xhtml");
                     break;
-                case 3:
+                case "3":
                     if (url.contains("/admin")) {
                         chain.doFilter(request, response);
                         return;
                     }
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/admin/bienvenido.xhtml");
                     break;
-                case 4:
+                case "4":
                     if (url.contains("/presidente")) {
                         chain.doFilter(request, response);
                         return;

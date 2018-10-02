@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class JsfUtils {
    
-    public static void addErrorMessage(String id, String message){
+    public static void addErrorMessages(String id, String message){
          FacesContext.getCurrentInstance().addMessage(id, 
                     new FacesMessage(message));
     }

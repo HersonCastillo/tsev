@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template_admin_general.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Candidato
+    </ui:define>
+
+    <ui:define name="contenido">
+        <div class="row">
+            <c:if test="#{candidatoBean.editable}">
+                <h1 class="text-center mx-auto">Actualizar candidato</h1>
+            </c:if>
+            <c:if test="#{!candidatoBean.editable}">
+                <h1 class="text-center mx-auto">Insertar candidato</h1>
+            </c:if>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h:panelGroup styleClass="alert alert-danger col-sm-4 mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                        <h5 class="alert-heading">Revise lo ingresado:</h5>
+                        <h:messages/>
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <h:form class="mx-auto" enctype="multipart/form-data">
+                        <h:outputLabel value="DUI del ciudadano:" for="nombre"/>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">*</span>
+                            </div>
+                            <h:inputText id="nombre" value="#{candidatoBean.dui}" required="true" styleClass="form-control"
+                                         requiredMessage="El DUI es obligatorio"
+                                         validatorMessage="El DUI debe tener el patron ########-#">
+                                <f:validateRegex pattern="^[0-9]{8}-[0-9]$"/>
+                            </h:inputText>
+                        </div>
+                        <h:outputLabel value="Partido:" for="partido"/>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">*</span>
+                            </div>
+                            <h:selectOneMenu id="partido" styleClass="form-control" value="#{candidatoBean.candidato.idPartido}" converter="sv.edu.udb.www.converters.PartidoConverter">
+                                <f:selectItems value="#{candidatoBean.listaPartidos}" var="partido" itemLabel="#{partido.nombre}" itemValue="#{partido}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <c:if test="#{!candidatoBean.editable}">
+                            <h:commandButton value="Insertar" action="#{candidatoBean.insertarCandidato()}" styleClass="btn btn-success mr-2"/>
+                        </c:if>
+                        <c:if test="#{candidatoBean.editable}">
+                            <h:commandButton value="Actualizar" action="#{candidatoBean.actualizarCandidato()}" styleClass="btn btn-info mr-2"/>
+                        </c:if>
+                        <h:commandButton value="Cancelar" immediate="true" action="#{candidatoBean.cancelar()}" styleClass="btn btn-danger mx-auto"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

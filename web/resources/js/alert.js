@@ -33,13 +33,13 @@ $(document).ready(function () {
             "info": "Mostrando pagina _PAGE_ de _PAGES_",
         }
     });
-    
-    $("#departamento").change(function(){
-                    $("#cambiarMunicipios").click();
-                });
-                $("#municipio").change(function(){
-                    $("#cambiarCDV").click();
-                });
+
+    $("#departamento").change(function () {
+        $("#cambiarMunicipios").click();
+    });
+    $("#municipio").change(function () {
+        $("#cambiarCDV").click();
+    });
 })
 
 function confirmacion(msg) {

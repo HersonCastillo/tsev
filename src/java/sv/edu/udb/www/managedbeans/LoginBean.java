@@ -39,7 +39,7 @@ public class LoginBean implements Serializable {
                 case 1:
                     return "/AdministradorGeneral/admingen?faces-redirect=true";
                 case 2:
-                    return "/empleado/emp?faces-redirect=true";
+                    return "/EmpleadoRNPN/listaCiudadanos?faces-redirect=true";
                 case 3:
                     return "/admin/admindep?faces-redirect=true";
                 case 4:

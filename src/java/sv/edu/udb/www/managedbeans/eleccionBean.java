@@ -36,7 +36,7 @@ public class eleccionBean {
     private static boolean editando;
     private List<EleccionEntity> listaElecciones;
     private List<TipoEleccionEntity> listaTipos;
-    private String respuesta = "";
+    private static String respuesta = "";
     private String error = "";
 
     public EleccionEntity getEleccion() {
@@ -57,7 +57,9 @@ public class eleccionBean {
     
     public String ingresarInformacion(){
         eleccion = new EleccionEntity();
-        return "ingresarEleccion";
+        this.respuesta = "";
+        this.editando = false;
+        return "ingresarEleccion?faces-redirect=true";
     }
 
     public List<EleccionEntity> getListaElecciones() {
@@ -121,7 +123,7 @@ public class eleccionBean {
                 if(resultado == 1){
                     this.respuesta = "Eleccion ingresada corrrectamente";
                     eleccion = new EleccionEntity();
-                    return "listaElecciones";
+                    return "listaElecciones?faces-redirect=true";
                 }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ya hay una eleccion de ese tipo pendiente"));
                 return "ingresarEleccion";
@@ -136,13 +138,15 @@ public class eleccionBean {
     public String obtenerEleccion(int id){
         eleccion = eleccionModel.obtenerEleccion(id);
         this.editando = true;
-        return "ingresarEleccion";
+        this.respuesta = "";
+        return "ingresarEleccion?faces-redirect=true";
     }
     
     public String cancelar(){
         eleccion = new EleccionEntity();
         this.editando = false;
-        return "listaElecciones";
+        this.respuesta = "";
+        return "listaElecciones?faces-redirect=true";
     }
     
     public String actualizarEleccion(){
@@ -173,7 +177,7 @@ public class eleccionBean {
                     this.respuesta = "Eleccion actualizada corrrectamente";
                     eleccion = new EleccionEntity();
                     this.editando = false;
-                    return "listaElecciones";
+                    return "listaElecciones?faces-redirect=true";
                 }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ya hay una eleccion de ese tipo pendiente o esta eleccion ya tiene candidatos asignados"));
                 return "ingresarEleccion";

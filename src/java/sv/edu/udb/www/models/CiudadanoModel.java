@@ -67,7 +67,7 @@ public class CiudadanoModel {
 
     public List<CiudadanoEntity> listaCiudadanos() {
         try {
-            Query query = em.createNamedQuery("CiudadanoEntity.findAll");
+            Query query = em.createQuery("SELECT c FROM CiudadanoEntity c WHERE c.id != 1");
             return query.getResultList();
         } catch (Exception ex) {
             System.out.println("Error generando la lista de ciudadanos (model) - " + ex.toString());
@@ -80,6 +80,17 @@ public class CiudadanoModel {
             return em.find(CiudadanoEntity.class, id);
         } catch (Exception ex) {
             System.out.println("Error obteniendo ciudadano (model) - " + ex.toString());
+            return null;
+        }
+    }
+    
+    public CiudadanoEntity obtenerCiudadanoPorDUI(String dui){
+        try{
+            Query query = em.createQuery("SELECT c FROM CiudadanoEntity c WHERE c.dui = :dui");
+            query.setParameter("dui", dui);
+            return (CiudadanoEntity) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo ciudadano por DUI (model) - " + ex.toString());
             return null;
         }
     }

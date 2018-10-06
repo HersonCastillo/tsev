@@ -203,7 +203,7 @@ public class CiudadanoBean {
         this.editable = false;
         this.ciudadano = new CiudadanoEntity();
         this.respuesta = "";
-        return "ingresoCiudadano";
+        return "ingresoCiudadano?faces-redirect=true";
     }
 
     public void cambiarMunicipios() {
@@ -284,6 +284,8 @@ public class CiudadanoBean {
         this.ciudadano = new CiudadanoEntity();
         this.respuesta = "";
         this.direccion = "";
+        this.listaMunicipiosPorDepartamento = null;
+        this.listaCDVPorMunicipio = null;
         return "listaCiudadanos?faces-redirect=true";
     }
     
@@ -295,7 +297,7 @@ public class CiudadanoBean {
         municipio = ciudadano.getIdCdv().getIdMunicipio();
         listaCDVPorMunicipio = cDVModel.obtenerCDVPorMunicipio(municipio.getId());
         direccion = ciudadano.getDireccion();
-        return "ingresoCiudadano";
+        return "ingresoCiudadano?faces-redirect=true";
     }
     
     public String actualizar(){

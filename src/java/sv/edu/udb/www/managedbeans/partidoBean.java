@@ -40,7 +40,7 @@ public class partidoBean {
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
     String realPath = (String) servletContext.getRealPath("/resources/img/banderas");
-
+    
     public partidoBean() {
     }
 
@@ -88,7 +88,7 @@ public class partidoBean {
         partido = new PartidoEntity();
         this.editando = false;
         this.respuesta = "";
-        return "insertarPartido";
+        return "insertarPartido?faces-redirect=true";
     }
 
     public String insertarPartido() {

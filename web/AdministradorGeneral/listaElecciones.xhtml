@@ -67,10 +67,10 @@
                                 <h:outputText value="Operaciones"/>
                             </f:facet>
                             <h:panelGroup rendered="#{item.ingresable}">
-                                <center><h:commandButton value="Ingresar Candidato" styleClass="btn btn-success"/></center>
+                                <center><h:commandButton value="Ingresar Candidato" action="#{candidatoBean.obtenerEleccion(item.id)}" styleClass="btn btn-success"/></center>
                             </h:panelGroup>
                             <h:commandButton value="Actualizar" styleClass="btn btn-info" action="#{eleccionBean.obtenerEleccion(item.id)}" rendered="#{item.idEstado.id == 1}"/>
-                            <h:commandButton value="Descartar" styleClass="btn btn-danger" action="#{eleccionBean.DescartarEleccion(item.id)}" rendered="#{item.idEstado.id == 1}"/>
+                            <h:commandButton value="Descartar" styleClass="btn btn-danger" action="#{eleccionBean.DescartarEleccion(item.id)}" onclick="return confirmacion('Seguro desea descartar esta eleccion')" rendered="#{item.idEstado.id == 1}"/>
                         </h:column>
                     </h:dataTable>
                 </h:form>

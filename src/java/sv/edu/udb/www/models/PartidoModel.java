@@ -76,7 +76,7 @@ public class PartidoModel {
     }
     
     public List<PartidoEntity> listarPartidosHabilitados(){
-        Query query = em.createQuery("SELECT p FROM PartidoEntity p WHERE e.idEstado = 1");
+        Query query = em.createQuery("SELECT p FROM PartidoEntity p WHERE p.idEstado.id = 1");
         return query.getResultList();
     }
     

@@ -98,11 +98,11 @@ public class Filtro implements Filter {
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/AdministradorGeneral/admingen.xhtml");
                     break;
                 case "2":
-                    if (url.contains("/empleado")) {
+                    if (url.contains("/EmpleadoRNPN")) {
                         chain.doFilter(request, response);
                         return;
                     }
-                    wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/empleado/emp.xhtml");
+                    wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/EmpleadoRNPN/listaCiudadanos.xhtml");
                     break;
                 case "3":
                     if (url.contains("/admin")) {

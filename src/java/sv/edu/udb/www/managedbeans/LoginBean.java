@@ -48,9 +48,15 @@ public class LoginBean implements Serializable {
                     break;
             }
         }
-        return "index";
+        return null;
 
     }
+    
+    public String logOut(){
+        JsfUtils.getRequest().getSession().invalidate();
+        return "/login?faces-redirect=true";
+    }
+            
 
     public LoginBean() {
     }

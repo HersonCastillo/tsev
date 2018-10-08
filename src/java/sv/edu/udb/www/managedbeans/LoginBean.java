@@ -28,7 +28,6 @@ public class LoginBean implements Serializable {
 
     public String validaLogin() throws Exception {
         UsuarioEntity u = usuariosModel.login(usuario, password);
-        System.out.println("hola");
         if (u != null) {
             HttpServletRequest request= JsfUtils.getRequest();
             request.getSession().setAttribute("user", u.getIdCiudadano().getNombre());

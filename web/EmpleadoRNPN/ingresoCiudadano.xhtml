@@ -132,9 +132,10 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">*</span>
                                     </div>
-                                    <h:selectOneMenu id="departamento" value="#{ciudadanoBean.departamento}" valueChangeListener="#{ciudadanoBean.cambiarMunicipios()}" 
+                                    <h:selectOneMenu id="departamento" value="#{ciudadanoBean.departamento}"  
                                                      styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
-                                        <f:selectItems value="#{ciudadanoBean.listaDepartamentos}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                                        <f:selectItems value="#{ciudadanoBean.lista}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                                        <f:ajax render="municipio"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -145,7 +146,8 @@
                                         <span class="input-group-text" id="basic-addon3">*</span>
                                     </div>
                                     <h:selectOneMenu id="municipio" value="#{ciudadanoBean.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" converterMessage="No se puede convertir">
-                                        <f:selectItems value="#{ciudadanoBean.listaMunicipiosPorDepartamento}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                                        <f:selectItems value="#{ciudadanoBean.listaMunicipio}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                                        
                                     </h:selectOneMenu>
                                 </div>
                             </div>
@@ -165,14 +167,12 @@
                                         <span class="input-group-text" id="basic-addon3">*</span>
                                     </div>
                                     <h:selectOneMenu id="cdv" styleClass="form-control" value="#{ciudadanoBean.ciudadano.idCdv}" converter="sv.edu.udb.www.converters.CDVConverter">
-                                        <f:selectItems value="#{ciudadanoBean.listaCDVPorMunicipio}" var="cdv" itemLabel="#{cdv.direccion}" itemValue="#{cdv}"/>
+                                        <f:selectItems value="#{ciudadanoBean.listaCDV}" var="cdv" itemLabel="#{cdv.direccion}" itemValue="#{cdv}"/>
                                     </h:selectOneMenu>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <h:commandButton id="cambiarMunicipios" value="rellenar" actionListener="#{ciudadanoBean.cambiarMunicipios()}" style="display: none;"/>
-                            <h:commandButton id="cambiarCDV" value="relenar2" actionListener="#{ciudadanoBean.cambiarCDV()}" style="display: none;"/>
                             <h:commandButton value="Insertar" styleClass="btn btn-success mr-2" action="#{ciudadanoBean.insertar()}" rendered="#{!ciudadanoBean.editable}"/>
                             <h:commandButton value="Actualizar" styleClass="btn btn-info mr-2" action="#{ciudadanoBean.actualizar()}" rendered="#{ciudadanoBean.editable}"/>
                             <h:commandButton immediate="true" value="Cancelar" styleClass="btn btn-danger" action="#{ciudadanoBean.cancelar()}"/>

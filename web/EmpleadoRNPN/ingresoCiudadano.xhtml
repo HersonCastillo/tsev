@@ -157,14 +157,15 @@
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <h:outputLabel value="CDV:" for="cdv" />
+                                <h:outputLabel value="CDV:" for="cdvWS" />
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">*</span>
                                     </div>
-                                    <h:selectOneMenu id="cdvWS" value="#{ciudadanoBean.cdv}" styleClass="form-control">
-                                        <f:selectItem itemValue="1" itemLabel="Seleccione una opcion"/>
-                                    </h:selectOneMenu>
+                                    <h:inputHidden id="cdvValue" value="#{ciudadanoBean.cdv}"/>
+                                    <select name="cdv" id="cdvWS" class="form-control">
+                                        <option value="0">Seleccione una opcion</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>

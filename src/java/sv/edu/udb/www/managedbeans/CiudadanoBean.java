@@ -36,7 +36,7 @@ import sv.edu.udb.www.utils.JsfUtils;
 public class CiudadanoBean implements Serializable {
 
     @EJB
-    private CDVModel cDVModel;
+    private CDVModel cdvModel;
     @EJB
     private CiudadanoModel ciudadanoModel;
 
@@ -45,7 +45,7 @@ public class CiudadanoBean implements Serializable {
     private static boolean editable;
     private static String respuesta = "";
     private Part imagen;
-    private int cdv;
+    private String cdv = "0";
     
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -91,14 +91,14 @@ public class CiudadanoBean implements Serializable {
         this.imagen = imagen;
     }
 
-    public int getCdv() {
+    public String getCdv() {
         return cdv;
     }
 
-    public void setCdv(int cdv) {
+    public void setCdv(String cdv) {
         this.cdv = cdv;
     }
-
+    
     public void guardarImagen(String dui) {
         try {
             InputStream in = imagen.getInputStream();
@@ -176,10 +176,12 @@ public class CiudadanoBean implements Serializable {
                 JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
             //validar cdv
-            if (ciudadano.getIdCdv() == null) {
+            if (this.cdv == "0") {
                 JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
+                int id = Integer.parseInt(cdv);
+                ciudadano.setIdCdv(cdvModel.obtenerCDV(id));
                 ciudadano.setImg(ciudadano.getDui() + '_' + imagen.getSubmittedFileName());
                 int resultado = ciudadanoModel.ingresarCiudadano(ciudadano);
                 if (resultado == 1) {

@@ -47,14 +47,20 @@ $(document).ready(function(){
         $('#municipiosWS').empty();
         $('#cdvWS').empty();
         llenarMunicipios(id);
-        $('#cdvWS').append(new Option('Seleccione una opcion',1));
+        $('#cdvWS').append(new Option('Seleccione una opcion',0));
     })
     
     $('#municipiosWS').on('change',function(){
         var id = $('#municipiosWS').val();
         $('#cdvWS').empty();
-        $('#cdvWS').append(new Option('Seleccione una opcion',1));
+        $('#cdvWS').append(new Option('Seleccione una opcion',0));
         llenarCDV(id);
+    })
+    
+    $('#cdvWS').on('change',function(){
+        var id = $('#cdvWS').val();
+        console.log(id);
+        $('#cdvValue').val(id);
     })
 })
 

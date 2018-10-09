@@ -25,6 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +34,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Ciudadano")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CiudadanoEntity.findAll", query = "SELECT c FROM CiudadanoEntity c")
     , @NamedQuery(name = "CiudadanoEntity.findById", query = "SELECT c FROM CiudadanoEntity c WHERE c.id = :id")
@@ -172,6 +175,7 @@ public class CiudadanoEntity implements Serializable {
         this.genero = genero;
     }
 
+    @XmlTransient
     public List<UsuarioEntity> getUsuarioEntityList() {
         return usuarioEntityList;
     }
@@ -180,6 +184,7 @@ public class CiudadanoEntity implements Serializable {
         this.usuarioEntityList = usuarioEntityList;
     }
 
+    @XmlTransient
     public List<DetalleCEEntity> getDetalleCEEntityList() {
         return detalleCEEntityList;
     }
@@ -204,6 +209,7 @@ public class CiudadanoEntity implements Serializable {
         this.idEstado = idEstado;
     }
 
+    @XmlTransient
     public List<CandidatoEntity> getCandidatoEntityList() {
         return candidatoEntityList;
     }

@@ -176,7 +176,7 @@ public class UsuarioBean {
             this.clave = PasswordGenerator.getPassword(PasswordGenerator.MINUSCULAS + PasswordGenerator.MAYUSCULAS + PasswordGenerator.ESPECIALES, 10);
             System.out.println(clave);
             usuario.setPassword(SecurityUtils.encriptarSHA(this.clave));
-            usuario.setIdMunicipio(municipioModel.obtenerMunicipio(1));
+            usuario.setIdDepartamento(departamentoModel.obtenerDepartamento(1));
             int resultado = usuarioModel.insertarUsuario(usuario);
             if (resultado == 1) {
                 //Envio de correo

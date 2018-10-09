@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,6 +31,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Municipio")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MunicipioEntity.findAll", query = "SELECT m FROM MunicipioEntity m")
     , @NamedQuery(name = "MunicipioEntity.findById", query = "SELECT m FROM MunicipioEntity m WHERE m.id = :id")
@@ -48,8 +51,6 @@ public class MunicipioEntity implements Serializable {
     private int ciudadanos;
     @Transient
     private String cdv;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
-    private List<UsuarioEntity> usuarioEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
     private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_departamento", referencedColumnName = "id")
@@ -86,14 +87,7 @@ public class MunicipioEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<UsuarioEntity> getUsuarioEntityList() {
-        return usuarioEntityList;
-    }
-
-    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
-        this.usuarioEntityList = usuarioEntityList;
-    }
-
+    @XmlTransient
     public List<CandidatoEntity> getCandidatoEntityList() {
         return candidatoEntityList;
     }
@@ -110,6 +104,7 @@ public class MunicipioEntity implements Serializable {
         this.idDepartamento = idDepartamento;
     }
 
+    @XmlTransient
     public List<CDVEntity> getCDVEntityList() {
         return cDVEntityList;
     }

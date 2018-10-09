@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  *
  * @author GuillermoCalderón
  */
-@WebFilter(filterName = "Filtro", urlPatterns = {"/*"})
+@WebFilter(filterName = "Filtro", urlPatterns = {"/prueba"})
 public class Filtro implements Filter {
 
     private static final boolean debug = false;

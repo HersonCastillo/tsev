@@ -37,4 +37,8 @@ public class MunicipioModel {
         lista.addAll(query.getResultList());
         return lista;
     }
+    
+    public MunicipioEntity obtenerMunicipio(int id){
+        return em.find(MunicipioEntity.class, id);
+    }
 }

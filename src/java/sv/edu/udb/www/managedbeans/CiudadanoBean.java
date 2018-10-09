@@ -7,18 +7,17 @@ package sv.edu.udb.www.managedbeans;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.InputStream;
+import javax.inject.Named;
+import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-import sv.edu.udb.www.entities.CDVEntity;
 import sv.edu.udb.www.entities.CiudadanoEntity;
 import sv.edu.udb.www.entities.DepartamentoEntity;
 import sv.edu.udb.www.entities.MunicipioEntity;
@@ -33,30 +32,21 @@ import sv.edu.udb.www.utils.JsfUtils;
  * @author kevin
  */
 @Named(value = "ciudadanoBean")
-@RequestScoped
-public class CiudadanoBean {
+@SessionScoped
+public class CiudadanoBean implements Serializable {
 
     @EJB
-    private CDVModel cDVModel;
-    @EJB
-    private MunicipioModel municipioModel;
-    @EJB
-    private DepartamentoModel departamentoModel;
+    private CDVModel cdvModel;
     @EJB
     private CiudadanoModel ciudadanoModel;
 
     private static CiudadanoEntity ciudadano = new CiudadanoEntity();
     private List<CiudadanoEntity> listaCiudadanos;
-    private List<DepartamentoEntity> listaDepartamentos;
-    private static List<MunicipioEntity> listaMunicipiosPorDepartamento;
-    private static List<CDVEntity> listaCDVPorMunicipio;
     private static boolean editable;
     private static String respuesta = "";
     private Part imagen;
-    private static DepartamentoEntity departamento;
-    private static MunicipioEntity municipio;
-    private String direccion;
-
+    private String cdv = "0";
+    
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
     String realPath = (String) servletContext.getRealPath("/resources/img/ciudadanos");
@@ -101,54 +91,14 @@ public class CiudadanoBean {
         this.imagen = imagen;
     }
 
-    public List<DepartamentoEntity> getListaDepartamentos() {
-        return departamentoModel.listaDepartamentosCombo();
+    public String getCdv() {
+        return cdv;
     }
 
-    public void setListaDepartamentos(List<DepartamentoEntity> listaDepartamentos) {
-        this.listaDepartamentos = listaDepartamentos;
+    public void setCdv(String cdv) {
+        this.cdv = cdv;
     }
-
-    public List<MunicipioEntity> getListaMunicipiosPorDepartamento() {
-        return listaMunicipiosPorDepartamento;
-    }
-
-    public void setListaMunicipiosPorDepartamento(List<MunicipioEntity> listaMunicipiosPorDepartamento) {
-        this.listaMunicipiosPorDepartamento = listaMunicipiosPorDepartamento;
-    }
-
-    public List<CDVEntity> getListaCDVPorMunicipio() {
-        return listaCDVPorMunicipio;
-    }
-
-    public void setListaCDVPorMunicipio(List<CDVEntity> listaCDVPorMunicipio) {
-        this.listaCDVPorMunicipio = listaCDVPorMunicipio;
-    }
-
-    public DepartamentoEntity getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(DepartamentoEntity departamento) {
-        this.departamento = departamento;
-    }
-
-    public MunicipioEntity getMunicipio() {
-        return municipio;
-    }
-
-    public void setMunicipio(MunicipioEntity municipio) {
-        this.municipio = municipio;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
+    
     public void guardarImagen(String dui) {
         try {
             InputStream in = imagen.getInputStream();
@@ -198,31 +148,10 @@ public class CiudadanoBean {
     }
 
     public String ingresarCiudadano() {
-        this.departamento = null;
-        this.municipio = null;
         this.editable = false;
         this.ciudadano = new CiudadanoEntity();
         this.respuesta = "";
         return "ingresoCiudadano?faces-redirect=true";
-    }
-
-    public void cambiarMunicipios() {
-        if (this.departamento != null && this.departamento.getId() != 1) {
-            this.listaMunicipiosPorDepartamento = municipioModel.listaMunicipiosPorDepartamento(departamento.getId());
-            this.listaCDVPorMunicipio = null;
-        } else {
-            this.listaMunicipiosPorDepartamento = null;
-            this.listaCDVPorMunicipio = null;
-
-        }
-    }
-
-    public void cambiarCDV() {
-        if (this.municipio != null && this.municipio.getId() != 1) {
-            this.listaCDVPorMunicipio = cDVModel.obtenerCDVPorMunicipio(municipio.getId());
-        } else {
-            this.listaCDVPorMunicipio = null;
-        }
     }
 
     public String insertar() {
@@ -243,26 +172,21 @@ public class CiudadanoBean {
                 JsfUtils.addErrorMessages("fechaNac", "El ciudadano debe ser mayor de 18");
             }
             //validar sexo
-            if(ciudadano.getGenero() == 0){
+            if (ciudadano.getGenero() == 0) {
                 JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
-            //validar direccion
-            if (this.direccion.trim().equals("") || this.direccion.trim().length() == 0) {
-                JsfUtils.addErrorMessages("direccion", "La direccion es necesaria");
-            }
             //validar cdv
-            if (ciudadano.getIdCdv() == null) {
+            if (this.cdv == "0") {
                 JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
-                ciudadano.setDireccion(direccion);
+                int id = Integer.parseInt(cdv);
+                ciudadano.setIdCdv(cdvModel.obtenerCDV(id));
                 ciudadano.setImg(ciudadano.getDui() + '_' + imagen.getSubmittedFileName());
                 int resultado = ciudadanoModel.ingresarCiudadano(ciudadano);
                 if (resultado == 1) {
                     guardarImagen(ciudadano.getDui());
                     this.respuesta = "Ciudadano ingresado";
-                    this.departamento = null;
-                    this.municipio = null;
                     ciudadano = new CiudadanoEntity();
                     return "listaCiudadanos?faces-redirect=true";
                 }
@@ -276,31 +200,22 @@ public class CiudadanoBean {
             return null;
         }
     }
-    
-    public String cancelar(){
+
+    public String cancelar() {
         ciudadano = new CiudadanoEntity();
-        this.municipio = null;
         this.editable = false;
         this.ciudadano = new CiudadanoEntity();
         this.respuesta = "";
-        this.direccion = "";
-        this.listaMunicipiosPorDepartamento = null;
-        this.listaCDVPorMunicipio = null;
         return "listaCiudadanos?faces-redirect=true";
     }
-    
-    public String obtenerCiudadano(int id){
+
+    public String obtenerCiudadano(int id) {
         ciudadano = ciudadanoModel.obtenerCiudadano(id);
         editable = true;
-        departamento = ciudadano.getIdCdv().getIdMunicipio().getIdDepartamento();
-        listaMunicipiosPorDepartamento = municipioModel.listaMunicipiosPorDepartamento(departamento.getId());
-        municipio = ciudadano.getIdCdv().getIdMunicipio();
-        listaCDVPorMunicipio = cDVModel.obtenerCDVPorMunicipio(municipio.getId());
-        direccion = ciudadano.getDireccion();
         return "ingresoCiudadano?faces-redirect=true";
     }
-    
-    public String actualizar(){
+
+    public String actualizar() {
         try {
             //validar fecha
             Date now = new Date();
@@ -314,31 +229,24 @@ public class CiudadanoBean {
                 JsfUtils.addErrorMessages("fechaNac", "El ciudadano debe ser mayor de 18");
             }
             //validar sexo
-            if(ciudadano.getGenero() == 0){
+            if (ciudadano.getGenero() == 0) {
                 JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
-            }
-            //validar direccion
-            if (this.direccion.trim().equals("") || this.direccion.trim().length() == 0) {
-                JsfUtils.addErrorMessages("direccion", "La direccion es necesaria");
             }
             //validar cdv
             if (ciudadano.getIdCdv() == null) {
                 JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
-                ciudadano.setDireccion(direccion);
                 String fotoAnterior = ciudadano.getImg();
-                if(!imagen.getSubmittedFileName().equals("")){
+                if (!imagen.getSubmittedFileName().equals("")) {
                     ciudadano.setImg(ciudadano.getDui() + '_' + imagen.getSubmittedFileName());
                 }
                 int resultado = ciudadanoModel.actualizarCiudadano(ciudadano);
                 if (resultado == 1) {
-                    if(!imagen.getSubmittedFileName().equals("")){
+                    if (!imagen.getSubmittedFileName().equals("")) {
                         this.borrarImagen(fotoAnterior);
                     }
                     this.respuesta = "Ciudadano actualizado";
-                    this.departamento = null;
-                    this.municipio = null;
                     this.editable = false;
                     ciudadano = new CiudadanoEntity();
                     return "listaCiudadanos?faces-redirect=true";
@@ -353,14 +261,15 @@ public class CiudadanoBean {
             return null;
         }
     }
-    
-    public String desactivar(int id){
-        try{
+
+    public String desactivar(int id) {
+        try {
             ciudadanoModel.eliminarCiudadano(id);
             this.respuesta = "Estado cambiado";
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("Error desacivando ciudadano (bean) - " + ex.toString());
         }
         return null;
     }
+
 }

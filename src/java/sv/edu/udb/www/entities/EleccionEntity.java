@@ -25,6 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,6 +34,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "Eleccion")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EleccionEntity.findAll", query = "SELECT e FROM EleccionEntity e")
     , @NamedQuery(name = "EleccionEntity.findById", query = "SELECT e FROM EleccionEntity e WHERE e.id = :id")
@@ -121,6 +124,7 @@ public class EleccionEntity implements Serializable {
         this.fechRealizacion = fechRealizacion;
     }
 
+    @XmlTransient
     public List<DetalleCEEntity> getDetalleCEEntityList() {
         return detalleCEEntityList;
     }
@@ -145,6 +149,7 @@ public class EleccionEntity implements Serializable {
         this.idEstado = idEstado;
     }
 
+    @XmlTransient
     public List<CandidatoEntity> getCandidatoEntityList() {
         return candidatoEntityList;
     }
@@ -153,6 +158,7 @@ public class EleccionEntity implements Serializable {
         this.candidatoEntityList = candidatoEntityList;
     }
 
+    @XmlTransient
     public List<JRVEntity> getJRVEntityList() {
         return jRVEntityList;
     }

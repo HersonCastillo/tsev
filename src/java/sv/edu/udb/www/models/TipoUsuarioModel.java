@@ -10,30 +10,25 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import sv.edu.udb.www.entities.CDVEntity;
+import sv.edu.udb.www.entities.TipoUsuarioEntity;
 
 /**
  *
  * @author kevin
  */
 @Stateless
-public class CDVModel {
+public class TipoUsuarioModel {
 
     @PersistenceContext(unitName = "TSEVPU")
     private EntityManager em;
-    
-    public List<CDVEntity> obtenerCDVPorMunicipio(int id){
+
+    public List<TipoUsuarioEntity> listaTipos(){
         try{
-            Query query = em.createQuery("SELECT c FROM CDVEntity c WHERE c.idMunicipio.id = :municipio");
-            query.setParameter("municipio", id);
+            Query query = em.createQuery("SELECT t FROM TipoUsuarioEntity t WHERE t.id != 4");
             return query.getResultList();
         }catch(Exception ex){
-            System.out.println("Error obteniendo la lista filtrada de CDV (model) - " + ex.toString());
+            System.out.println("Error obteniendo lista de tipos de usuario (model) - " + ex.toString());
             return null;
         }
-    }
-    
-    public CDVEntity obtenerCDV(int id){
-        return em.find(CDVEntity.class, id);
     }
 }

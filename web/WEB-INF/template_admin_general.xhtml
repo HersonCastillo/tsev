@@ -6,7 +6,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>TSE-<ui:insert name="titulo"/></title>
+        <title>TSE -<ui:insert name="titulo"/></title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <!--css-->
         <h:outputStylesheet name="css/estilo.css"/>
@@ -46,7 +46,7 @@
         <div id="container" class="container-fluid p-0">
             <div id="sidebar" class="col-md-2 col-sm-12 position-fixed bg-dark p-0">
                 <div class="">
-                    <img id="img-perfil" src="../javax.faces.resource/img/badge.png"/>
+                    <img id="img-perfil" src="#{pageContext.request.contextPath}/tsev/faces/javax.faces.resource/img/badge.png"/>
                 </div>
                 <div class="pos-f-t">
                     <nav class="navbar navbar-dark bg-dark">
@@ -62,7 +62,7 @@
                                 <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Partidos" outcome="/AdministradorGeneral/listaPartidos"/>
                                 <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Departamentos" outcome="/AdministradorGeneral/listaDepartamentos"/>
                                 <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Municipios" outcome="/AdministradorGeneral/listaMunicipios"/>
-                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Usuarios" outcome="/AdministradorGeneral/listaElecciones"/>
+                                <h:link styleClass="list-group-item list-group-item-action list-group-item-dark txt-dark" value="Usuarios" outcome="/AdministradorGeneral/listaUsuarios"/>
                             </ul>
                         </div>
                     </div>

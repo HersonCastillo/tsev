@@ -41,4 +41,8 @@ public class DepartamentoModel {
             return null;
         }
     }
+    
+    public DepartamentoEntity obtenerDepartamento(int id){
+        return em.find(DepartamentoEntity.class, id);
+    }
 }

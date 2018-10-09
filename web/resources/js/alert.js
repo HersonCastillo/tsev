@@ -7,13 +7,13 @@ $(document).ready(function () {
     });
 
     var texto = $('#respuesta').val();
-    console.log(texto);
     if (texto != "" && texto != undefined) {
         toast({
             type: 'success',
             title: texto
         })
     }
+    
     var error = $("#error").val();
     if (error != "" && error != undefined) {
         toast({
@@ -34,12 +34,12 @@ $(document).ready(function () {
         }
     });
 
-    $("#departamento").change(function () {
+    /*$("#departamento").change(function () {
         $("#cambiarMunicipios").click();
     });
     $("#municipio").change(function () {
         $("#cambiarCDV").click();
-    });
+    });*/
 })
 
 function confirmacion(msg) {

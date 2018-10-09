@@ -21,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -28,9 +30,9 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Usuario")
+@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UsuarioEntity.findAll", query = "SELECT u FROM UsuarioEntity u")
-    ,@NamedQuery(name = "UsuarioEntity.checkLogin", query = "SELECT u FROM UsuarioEntity u WHERE u.correo=:correo AND u.password=:password")
     , @NamedQuery(name = "UsuarioEntity.findById", query = "SELECT u FROM UsuarioEntity u WHERE u.id = :id")
     , @NamedQuery(name = "UsuarioEntity.findByCorreo", query = "SELECT u FROM UsuarioEntity u WHERE u.correo = :correo")
     , @NamedQuery(name = "UsuarioEntity.findByPassword", query = "SELECT u FROM UsuarioEntity u WHERE u.password = :password")})
@@ -55,9 +57,9 @@ public class UsuarioEntity implements Serializable {
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoUsuarioEntity idTipo;
-    @JoinColumn(name = "id_municipio", referencedColumnName = "id")
+    @JoinColumn(name = "id_departamento", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private MunicipioEntity idMunicipio;
+    private DepartamentoEntity idDepartamento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private List<DetalleUJEntity> detalleUJEntityList;
 
@@ -114,14 +116,15 @@ public class UsuarioEntity implements Serializable {
         this.idTipo = idTipo;
     }
 
-    public MunicipioEntity getIdMunicipio() {
-        return idMunicipio;
+    public DepartamentoEntity getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setIdMunicipio(MunicipioEntity idMunicipio) {
-        this.idMunicipio = idMunicipio;
+    public void setIdDepartamento(DepartamentoEntity idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 
+    @XmlTransient
     public List<DetalleUJEntity> getDetalleUJEntityList() {
         return detalleUJEntityList;
     }

@@ -121,7 +121,7 @@ public class eleccionBean {
             if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
                 int resultado = eleccionModel.insertarEleccion(eleccion);
                 if(resultado == 1){
-                    this.respuesta = "Eleccion ingresada corrrectamente";
+                    this.respuesta = "Eleccion ingresada";
                     eleccion = new EleccionEntity();
                     return "listaElecciones?faces-redirect=true";
                 }
@@ -174,7 +174,7 @@ public class eleccionBean {
             if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
                 int resultado = eleccionModel.actualizarEleccion(eleccion);
                 if(resultado == 1){
-                    this.respuesta = "Eleccion actualizada corrrectamente";
+                    this.respuesta = "Eleccion actualizada";
                     eleccion = new EleccionEntity();
                     this.editando = false;
                     return "listaElecciones?faces-redirect=true";

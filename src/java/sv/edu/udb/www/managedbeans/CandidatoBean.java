@@ -120,7 +120,7 @@ public class CandidatoBean {
         try{
             CiudadanoEntity ciudadano = ciudadanoModel.obtenerCiudadanoPorDUI(this.dui);
             if(ciudadano == null){
-                JsfUtils.addErrorMesages("dui", "No se encontro ningun ciudadano con el numero de DUI ingresado");
+                JsfUtils.addErrorMesages("dui", "No se encontro ningun ciudadano con el numero de DUI ingresado o la persona ya esta fallecida");
                 return null;
             }
             candidato.setIdCiudano(ciudadano);

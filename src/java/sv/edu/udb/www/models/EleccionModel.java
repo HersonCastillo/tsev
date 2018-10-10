@@ -65,7 +65,7 @@ public class EleccionModel {
     }
 
     public List<EleccionEntity> obtenerElecciones() {
-        Query query = em.createNamedQuery("EleccionEntity.findAll");
+        Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idEstado.id != 3");
         return query.getResultList();
     }
 

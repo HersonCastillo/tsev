@@ -47,8 +47,6 @@ public class DepartamentoEntity implements Serializable {
     private String descripcion;
     @Transient
     private int ciudadanos;
-    @Transient
-    private String municipios = "";
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
     private List<UsuarioEntity> usuarioEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
@@ -105,7 +103,11 @@ public class DepartamentoEntity implements Serializable {
         try{
             for(MunicipioEntity municipio:this.getMunicipioEntityList()){
                 for(CDVEntity cdv: municipio.getCDVEntityList()){
-                    ciudadanos += cdv.getCiudadanoEntityList().size();
+                    for(CiudadanoEntity ciudadano:cdv.getCiudadanoEntityList()){
+                        if(ciudadano.getIdEstado().getId() == 1 && ciudadano.getId() != 1){
+                            ciudadanos += 1;
+                        }
+                    }
                 }
             }
         }catch(Exception ex){
@@ -117,24 +119,6 @@ public class DepartamentoEntity implements Serializable {
     public void setCiudadanos(int ciudadanos) {
         this.ciudadanos = ciudadanos;
     }
-
-    public String getMunicipios() {
-        try{
-            for(MunicipioEntity municipio:this.getMunicipioEntityList()){
-                this.municipios += municipio.getDescripcion();
-                this.municipios += ", ";
-            }
-            this.municipios = municipios.substring(0, municipios.length() - 2);
-        }catch(Exception ex){
-            this.municipios  = "";
-        }
-        return municipios;
-    }
-
-    public void setMunicipios(String municipios) {
-        this.municipios = municipios;
-    }
-
     
     @Override
     public int hashCode() {

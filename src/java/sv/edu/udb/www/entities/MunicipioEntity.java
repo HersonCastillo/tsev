@@ -49,8 +49,6 @@ public class MunicipioEntity implements Serializable {
     private String descripcion;
     @Transient
     private int ciudadanos;
-    @Transient
-    private String cdv;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
     private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_departamento", referencedColumnName = "id")
@@ -115,11 +113,15 @@ public class MunicipioEntity implements Serializable {
 
     public int getCiudadanos() {
         this.ciudadanos = 0;
-        try{
-            for(CDVEntity c:this.getCDVEntityList()){
-                ciudadanos += c.getCiudadanoEntityList().size();
+        try {
+            for (CDVEntity c : this.getCDVEntityList()) {
+                for (CiudadanoEntity ciudadano : c.getCiudadanoEntityList()) {
+                    if (ciudadano.getIdEstado().getId() == 1 && ciudadano.getId() != 1) {
+                        ciudadanos += 1;
+                    }
+                }
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             this.ciudadanos = 0;
         }
         return ciudadanos;
@@ -127,24 +129,6 @@ public class MunicipioEntity implements Serializable {
 
     public void setCiudadanos(int ciudadanos) {
         this.ciudadanos = ciudadanos;
-    }
-
-    public String getCdv() {
-        this.cdv ="";
-        try{
-            for(CDVEntity c:this.getCDVEntityList()){
-                cdv += c.getDireccion().toString();
-                cdv += ", ";
-            }
-            this.cdv = cdv.substring(0, cdv.length()-2);
-        }catch(Exception ex){
-            this.cdv = "";
-        }
-        return cdv;
-    }
-
-    public void setCdv(String cdv) {
-        this.cdv = cdv;
     }
 
     @Override
@@ -171,5 +155,5 @@ public class MunicipioEntity implements Serializable {
     public String toString() {
         return "sv.edu.udb.www.entities.MunicipioEntity[ id=" + id + " ]";
     }
-    
+
 }

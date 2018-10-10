@@ -101,7 +101,7 @@ public class partidoBean {
             partido.setImg(partido.getNombre() + random + "_" + imagen.getSubmittedFileName());
             int resultado = partidoModel.insertarPartido(partido);
             if (resultado == 1) {
-                this.respuesta = "Partido insertado correctamente";
+                this.respuesta = "Partido insertado";
                 guardarImagen(partido.getNombre(), random);
                 partido = new PartidoEntity();
                 return "listaPartidos?faces-redirect=true";
@@ -120,7 +120,7 @@ public class partidoBean {
             int resultado = partidoModel.eliminarPartido(id);
             this.respuesta = "";
             if (resultado == 1) {
-                this.respuesta = "Partido deshabilitado correctamente";
+                this.respuesta = "Partido deshabilitado";
             }
         } catch (Exception ex) {
             System.out.println("Error deshabilitando partido - " + ex.toString());
@@ -149,7 +149,7 @@ public class partidoBean {
             }
             int resultado = partidoModel.actualizarPartido(partido);
             if (resultado == 1) {
-                this.respuesta = "Partido actualizado correctamente";
+                this.respuesta = "Partido actualizado";
                 if(!imagen.getSubmittedFileName().equals("")){
                     this.borrarImagen(imagenAntigua,random);
                 }

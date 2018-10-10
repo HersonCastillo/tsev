@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import sv.edu.udb.www.entities.CiudadanoEntity;
 import sv.edu.udb.www.entities.DepartamentoEntity;
 import sv.edu.udb.www.entities.MunicipioEntity;
@@ -52,6 +53,8 @@ public class UsuarioBean {
     private static String error = "";
     private static String dui = "";
     private String clave = "";
+    private String nueva = "";
+    private String confirmacion = "";
 
     public UsuarioEntity getUsuario() {
         return usuario;
@@ -115,6 +118,30 @@ public class UsuarioBean {
 
     public void setListaDepartamentos(List<DepartamentoEntity> listaDepartamentos) {
         this.listaDepartamentos = listaDepartamentos;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getNueva() {
+        return nueva;
+    }
+
+    public void setNueva(String nueva) {
+        this.nueva = nueva;
+    }
+
+    public String getConfirmacion() {
+        return confirmacion;
+    }
+
+    public void setConfirmacion(String confirmacion) {
+        this.confirmacion = confirmacion;
     }
 
     public String ingresarUsuario() {
@@ -243,6 +270,33 @@ public class UsuarioBean {
         }catch(Exception ex){
             this.error = "No se pudo reinciar";
             System.out.println("Error reiniciando usuario - " + ex.toString());
+        }
+        return null;
+    }
+    
+    public String cambiarClave(){
+        try{
+            //Validar clave
+            if(!this.nueva.equals(this.confirmacion)){
+                JsfUtils.addErrorMesages("nueva", "La nueva clave y su confirmacion no coinciden");
+            }
+            //Validar que exista
+            UsuarioEntity user = usuarioModel.obtenerUsuarioPorClave(userID, SecurityUtils.encriptarSHA(this.clave));
+            if(user == null){
+                JsfUtils.addErrorMesages("clave", "La clave antigua no coincide");
+            }
+            if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
+                user.setPassword(SecurityUtils.encriptarSHA(this.nueva));
+                int resultado = usuarioModel.actualizarUsuario(user);
+                if(resultado == 1){
+                    this.respuesta = "Clave cambiada";
+                }else{
+                    JsfUtils.addErrorMesages(null, "No se pudo cambiar la clave");
+                }
+            }
+        }catch(Exception ex){
+            System.out.println("Error cambiando clave (bean) - " + ex.toString());
+            JsfUtils.addErrorMesages(null, "No se pudo cambiar la clave");
         }
         return null;
     }

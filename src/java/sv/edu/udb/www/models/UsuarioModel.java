@@ -88,4 +88,16 @@ public class UsuarioModel {
             return -1;
         }
     }
+    
+    public UsuarioEntity obtenerUsuarioPorClave(int id, String clave){
+        try{
+            Query query = em.createQuery("SELECT u FROM UsuarioEntity u WHERE u.id = :id AND u.password = :clave");
+            query.setParameter("id", id);
+            query.setParameter("clave", clave);
+            return (UsuarioEntity) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo el usuario por id y clave (model) - " + ex.toString());
+            return null;
+        }
+    }
 }

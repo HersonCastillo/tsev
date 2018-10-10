@@ -19,43 +19,44 @@ import sv.edu.udb.www.utils.JsfUtils;
 public class LoginBean implements Serializable {
 
     @EJB
-    private LoginModel usuariosModel;
+    private LoginModel loginModel;
 
-
+    private String error = "";
     private String usuario;
     private String password;
-    
 
     public String validaLogin() throws Exception {
-        UsuarioEntity u = usuariosModel.login(usuario, password);
+        UsuarioEntity u = loginModel.login(usuario, password);
         if (u != null) {
-            HttpServletRequest request= JsfUtils.getRequest();
+            HttpServletRequest request = JsfUtils.getRequest();
             request.getSession().setAttribute("user", u.getIdCiudadano().getNombre());
             request.getSession().setAttribute("id", u.getId());
-            request.getSession().setAttribute("tipo",u.getIdTipo().getId());
-            if (null != u.getIdTipo().getId()) 
-            switch (u.getIdTipo().getId()) {
-                case 1:
-                    return "/AdministradorGeneral/admingen?faces-redirect=true";
-                case 2:
-                    return "/EmpleadoRNPN/listaCiudadanos?faces-redirect=true";
-                case 3:
-                    return "/admin/admindep?faces-redirect=true";
-                case 4:
-                    return "/presidente/president?faces-redirect=true";
-                default:
-                    break;
+            request.getSession().setAttribute("tipo", u.getIdTipo().getId());
+            if (null != u.getIdTipo().getId()) {
+                this.error = "";
+                switch (u.getIdTipo().getId()) {
+                    case 1:
+                        return "/AdministradorGeneral/admingen?faces-redirect=true";
+                    case 2:
+                        return "/EmpleadoRNPN/listaCiudadanos?faces-redirect=true";
+                    case 3:
+                        return "/admin/admindep?faces-redirect=true";
+                    case 4:
+                        return "/presidente/president?faces-redirect=true";
+                    default:
+                        break;
+                }
             }
         }
+        this.error = "Error";
         return null;
 
     }
-    
-    public String logOut(){
+
+    public String logOut() {
         JsfUtils.getRequest().getSession().invalidate();
         return "/login?faces-redirect=true";
     }
-            
 
     public LoginBean() {
     }
@@ -76,6 +77,12 @@ public class LoginBean implements Serializable {
         this.password = password;
     }
 
-    
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
 }

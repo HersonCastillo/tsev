@@ -127,31 +127,47 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3 col-sm-12">
-                                <h:outputLabel value="Departamento:" for="departamento" />
+                                <h:outputLabel value="Departamento:" for="departamentosWS" />
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">*</span>
                                     </div>
-                                    <h:selectOneMenu id="departamento" value="#{ciudadanoBean.departamento}"  
-                                                     styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
-                                        <f:selectItems value="#{ciudadanoBean.listaDepartamentos}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
-                                        <f:ajax render="@form"/>
-                                    </h:selectOneMenu>
+                                    <select name="departamentos" id="departamentosWS" class="form-control"></select>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-12">
-                                <h:outputLabel value="Municipio:" for="municipio" />
+                                <h:outputLabel value="Municipio:" for="municipiosWS" />
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text" id="basic-addon3">*</span>
                                     </div>
-                                    <h:selectOneMenu id="municipio" value="#{ciudadanoBean.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" converterMessage="No se puede convertir">
-                                        <f:selectItems value="#{ciudadanoBean.listaMunicipios}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
-                                        
-                                    </h:selectOneMenu>
+                                    <select name="municipios" id="municipiosWS" class="form-control">
+                                        <option value="1">Seleccione una opcion</option>
+                                    </select>
                                 </div>
                             </div>
-
+                            <div class="col-md-3 col-sm-12">
+                                <h:outputLabel value="Direccion:" for="direccion"/>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:inputText id="direccion" value="#{ciudadanoBean.ciudadano.direccion}" styleClass="form-control"
+                                                 required="true" requiredMessage="La direccion es necesaria"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-12">
+                                <h:outputLabel value="CDV:" for="cdvWS" />
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon3">*</span>
+                                    </div>
+                                    <h:inputHidden id="cdvValue" value="#{ciudadanoBean.cdv}"/>
+                                    <select name="cdv" id="cdvWS" class="form-control">
+                                        <option value="0">Seleccione una opcion</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <h:commandButton value="Insertar" styleClass="btn btn-success mr-2" action="#{ciudadanoBean.insertar()}" rendered="#{!ciudadanoBean.editable}"/>

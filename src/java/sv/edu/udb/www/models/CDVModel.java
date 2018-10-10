@@ -32,4 +32,8 @@ public class CDVModel {
             return null;
         }
     }
+    
+    public CDVEntity obtenerCDV(int id){
+        return em.find(CDVEntity.class, id);
+    }
 }

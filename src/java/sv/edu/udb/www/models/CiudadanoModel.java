@@ -86,7 +86,7 @@ public class CiudadanoModel {
     
     public CiudadanoEntity obtenerCiudadanoPorDUI(String dui){
         try{
-            Query query = em.createQuery("SELECT c FROM CiudadanoEntity c WHERE c.dui = :dui");
+            Query query = em.createQuery("SELECT c FROM CiudadanoEntity c WHERE c.dui = :dui AND c.idEstado.id = 1 AND c.dui != '00000000-0'");
             query.setParameter("dui", dui);
             return (CiudadanoEntity) query.getSingleResult();
         }catch(Exception ex){

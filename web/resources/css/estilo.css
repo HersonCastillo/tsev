@@ -9,19 +9,19 @@ and open the template in the editor.
 */
 @media screen and (min-width: 1215px){
     #menu{
-        margin-left: 78%;
+        margin-left: 83%;
     }
 }
 
 @media screen and (max-width: 1215px) and (min-width: 1073px){
     #menu{
-        margin-left: 75%;
+        margin-left: 80%;
     }
 }
 
 @media screen and (max-width: 1073px) and (min-width: 992px){
     #menu{
-        margin-left: 73%;
+        margin-left: 79%;
     }
 }
 
@@ -33,6 +33,9 @@ and open the template in the editor.
     #sidebar{
         height: 100%;
         overflow: auto;
+    }
+    #botones{
+        display: none;
     }
 }
 
@@ -47,7 +50,11 @@ and open the template in the editor.
     #contenido{
         padding-top: 64px !important;
     }
+    #combo{
+        display: none;
+    }
 }
+
 #sidebar{
     z-index: 1000000;
 }

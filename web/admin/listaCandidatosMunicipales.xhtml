@@ -1,0 +1,63 @@
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template_admin_dep.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Candidatos
+    </ui:define>
+
+    <ui:define name="contenido">
+        <input type="hidden" id="respuesta" value="#{candidatoBean.respuesta}"/>
+        <div class="row" >
+            <h1 class="text-center mx-auto">Lista de candidatos</h1>
+        </div>
+        <div class="row pl-2 mb-2" style="margin-left: 5px;">
+            <h:form>
+                <h:commandButton value="Nuevo candidato" action="#{candidatoBean.ingresarM()}" styleClass="btn btn-primary"/>
+            </h:form>
+        </div>
+        <div class="row p-2" style="background-color: #fefefe; margin-left: 5px; margin-right: 5px; padding: 3px;
+                     border: 0.4px solid black; border-radius: 3px;">
+            <f:view>
+                <h:form styleClass="col-sm-12" prependId="false">
+                    <h:dataTable id="data" styleClass="table table-hover text-center" value="#{candidatoBean.listaCandidatos}" var="item">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ciudadano"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCiudano.nombre} #{item.idCiudano.apellido}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DUI"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCiudano.dui}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="DUI"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idMunicipio.descripcion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Partido"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idPartido.nombre}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Operaciones"/>
+                            </f:facet>
+                            <h:commandButton value="Modificar" action="#{candidatoBean.obtenerCandidato(item.id)}" styleClass="btn btn-info mr-2"/>
+                            <h:commandButton value="Eliminar" action="#{candidatoBean.eliminarCandidato(item.id)}" onclick="return confirmacion('Seguro desea eliminar este candidato?')" styleClass="btn btn-danger"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+        </div>
+    </ui:define>
+
+</ui:composition>

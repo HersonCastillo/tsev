@@ -31,6 +31,7 @@ public class LoginBean implements Serializable {
             HttpServletRequest request = JsfUtils.getRequest();
             request.getSession().setAttribute("user", u.getIdCiudadano().getNombre());
             request.getSession().setAttribute("id", u.getId());
+            request.getSession().setAttribute("dep", u.getIdDepartamento().getId());
             request.getSession().setAttribute("tipo", u.getIdTipo().getId());
             if (null != u.getIdTipo().getId()) {
                 this.error = "";

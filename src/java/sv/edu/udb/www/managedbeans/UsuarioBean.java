@@ -35,8 +35,6 @@ public class UsuarioBean {
     @EJB
     private DepartamentoModel departamentoModel;
     @EJB
-    private MunicipioModel municipioModel;
-    @EJB
     private CiudadanoModel ciudadanoModel;
     @EJB
     private TipoUsuarioModel tipoUsuarioModel;
@@ -49,13 +47,10 @@ public class UsuarioBean {
     private List<UsuarioEntity> listaAdministradores;
     private List<TipoUsuarioEntity> listaTipos;
     private List<DepartamentoEntity> listaDepartamentos;
-    private List<MunicipioEntity> listaMunicipios;
     private static boolean editable;
     private static String respuesta = "";
     private static String error = "";
     private static String dui = "";
-    private DepartamentoEntity departamento = new DepartamentoEntity();
-    private MunicipioEntity municipio = new MunicipioEntity();
     private String clave = "";
 
     public UsuarioEntity getUsuario() {
@@ -122,46 +117,12 @@ public class UsuarioBean {
         this.listaDepartamentos = listaDepartamentos;
     }
 
-    public List<MunicipioEntity> getListaMunicipios() {
-        return listaMunicipios;
-    }
-
-    public void setListaMuicipios(List<MunicipioEntity> listaMunicipios) {
-        this.listaMunicipios = listaMunicipios;
-    }
-
-    public DepartamentoEntity getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(DepartamentoEntity departamento) {
-        this.departamento = departamento;
-    }
-
-    public MunicipioEntity getMunicipio() {
-        return municipio;
-    }
-
-    public void setMunicipio(MunicipioEntity municipio) {
-        this.municipio = municipio;
-    }
-    
-    public void cambiarMunicipios() {
-        if (this.departamento != null && this.departamento.getId() != 1) {
-            this.listaMunicipios = municipioModel.listaMunicipiosPorDepartamento(departamento.getId());
-        } else {
-            this.listaMunicipios = null;
-        }
-    }
-
     public String ingresarUsuario() {
         usuario = new UsuarioEntity();
         this.editable = false;
         this.respuesta = "";
         this.error = "";
         this.dui = "";
-        this.departamento = null;
-        this.municipio = null;
         return "ingresarUsuario?faces-redirect=true";
     }
 
@@ -169,14 +130,21 @@ public class UsuarioBean {
         try {
             CiudadanoEntity ciudadano = ciudadanoModel.obtenerCiudadanoPorDUI(dui);
             if (ciudadano == null) {
-                JsfUtils.addErrorMesages("dui", "No se encontro ningun ciudadano con el DUI ingresado");
+                JsfUtils.addErrorMesages("dui", "Nº DUI ingresado no esta registrado o la persona ya esta fallecida");
                 return null;
             }
             usuario.setIdCiudadano(ciudadano);
             this.clave = PasswordGenerator.getPassword(PasswordGenerator.MINUSCULAS + PasswordGenerator.MAYUSCULAS + PasswordGenerator.ESPECIALES, 10);
             System.out.println(clave);
             usuario.setPassword(SecurityUtils.encriptarSHA(this.clave));
-            usuario.setIdDepartamento(departamentoModel.obtenerDepartamento(1));
+            if (usuario.getIdTipo().getId() == 3) {
+                if (usuario.getIdDepartamento().getId() == 1) {
+                    JsfUtils.addErrorMesages("tipo", "Debe seleccinar el departamento");
+                    return null;
+                }
+            }else{
+                usuario.setIdDepartamento(departamentoModel.obtenerDepartamento(1));
+            }
             int resultado = usuarioModel.insertarUsuario(usuario);
             if (resultado == 1) {
                 //Envio de correo
@@ -200,8 +168,8 @@ public class UsuarioBean {
             return null;
         }
     }
-    
-    public String cancelar(){
+
+    public String cancelar() {
         this.respuesta = "";
         this.editable = false;
         this.error = "";
@@ -210,19 +178,72 @@ public class UsuarioBean {
         return "listaUsuarios?faces-redirect=true";
     }
 
-    public String eliminarUsuario(int id){
-        try{
+    public String eliminarUsuario(int id) {
+        try {
             int resultado = usuarioModel.eliminarUsuario(id);
-            if(resultado == 1){
+            if (resultado == 1) {
                 this.respuesta = "Usuario eliminado";
-            }else{
+            } else {
                 this.error = "No se pudo eliminar";
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             this.error = "No se pudo eliminar";
             System.out.println("Error eliminando usuario (bean) - " + ex.toString());
         }
         return null;
     }
+
+    public String obtenerUsuario(int id) {
+        this.usuario = usuarioModel.obtenerUsuario(id);
+        this.editable = true;
+        this.respuesta = "";
+        this.error = "";
+        this.dui = usuario.getIdCiudadano().getDui();
+        return "ingresarUsuario?faces-redirect=true";
+    }
+
+    public String actualizarUsuario() {
+        try {
+            if (usuario.getIdTipo().getId() == 3) {
+                if (usuario.getIdDepartamento().getId() == 1) {
+                    JsfUtils.addErrorMesages("tipo", "Debe seleccinar el departamento");
+                    return null;
+                }
+            }else{
+                usuario.setIdDepartamento(departamentoModel.obtenerDepartamento(1));
+            }
+            int resultado = usuarioModel.actualizarUsuario(usuario);
+            if (resultado == 1) {
+                this.respuesta = "Usuario actualizado";
+                this.usuario = new UsuarioEntity();
+                this.editable = false;
+                this.error = "";
+                this.dui = "";
+                return "listaUsuarios?faces-redirect=true";
+            }
+            JsfUtils.addErrorMesages(null, "El correo ya esta regitrado con otro usuario");
+            return null;
+        } catch (Exception ex) {
+            System.out.println("Error insertando usuario (bean) - " + ex.toString());
+            return null;
+        }
+    }
     
+    public String reiniciar(int id){
+        try{
+            UsuarioEntity user = usuarioModel.obtenerUsuario(id);
+            this.clave = "Pa$$w0rd";
+            user.setPassword(SecurityUtils.encriptarSHA(clave));
+            int resultado = usuarioModel.actualizarUsuario(user);
+            if(resultado == 1){
+                this.respuesta = "Usuario reiniciado";
+            }else{
+                this.error = "No se pudo reinciar";
+            }
+        }catch(Exception ex){
+            this.error = "No se pudo reinciar";
+            System.out.println("Error reiniciando usuario - " + ex.toString());
+        }
+        return null;
+    }
 }

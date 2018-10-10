@@ -32,14 +32,28 @@
             <a class="navbar-brand " href="#">TSE</a>
             <div id="menu">
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link active text-light mt-1 mb-1">Kevin Romero</a>
-                    </li>
-                    <li class="nav-item">
-                        <h:form>
-                            <h:commandButton immediate="true" value="Logout" styleClass="btn btn-outline-light mt-1 mb-1"/>
-                        </h:form>
-                    </li>
+                    <div id="combo">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-light mt-1 mb-1" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                #{sessionScope.user}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <h:form>
+                                    <h:link styleClass="dropdown-item" value="Cambiar clave" outcome="/General/cambiarPassword"/>
+                                    <h:commandLink immediate="true" action="#{loginBean.logOut()}" styleClass="dropdown-item" value="Logout"/>
+                                    <div class="dropdown-divider"></div>
+                                </h:form>
+                            </div>
+                        </li>
+                    </div>
+                    <div id="botones">
+                        <li class="nav-item">
+                            <h:form>
+                                <h:commandButton immediate="true" value="Cambiar clave" styleClass="btn btn-outline-light mt1 mb1 mr-1"/>
+                                <h:commandButton immediate="true" value="Logout" action="#{loginBean.logOut()}" styleClass="btn btn-outline-light mt-1 mb-1"/>
+                            </h:form>
+                        </li>
+                    </div>
                 </ul>
             </div>
         </header>

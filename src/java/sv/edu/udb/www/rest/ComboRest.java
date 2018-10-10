@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.www.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -34,27 +35,55 @@ public class ComboRest {
     private MunicipioModel municipioModel;
     @EJB
     private DepartamentoModel departamentoModel;
-    
+
     @GET
     @Path("/departamentos")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<DepartamentoEntity> listaDepartamentos(){
+    public List<DepartamentoEntity> listaDepartamentos() {
         return departamentoModel.listaDepartamentosCombo();
     }
-    
+
     @GET
     @Path("/municipios/{codigo}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<MunicipioEntity> listaMunicipios(@PathParam("codigo") String codigo){
+    public List<MunicipioEntity> listaMunicipios(@PathParam("codigo") String codigo) {
         int id = Integer.parseInt(codigo);
         return municipioModel.listaMunicipiosPorDepartamento(id);
     }
-    
+
     @GET
     @Path("/cdv/{codigo}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<CDVEntity> listaCDV(@PathParam("codigo") String codigo){
+    public List<CDVEntity> listaCDV(@PathParam("codigo") String codigo) {
         int id = Integer.parseInt(codigo);
         return cdvModel.obtenerCDVPorMunicipio(id);
+    }
+
+    @GET
+    @Path("/informacion/departamento/{codigo}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public int obtenerDepartamento(@PathParam("codigo") String codigo) {
+        try {
+            int id = Integer.parseInt(codigo);
+            CDVEntity cdv = cdvModel.obtenerCDV(id);
+            return cdv.getIdMunicipio().getIdDepartamento().getId();
+        } catch (Exception ex) {
+            System.out.println("Error en el WS - " + ex.toString());
+            return 1;
+        }
+    }
+    
+    @GET
+    @Path("/informacion/municipio/{codigo}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public int obtenerMunicipio(@PathParam("codigo") String codigo) {
+        try {
+            int id = Integer.parseInt(codigo);
+            CDVEntity cdv = cdvModel.obtenerCDV(id);
+            return cdv.getIdMunicipio().getId();
+        } catch (Exception ex) {
+            System.out.println("Error en el WS - " + ex.toString());
+            return 1;
+        }
     }
 }

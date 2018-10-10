@@ -15,10 +15,9 @@ public class LoginModel {
 
     public UsuarioEntity login(String email, String pass) {
         try {
-            Query query = em.createNamedQuery("UsuarioEntity.checkLogin");
+            Query query = em.createQuery("SELECT u FROM UsuarioEntity u WHERE u.correo = :correo AND u.password = :password AND u.idCiudadano.idEstado.id = 1");
             query.setParameter("correo", email);
             query.setParameter("password", SecurityUtils.encriptarSHA(pass));
-            System.out.println(query.getSingleResult());
             return (UsuarioEntity) query.getSingleResult();
         } catch (Exception e) {
             return null;

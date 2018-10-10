@@ -34,12 +34,11 @@ $(document).ready(function () {
         }
     });
 
-    /*$("#departamento").change(function () {
-        $("#cambiarMunicipios").click();
-    });
-    $("#municipio").change(function () {
-        $("#cambiarCDV").click();
-    });*/
+    var ex =  $('#errorLogin').val();
+    console.log(ex);
+    if(ex != "" && ex != undefined){
+        swal("No se pudo acceder",'Correo o clave erronea','error');
+    }
 })
 
 function confirmacion(msg) {

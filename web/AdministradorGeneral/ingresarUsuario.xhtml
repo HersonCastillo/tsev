@@ -37,9 +37,11 @@
                             </div>
                             <h:inputText id="nombre" value="#{usuarioBean.dui}" required="true" styleClass="form-control"
                                          requiredMessage="El DUI es obligatorio"
-                                         validatorMessage="El DUI debe tener el patron ########-#">
+                                         validatorMessage="El DUI debe tener el patron ########-#"
+                                         rendered="#{!usuarioBean.editable}">
                                 <f:validateRegex pattern="^[0-9]{8}-[0-9]$"/>
                             </h:inputText>
+                            <h:inputText value="#{usuarioBean.dui}" readonly="true" styleClass="form-control" rendered="#{usuarioBean.editable}"/>
                         </div>
                         <h:outputLabel value="Correo:" for="correo"/>
                         <div class="input-group mb-3">
@@ -67,25 +69,15 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon3">*</span>
                             </div>
-                            <h:selectOneMenu id="departamentoUsuario" value="#{usuarioBean.departamento}" styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
+                            <h:selectOneMenu id="departamentoUsuario" value="#{usuarioBean.usuario.idDepartamento}" styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
                                 <f:selectItems value="#{usuarioBean.listaDepartamentos}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
                             </h:selectOneMenu>
                         </div>
-                        <h:outputLabel value="Municipio:" for="municipioUsuario" />
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon3">*</span>
-                            </div>
-                            <h:selectOneMenu id="municipioUsuario" value="#{usuarioBean.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" converterMessage="No se puede convertir">
-                                <f:selectItems value="#{usuarioBean.listaMunicipios}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
-                            </h:selectOneMenu>
-                        </div>
-                        <h:commandButton id="llenar" value="llenar" actionListener="#{usuarioBean.cambiarMunicipios()}"/>
                         <c:if test="#{!usuarioBean.editable}">
                             <h:commandButton value="Insertar" action="#{usuarioBean.insertarUsuario()}" styleClass="btn btn-success mr-2"/>
                         </c:if>
                         <c:if test="#{usuarioBean.editable}">
-                            <h:commandButton value="Actualizar" styleClass="btn btn-info mr-2"/>
+                            <h:commandButton value="Actualizar" action="#{usuarioBean.actualizarUsuario()}" styleClass="btn btn-info mr-2"/>
                         </c:if>
                         <h:commandButton value="Cancelar" action="#{usuarioBean.cancelar()}" immediate="true" styleClass="btn btn-danger mx-auto"/>
                     </h:form>
@@ -97,20 +89,14 @@
                 $('#tipo').on('change', function () {
                     habilitar();
                 })
-                $('#departamentoUsuario').on('change',function(){
-                    $('#llenar').click();
-                })
                 habilitar();
             })
             function habilitar() {
                 var tipo = $('#tipo').val();
-                console.log(tipo)
                 if (tipo == 3) {
                     $('#departamentoUsuario').prop('disabled', false);
-                    $('#municipioUsuario').prop('disabled', false);
                 } else {
                     $('#departamentoUsuario').prop('disabled', true);
-                    $('#municipioUsuario').prop('disabled', true);
                     $('#departamentoUsuario').val(1);
                 }
             }

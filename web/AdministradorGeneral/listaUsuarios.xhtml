@@ -46,18 +46,16 @@
                         </h:column>
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="Municipio"/>
+                                <h:outputText value="Departamento"/>
                             </f:facet>
-                            <c:if test="#{item.idTipo.id == 3}">
-                                <h:outputText value="#{item.idMunicipio.descripcion}"/>
-                            </c:if>
+                            <h:outputText value="#{item.idDepartamento.descripcion}" rendered="#{item.idTipo.id == 3}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Operaciones"/>
                             </f:facet>
-                            <h:commandButton value="Modificar" styleClass="btn btn-info mr-2"/>
-                            <h:commandButton value="Reiniciar" styleClass="btn btn-success mr-2"/>
+                            <h:commandButton value="Modificar" action="#{usuarioBean.obtenerUsuario(item.id)}" styleClass="btn btn-info mr-2"/>
+                            <h:commandButton value="Reiniciar" action="#{usuarioBean.reiniciar(item.id)}" onclick="return confirmacion('Seguro desea reinciar las credenciales de este usuario?')" styleClass="btn btn-success mr-2"/>
                             <h:commandButton value="Eliminar" action="#{usuarioBean.eliminarUsuario(item.id)}" onclick="return confirmacion('Seguro desea eliminar este usuario?')" styleClass="btn btn-danger"/>
                         </h:column>
                     </h:dataTable>

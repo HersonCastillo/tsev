@@ -1,65 +1,99 @@
 var path = "http://localhost:8080/tsev/api/combo";
 
-function llenarDepartamentos(){
+function llenarDepartamentos() {
     $.ajax({
         crossDomain: true,
         url: path + "/departamentos",
         type: "GET",
-        success: function(data){
-            data.forEach(function(departamento){
+        success: function (data) {
+            data.forEach(function (departamento) {
                 $('#departamentosWS').append(new Option(departamento.descripcion, departamento.id));
             });
         }
     })
 }
 
-function llenarMunicipios(id){
+function llenarMunicipios(id) {
+    $('#municipiosWS').empty();
+    $('#cdvWS').empty();
     $.ajax({
         crossDomain: true,
-        url: path + "/municipios/"+id,
+        url: path + "/municipios/" + id,
         type: "GET",
-        success: function(data){
-            data.forEach(function(municipio){
-                $('#municipiosWS').append(new Option(municipio.descripcion,municipio.id));
+        success: function (data) {
+            data.forEach(function (municipio) {
+                $('#municipiosWS').append(new Option(municipio.descripcion, municipio.id));
             })
+        }
+    })
+    $('#cdvWS').append(new Option('Seleccione una opcion', 0));
+}
+
+function llenarCDV(id,cdv) {
+    $('#cdvWS').empty();
+    $('#cdvWS').append(new Option('Seleccione una opcion', 0));
+    $.ajax({
+        crossDomain: true,
+        url: path + "/cdv/" + id,
+        type: "GET",
+        success: function (data) {
+            data.forEach(function (cdv) {
+                $('#cdvWS').append(new Option(cdv.direccion, cdv.id));
+            })
+            if(cdv != 0 || cdv != undefined){
+                $('#cdvWS option[value='+cdv+']').attr('selected','selected');
+            }
         }
     })
 }
 
-function llenarCDV(id){
+function seleccionarDepartamento(cdv) {
     $.ajax({
         crossDomain: true,
-        url: path + "/cdv/"+id,
+        url: path + "/informacion/departamento/" + cdv,
         type: "GET",
-        success: function(data){
-            data.forEach(function(cdv){
-                $('#cdvWS').append(new Option(cdv.direccion,cdv.id));
-            })
+        success: function (departamento) {
+            //$('#departamentosWS').prop('selectValue',departamento);
+            //$('#departamentosWS > option[value=' + departamento + ']').attr("selected", true);
+            llenarMunicipios(departamento);
+            seleccionarMunicipio(cdv);
         }
-    })
+    });
+}
+function seleccionarMunicipio(cdv){
+    $.ajax({
+        crossDomain: true,
+        url: path + "/informacion/municipio/" + cdv,
+        type: "GET",
+        success: function (municipio) {
+            //$('#municipiosWS option[value=' + municipio + ']').attr("selected", 'selected');
+            llenarCDV(municipio,cdv);
+        }
+    });
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     llenarDepartamentos();
-    
-    $('#departamentosWS').on('change',function(){
+
+    var cdv = $('#cdvValue').val();
+    if (cdv != "0" && cdv != undefined) {
+        seleccionarDepartamento(cdv);
+    }
+
+    $('#departamentosWS').on('change', function () {
         var id = $('#departamentosWS').val();
-        $('#municipiosWS').empty();
-        $('#cdvWS').empty();
         llenarMunicipios(id);
-        $('#cdvWS').append(new Option('Seleccione una opcion',0));
+        $('#cdvValue').val(0);
     })
-    
-    $('#municipiosWS').on('change',function(){
+
+    $('#municipiosWS').on('change', function () {
         var id = $('#municipiosWS').val();
-        $('#cdvWS').empty();
-        $('#cdvWS').append(new Option('Seleccione una opcion',0));
-        llenarCDV(id);
+        llenarCDV(id,0);
+        $('#cdvValue').val(0);
     })
-    
-    $('#cdvWS').on('change',function(){
+
+    $('#cdvWS').on('change', function () {
         var id = $('#cdvWS').val();
-        console.log(id);
         $('#cdvValue').val(id);
     })
 })

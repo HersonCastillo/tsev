@@ -45,7 +45,7 @@ public class CiudadanoBean implements Serializable {
     private static boolean editable;
     private static String respuesta = "";
     private Part imagen;
-    private String cdv = "0";
+    private static String cdv = "0";
     
     //Obtener ruta fisica
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -151,6 +151,7 @@ public class CiudadanoBean implements Serializable {
         this.editable = false;
         this.ciudadano = new CiudadanoEntity();
         this.respuesta = "";
+        this.cdv = "0";
         return "ingresoCiudadano?faces-redirect=true";
     }
 
@@ -187,6 +188,7 @@ public class CiudadanoBean implements Serializable {
                 if (resultado == 1) {
                     guardarImagen(ciudadano.getDui());
                     this.respuesta = "Ciudadano ingresado";
+                    this.cdv = "0";
                     ciudadano = new CiudadanoEntity();
                     return "listaCiudadanos?faces-redirect=true";
                 }
@@ -205,6 +207,7 @@ public class CiudadanoBean implements Serializable {
         ciudadano = new CiudadanoEntity();
         this.editable = false;
         this.ciudadano = new CiudadanoEntity();
+        this.cdv = "0";
         this.respuesta = "";
         return "listaCiudadanos?faces-redirect=true";
     }
@@ -212,6 +215,8 @@ public class CiudadanoBean implements Serializable {
     public String obtenerCiudadano(int id) {
         ciudadano = ciudadanoModel.obtenerCiudadano(id);
         editable = true;
+        respuesta = "";
+        cdv = ciudadano.getIdCdv().getId().toString();
         return "ingresoCiudadano?faces-redirect=true";
     }
 
@@ -233,7 +238,7 @@ public class CiudadanoBean implements Serializable {
                 JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
             //validar cdv
-            if (ciudadano.getIdCdv() == null) {
+            if (this.cdv == "0") {
                 JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
@@ -241,6 +246,8 @@ public class CiudadanoBean implements Serializable {
                 if (!imagen.getSubmittedFileName().equals("")) {
                     ciudadano.setImg(ciudadano.getDui() + '_' + imagen.getSubmittedFileName());
                 }
+                int id = Integer.parseInt(cdv);
+                ciudadano.setIdCdv(cdvModel.obtenerCDV(id));
                 int resultado = ciudadanoModel.actualizarCiudadano(ciudadano);
                 if (resultado == 1) {
                     if (!imagen.getSubmittedFileName().equals("")) {

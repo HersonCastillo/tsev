@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  *
  * @author GuillermoCalderón
  */
-@WebFilter(filterName = "Filtro", urlPatterns = {"/prueba"})
+@WebFilter(filterName = "Filtro", urlPatterns = {"/*"})
 public class Filtro implements Filter {
 
     private static final boolean debug = false;
@@ -79,7 +79,7 @@ public class Filtro implements Filter {
         RequestWrapper wrappedRequest = new RequestWrapper((HttpServletRequest) request);
         ResponseWrapper wrappedResponse = new ResponseWrapper((HttpServletResponse) response);
         String url = wrappedRequest.getRequestURI();
-        if (url.contains("login.xhtml") || url.contains("index.xhtml") || url.contains("javax.faces.resource")) {
+        if (url.contains("login.xhtml") || url.contains("index.xhtml") || url.contains("javax.faces.resource") || url.contains("/api")) {
             chain.doFilter(request, response);
             return;
         }
@@ -91,28 +91,28 @@ public class Filtro implements Filter {
             String perfil = wrappedRequest.getSession().getAttribute("tipo").toString();
             switch (perfil) {
                 case "1":
-                    if (url.contains("/AdministradorGeneral")) {
+                    if (url.contains("/AdministradorGeneral") || url.contains("/General")) {
                         chain.doFilter(request, response);
                         return;
                     }
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/AdministradorGeneral/admingen.xhtml");
                     break;
                 case "2":
-                    if (url.contains("/EmpleadoRNPN")) {
+                    if (url.contains("/EmpleadoRNPN") || url.contains("/General")) {
                         chain.doFilter(request, response);
                         return;
                     }
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/EmpleadoRNPN/listaCiudadanos.xhtml");
                     break;
                 case "3":
-                    if (url.contains("/admin")) {
+                    if (url.contains("/admin") || url.contains("/General")) {
                         chain.doFilter(request, response);
                         return;
                     }
                     wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/admin/bienvenido.xhtml");
                     break;
                 case "4":
-                    if (url.contains("/presidente")) {
+                    if (url.contains("/presidente") || url.contains("/General")) {
                         chain.doFilter(request, response);
                         return;
                     }

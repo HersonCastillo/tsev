@@ -42,8 +42,48 @@ public class CandidatoModel {
             return -1;
         }
     }
+    public int insertarCandidatoMunicipal(CandidatoEntity candidato){
+        try{
+            Query query = em.createQuery("SELECT c FROM CandidatoEntity c WHERE c.idEleccion = :eleccion AND (c.idCiudano = :ciudadano OR c.idPartido = :partido) ");
+            query.setParameter("eleccion", candidato.getIdEleccion());
+            query.setParameter("ciudadano", candidato.getIdCiudano());
+            query.setParameter("partido", candidato.getIdPartido());
+            int resultado = query.getResultList().size();
+            if(resultado == 0){
+                candidato.setIdMunicipio(em.find(MunicipioEntity.class, 1));
+                em.persist(candidato);
+                em.flush();
+                return 1;
+            }
+            return 0;
+        }catch(Exception ex){
+            System.out.println("Error insertando candidato (model) - " + ex.toString());
+            return -1;
+        }
+    }
 
     public int actualizarCandidatoPresidente(CandidatoEntity candidato){
+        try{
+            Query query = em.createQuery("SELECT c FROM CandidatoEntity c WHERE c.idEleccion = :eleccion AND c.id != :id AND (c.idCiudano = :ciudadano OR c.idPartido = :partido) ");
+            query.setParameter("eleccion", candidato.getIdEleccion());
+            query.setParameter("id", candidato.getId());
+            query.setParameter("ciudadano", candidato.getIdCiudano());
+            query.setParameter("partido", candidato.getIdPartido());
+            int resultado = query.getResultList().size();
+            if(resultado == 0){
+                candidato.setIdMunicipio(em.find(MunicipioEntity.class, 1));
+                em.merge(candidato);
+                em.flush();
+                return 1;
+            }
+            return 0;
+        }catch(Exception ex){
+            System.out.println("Error actualizando candidato (model) - " + ex.toString());
+            return -1;
+        }
+    }
+    
+    public int actualizarCandidatoMunicipal(CandidatoEntity candidato){
         try{
             Query query = em.createQuery("SELECT c FROM CandidatoEntity c WHERE c.idEleccion = :eleccion AND c.id != :id AND (c.idCiudano = :ciudadano OR c.idPartido = :partido) ");
             query.setParameter("eleccion", candidato.getIdEleccion());

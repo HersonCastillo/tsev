@@ -20,32 +20,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author wecp123
+ * @author kevin
  */
 @Entity
-@Table(name = "voto")
+@Table(name = "Detalle_usuario_jrv")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "VotoEntity.findAll", query = "SELECT v FROM VotoEntity v")
-    , @NamedQuery(name = "VotoEntity.findById", query = "SELECT v FROM VotoEntity v WHERE v.id = :id")})
-public class VotoEntity implements Serializable {
+    @NamedQuery(name = "DetalleUJEntity.findAll", query = "SELECT d FROM DetalleUJEntity d")
+    , @NamedQuery(name = "DetalleUJEntity.findById", query = "SELECT d FROM DetalleUJEntity d WHERE d.id = :id")})
+public class DetalleUJEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
-    @JoinColumn(name = "id_candidato", referencedColumnName = "id")
-    @ManyToOne
-    private CandidatoEntity idCandidato;
-    @JoinColumn(name = "id_JRV", referencedColumnName = "id")
+    @JoinColumn(name = "id_jrv", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private JRVEntity idJRV;
+    private JRVEntity idJrv;
+    @JoinColumn(name = "id_rol", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private RolEntity idRol;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private UsuarioEntity idUsuario;
 
-    public VotoEntity() {
+    public DetalleUJEntity() {
     }
 
-    public VotoEntity(Integer id) {
+    public DetalleUJEntity(Integer id) {
         this.id = id;
     }
 
@@ -57,20 +60,28 @@ public class VotoEntity implements Serializable {
         this.id = id;
     }
 
-    public CandidatoEntity getIdCandidato() {
-        return idCandidato;
+    public JRVEntity getIdJrv() {
+        return idJrv;
     }
 
-    public void setIdCandidato(CandidatoEntity idCandidato) {
-        this.idCandidato = idCandidato;
+    public void setIdJrv(JRVEntity idJrv) {
+        this.idJrv = idJrv;
     }
 
-    public JRVEntity getIdJRV() {
-        return idJRV;
+    public RolEntity getIdRol() {
+        return idRol;
     }
 
-    public void setIdJRV(JRVEntity idJRV) {
-        this.idJRV = idJRV;
+    public void setIdRol(RolEntity idRol) {
+        this.idRol = idRol;
+    }
+
+    public UsuarioEntity getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(UsuarioEntity idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     @Override
@@ -83,10 +94,10 @@ public class VotoEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof VotoEntity)) {
+        if (!(object instanceof DetalleUJEntity)) {
             return false;
         }
-        VotoEntity other = (VotoEntity) object;
+        DetalleUJEntity other = (DetalleUJEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -95,7 +106,7 @@ public class VotoEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.entities.VotoEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.DetalleUJEntity[ id=" + id + " ]";
     }
     
 }

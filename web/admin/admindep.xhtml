@@ -1,12 +1,16 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        Vos sos el segundo mas vergon
-    </h:body>
-</html>
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template_admin_dep.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
 
+    <ui:define name="titulo">
+        Administrador general
+    </ui:define>
+
+    <ui:define name="contenido">
+        <h1 class="text-center">Bienvenido #{sessionScope.user}</h1>
+        <p class="text-center">Nivel de acceso: Administrador departamental</p>
+    </ui:define>
+
+</ui:composition>

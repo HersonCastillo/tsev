@@ -20,10 +20,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Detalle_usuario_jrv")
+@Table(name = "detalle_usuario_jrv")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DetalleUJEntity.findAll", query = "SELECT d FROM DetalleUJEntity d")
@@ -41,9 +41,9 @@ public class DetalleUJEntity implements Serializable {
     @JoinColumn(name = "id_rol", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private RolEntity idRol;
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id")
+    @JoinColumn(name = "id_ciudadano", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private UsuarioEntity idUsuario;
+    private CiudadanoEntity idCiudadano;
 
     public DetalleUJEntity() {
     }
@@ -76,12 +76,12 @@ public class DetalleUJEntity implements Serializable {
         this.idRol = idRol;
     }
 
-    public UsuarioEntity getIdUsuario() {
-        return idUsuario;
+    public CiudadanoEntity getIdCiudadano() {
+        return idCiudadano;
     }
 
-    public void setIdUsuario(UsuarioEntity idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setIdCiudadano(CiudadanoEntity idCiudadano) {
+        this.idCiudadano = idCiudadano;
     }
 
     @Override

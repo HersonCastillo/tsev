@@ -30,10 +30,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Ciudadano")
+@Table(name = "ciudadano")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CiudadanoEntity.findAll", query = "SELECT c FROM CiudadanoEntity c")
@@ -80,18 +80,20 @@ public class CiudadanoEntity implements Serializable {
     @Basic(optional = false)
     @NotNull
     private int genero;
-    @OneToMany(mappedBy = "idCiudadano")
-    private List<UsuarioEntity> usuarioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudadano")
+    private List<DetalleUJEntity> detalleUJEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudadano")
     private List<DetalleCEEntity> detalleCEEntityList;
+    @OneToMany(mappedBy = "idCiudadano")
+    private List<UsuarioEntity> usuarioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudano")
+    private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_cdv", referencedColumnName = "id")
     @ManyToOne
     private CDVEntity idCdv;
     @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EstadoCiudadanoEntity idEstado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCiudano")
-    private List<CandidatoEntity> candidatoEntityList;
 
     public CiudadanoEntity() {
     }
@@ -176,12 +178,12 @@ public class CiudadanoEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<UsuarioEntity> getUsuarioEntityList() {
-        return usuarioEntityList;
+    public List<DetalleUJEntity> getDetalleUJEntityList() {
+        return detalleUJEntityList;
     }
 
-    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
-        this.usuarioEntityList = usuarioEntityList;
+    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
+        this.detalleUJEntityList = detalleUJEntityList;
     }
 
     @XmlTransient
@@ -191,6 +193,24 @@ public class CiudadanoEntity implements Serializable {
 
     public void setDetalleCEEntityList(List<DetalleCEEntity> detalleCEEntityList) {
         this.detalleCEEntityList = detalleCEEntityList;
+    }
+
+    @XmlTransient
+    public List<UsuarioEntity> getUsuarioEntityList() {
+        return usuarioEntityList;
+    }
+
+    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
+        this.usuarioEntityList = usuarioEntityList;
+    }
+
+    @XmlTransient
+    public List<CandidatoEntity> getCandidatoEntityList() {
+        return candidatoEntityList;
+    }
+
+    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
+        this.candidatoEntityList = candidatoEntityList;
     }
 
     public CDVEntity getIdCdv() {
@@ -207,15 +227,6 @@ public class CiudadanoEntity implements Serializable {
 
     public void setIdEstado(EstadoCiudadanoEntity idEstado) {
         this.idEstado = idEstado;
-    }
-
-    @XmlTransient
-    public List<CandidatoEntity> getCandidatoEntityList() {
-        return candidatoEntityList;
-    }
-
-    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
-        this.candidatoEntityList = candidatoEntityList;
     }
 
     @Override

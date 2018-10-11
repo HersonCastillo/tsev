@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Departamento")
+@Table(name = "departamento")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DepartamentoEntity.findAll", query = "SELECT d FROM DepartamentoEntity d")
@@ -47,12 +47,10 @@ public class DepartamentoEntity implements Serializable {
     private String descripcion;
     @Transient
     private int ciudadanos;
-    @Transient
-    private String municipios = "";
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
-    private List<UsuarioEntity> usuarioEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
     private List<MunicipioEntity> municipioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
+    private List<UsuarioEntity> usuarioEntityList;
 
     public DepartamentoEntity() {
     }
@@ -81,25 +79,7 @@ public class DepartamentoEntity implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    @XmlTransient
-    public List<UsuarioEntity> getUsuarioEntityList() {
-        return usuarioEntityList;
-    }
-
-    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
-        this.usuarioEntityList = usuarioEntityList;
-    }
-
-    @XmlTransient
-    public List<MunicipioEntity> getMunicipioEntityList() {
-        return municipioEntityList;
-    }
-
-    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
-        this.municipioEntityList = municipioEntityList;
-    }
-
+    
     public int getCiudadanos() {
         this.ciudadanos = 0;
         try{
@@ -113,29 +93,29 @@ public class DepartamentoEntity implements Serializable {
         }
         return ciudadanos;
     }
-
+    
     public void setCiudadanos(int ciudadanos) {
         this.ciudadanos = ciudadanos;
     }
-
-    public String getMunicipios() {
-        try{
-            for(MunicipioEntity municipio:this.getMunicipioEntityList()){
-                this.municipios += municipio.getDescripcion();
-                this.municipios += ", ";
-            }
-            this.municipios = municipios.substring(0, municipios.length() - 2);
-        }catch(Exception ex){
-            this.municipios  = "";
-        }
-        return municipios;
-    }
-
-    public void setMunicipios(String municipios) {
-        this.municipios = municipios;
-    }
-
     
+    @XmlTransient
+    public List<MunicipioEntity> getMunicipioEntityList() {
+        return municipioEntityList;
+    }
+
+    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
+        this.municipioEntityList = municipioEntityList;
+    }
+
+    @XmlTransient
+    public List<UsuarioEntity> getUsuarioEntityList() {
+        return usuarioEntityList;
+    }
+
+    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
+        this.usuarioEntityList = usuarioEntityList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;

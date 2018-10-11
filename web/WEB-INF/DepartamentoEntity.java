@@ -13,8 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,16 +25,16 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author wecp123
+ * @author kevin
  */
 @Entity
-@Table(name = "municipio")
+@Table(name = "Departamento")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "MunicipioEntity.findAll", query = "SELECT m FROM MunicipioEntity m")
-    , @NamedQuery(name = "MunicipioEntity.findById", query = "SELECT m FROM MunicipioEntity m WHERE m.id = :id")
-    , @NamedQuery(name = "MunicipioEntity.findByDescripcion", query = "SELECT m FROM MunicipioEntity m WHERE m.descripcion = :descripcion")})
-public class MunicipioEntity implements Serializable {
+    @NamedQuery(name = "DepartamentoEntity.findAll", query = "SELECT d FROM DepartamentoEntity d")
+    , @NamedQuery(name = "DepartamentoEntity.findById", query = "SELECT d FROM DepartamentoEntity d WHERE d.id = :id")
+    , @NamedQuery(name = "DepartamentoEntity.findByDescripcion", query = "SELECT d FROM DepartamentoEntity d WHERE d.descripcion = :descripcion")})
+public class DepartamentoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,22 +47,21 @@ public class MunicipioEntity implements Serializable {
     private String descripcion;
     @Transient
     private int ciudadanos;
-    @JoinColumn(name = "id_departamento", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private DepartamentoEntity idDepartamento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
-    private List<CDVEntity> cDVEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
-    private List<CandidatoEntity> candidatoEntityList;
+    @Transient
+    private String municipios = "";
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
+    private List<UsuarioEntity> usuarioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
+    private List<MunicipioEntity> municipioEntityList;
 
-    public MunicipioEntity() {
+    public DepartamentoEntity() {
     }
 
-    public MunicipioEntity(Integer id) {
+    public DepartamentoEntity(Integer id) {
         this.id = id;
     }
 
-    public MunicipioEntity(Integer id, String descripcion) {
+    public DepartamentoEntity(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -85,21 +82,33 @@ public class MunicipioEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public DepartamentoEntity getIdDepartamento() {
-        return idDepartamento;
+    @XmlTransient
+    public List<UsuarioEntity> getUsuarioEntityList() {
+        return usuarioEntityList;
     }
 
-    public void setIdDepartamento(DepartamentoEntity idDepartamento) {
-        this.idDepartamento = idDepartamento;
+    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
+        this.usuarioEntityList = usuarioEntityList;
+    }
+
+    @XmlTransient
+    public List<MunicipioEntity> getMunicipioEntityList() {
+        return municipioEntityList;
+    }
+
+    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
+        this.municipioEntityList = municipioEntityList;
     }
 
     public int getCiudadanos() {
         this.ciudadanos = 0;
-        try {
-            for (CDVEntity c : this.getCDVEntityList()) {
-                ciudadanos += c.getCiudadanoEntityList().size();
+        try{
+            for(MunicipioEntity municipio:this.getMunicipioEntityList()){
+                for(CDVEntity cdv: municipio.getCDVEntityList()){
+                    ciudadanos += cdv.getCiudadanoEntityList().size();
+                }
             }
-        } catch (Exception ex) {
+        }catch(Exception ex){
             this.ciudadanos = 0;
         }
         return ciudadanos;
@@ -109,24 +118,24 @@ public class MunicipioEntity implements Serializable {
         this.ciudadanos = ciudadanos;
     }
 
-    @XmlTransient
-    public List<CDVEntity> getCDVEntityList() {
-        return cDVEntityList;
+    public String getMunicipios() {
+        try{
+            for(MunicipioEntity municipio:this.getMunicipioEntityList()){
+                this.municipios += municipio.getDescripcion();
+                this.municipios += ", ";
+            }
+            this.municipios = municipios.substring(0, municipios.length() - 2);
+        }catch(Exception ex){
+            this.municipios  = "";
+        }
+        return municipios;
     }
 
-    public void setCDVEntityList(List<CDVEntity> cDVEntityList) {
-        this.cDVEntityList = cDVEntityList;
+    public void setMunicipios(String municipios) {
+        this.municipios = municipios;
     }
 
-    @XmlTransient
-    public List<CandidatoEntity> getCandidatoEntityList() {
-        return candidatoEntityList;
-    }
-
-    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
-        this.candidatoEntityList = candidatoEntityList;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -137,10 +146,10 @@ public class MunicipioEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MunicipioEntity)) {
+        if (!(object instanceof DepartamentoEntity)) {
             return false;
         }
-        MunicipioEntity other = (MunicipioEntity) object;
+        DepartamentoEntity other = (DepartamentoEntity) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -149,7 +158,7 @@ public class MunicipioEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.edu.udb.www.entities.MunicipioEntity[ id=" + id + " ]";
+        return "sv.edu.udb.www.entities.DepartamentoEntity[ id=" + id + " ]";
     }
-
+    
 }

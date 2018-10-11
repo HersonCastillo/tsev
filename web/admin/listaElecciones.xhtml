@@ -64,7 +64,7 @@
                                     <f:facet name="header">
                                         <h:outputText value="Operaciones"/>
                                     </f:facet>
-                                    <h:panelGroup rendered="#{!item.ingresable}">
+                                    <h:panelGroup rendered="#{item.ingresablee}">
                                         <center><h:commandButton value="Ingresar Candidato" action="#{candidatoBean.obtenerEleccionMun(item.id)}" styleClass="btn btn-success"/></center>
                                     </h:panelGroup>
                                 </h:column>

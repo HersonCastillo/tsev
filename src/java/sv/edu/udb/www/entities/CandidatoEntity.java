@@ -23,10 +23,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Candidato")
+@Table(name = "candidato")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CandidatoEntity.findAll", query = "SELECT c FROM CandidatoEntity c")
@@ -38,6 +38,8 @@ public class CandidatoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     private Integer id;
+    @OneToMany(mappedBy = "idCandidato")
+    private List<VotoEntity> votoEntityList;
     @JoinColumn(name = "id_ciudano", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private CiudadanoEntity idCiudano;
@@ -50,8 +52,6 @@ public class CandidatoEntity implements Serializable {
     @JoinColumn(name = "id_partido", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private PartidoEntity idPartido;
-    @OneToMany(mappedBy = "idCandidato")
-    private List<VotoEntity> votoEntityList;
 
     public CandidatoEntity() {
     }
@@ -66,6 +66,15 @@ public class CandidatoEntity implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @XmlTransient
+    public List<VotoEntity> getVotoEntityList() {
+        return votoEntityList;
+    }
+
+    public void setVotoEntityList(List<VotoEntity> votoEntityList) {
+        this.votoEntityList = votoEntityList;
     }
 
     public CiudadanoEntity getIdCiudano() {
@@ -98,15 +107,6 @@ public class CandidatoEntity implements Serializable {
 
     public void setIdPartido(PartidoEntity idPartido) {
         this.idPartido = idPartido;
-    }
-
-    @XmlTransient
-    public List<VotoEntity> getVotoEntityList() {
-        return votoEntityList;
-    }
-
-    public void setVotoEntityList(List<VotoEntity> votoEntityList) {
-        this.votoEntityList = votoEntityList;
     }
 
     @Override

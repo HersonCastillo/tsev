@@ -30,11 +30,11 @@ public class eleccionBean {
     private TipoEleccionModel tipoEleccionModel;
     @EJB
     private EleccionModel eleccionModel;
-    
-    
+
     private static EleccionEntity eleccion = new EleccionEntity();
     private static boolean editando;
     private List<EleccionEntity> listaElecciones;
+    private List<EleccionEntity> listaEleccionesMun;
     private List<TipoEleccionEntity> listaTipos;
     private static String respuesta = "";
     private String error = "";
@@ -54,8 +54,8 @@ public class eleccionBean {
     public void setEditando(boolean editando) {
         this.editando = editando;
     }
-    
-    public String ingresarInformacion(){
+
+    public String ingresarInformacion() {
         eleccion = new EleccionEntity();
         this.respuesta = "";
         this.editando = false;
@@ -70,6 +70,14 @@ public class eleccionBean {
         this.listaElecciones = listaElecciones;
     }
 
+    public List<EleccionEntity> getListaEleccionesMun() {
+        return eleccionModel.obtenerEleccionesMun();
+    }
+
+    public void setListaEleccionesMun(List<EleccionEntity> listaEleccionesMun) {
+        this.listaEleccionesMun = listaEleccionesMun;
+    }
+    
     public List<TipoEleccionEntity> getListaTipos() {
         return tipoEleccionModel.listaTipos();
     }
@@ -93,9 +101,9 @@ public class eleccionBean {
     public void setError(String error) {
         this.error = error;
     }
-    
-    public String insertarEleccion(){
-        try{
+
+    public String insertarEleccion() {
+        try {
             //Establecer dia actual como fecha de inicio
             eleccion.setFechIniRegistro(new Date());
             //Crear tipos de dato calendar
@@ -109,18 +117,18 @@ public class eleccionBean {
             realizacion.add(Calendar.DAY_OF_YEAR, 1);
             //Verificar que la fecha sea mayor a la actual
             int fechaValidacion = finalizacion.compareTo(inicio);
-            if(fechaValidacion < 0){
+            if (fechaValidacion < 0) {
                 FacesContext.getCurrentInstance().addMessage("fechaFin", new FacesMessage("La fecha de finalizacion de registro debe ser mayor a la actual"));
             }
             //Verificar que la fecha de realizacio sea mayor a la de finalizacion de registro
             fechaValidacion = realizacion.compareTo(finalizacion);
-            if(fechaValidacion < 0){
+            if (fechaValidacion < 0) {
                 FacesContext.getCurrentInstance().addMessage("fechaRealizacion", new FacesMessage("La fecha de realizacion debe ser mayor a la de finalizacion de registro"));
             }
             //verificar que no se encuentren errores
-            if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
+            if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
                 int resultado = eleccionModel.insertarEleccion(eleccion);
-                if(resultado == 1){
+                if (resultado == 1) {
                     this.respuesta = "Eleccion ingresada corrrectamente";
                     eleccion = new EleccionEntity();
                     return "listaElecciones?faces-redirect=true";
@@ -129,28 +137,28 @@ public class eleccionBean {
                 return "ingresarEleccion";
             }
             return "ingresarEleccion";
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("Error insertando eleccion (bean) - " + ex.toString());
             return "ingresarEleccion";
         }
     }
-    
-    public String obtenerEleccion(int id){
+
+    public String obtenerEleccion(int id) {
         eleccion = eleccionModel.obtenerEleccion(id);
         this.editando = true;
         this.respuesta = "";
         return "ingresarEleccion?faces-redirect=true";
     }
-    
-    public String cancelar(){
+
+    public String cancelar() {
         eleccion = new EleccionEntity();
         this.editando = false;
         this.respuesta = "";
         return "listaElecciones?faces-redirect=true";
     }
-    
-    public String actualizarEleccion(){
-        try{
+
+    public String actualizarEleccion() {
+        try {
             //Crear tipos de dato calendar
             Calendar inicio = Calendar.getInstance();
             inicio.setTime(new Date());
@@ -162,18 +170,18 @@ public class eleccionBean {
             realizacion.add(Calendar.DAY_OF_YEAR, 1);
             //validar fecha de finalizacion de registro
             int fechaValidacion = finalizacion.compareTo(inicio);
-            if(fechaValidacion < 0){
+            if (fechaValidacion < 0) {
                 FacesContext.getCurrentInstance().addMessage("fechaFin", new FacesMessage("La fecha de finalizacion de registro debe ser mayor igual a la actual"));
             }
             //validar fecha de realizacion
             fechaValidacion = realizacion.compareTo(finalizacion);
-            if(fechaValidacion < 0){
+            if (fechaValidacion < 0) {
                 FacesContext.getCurrentInstance().addMessage("fechaRealizacion", new FacesMessage("La fecha de realizacion debe ser mayor a la de finalizacion de registro"));
             }
             //verificar que no se encuentren errores
-            if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
+            if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
                 int resultado = eleccionModel.actualizarEleccion(eleccion);
-                if(resultado == 1){
+                if (resultado == 1) {
                     this.respuesta = "Eleccion actualizada corrrectamente";
                     eleccion = new EleccionEntity();
                     this.editando = false;
@@ -183,7 +191,7 @@ public class eleccionBean {
                 return "ingresarEleccion";
             }
             return "ingresarEleccion";
-        }catch(Exception ex){
+        } catch (Exception ex) {
             eleccion = eleccion;
             this.editando = true;
             System.out.println("Error actualizando eleccion (bean) - " + ex.toString());
@@ -191,15 +199,15 @@ public class eleccionBean {
         }
     }
 
-    public String DescartarEleccion(int id){
-        try{
+    public String DescartarEleccion(int id) {
+        try {
             int resultado = eleccionModel.descartarEleccion(id);
-            if(resultado == 1){
+            if (resultado == 1) {
                 this.respuesta = "Eleccion descartada";
-            }else{
+            } else {
                 this.error = "No se pudo descartar";
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println("Error descartando eleccion (bean) - " + ex.toString());
             error = "No se pudo descartar";
         }

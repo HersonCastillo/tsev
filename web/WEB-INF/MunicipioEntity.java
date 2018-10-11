@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author wecp123
+ * @author kevin
  */
 @Entity
-@Table(name = "municipio")
+@Table(name = "Municipio")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MunicipioEntity.findAll", query = "SELECT m FROM MunicipioEntity m")
@@ -49,13 +49,15 @@ public class MunicipioEntity implements Serializable {
     private String descripcion;
     @Transient
     private int ciudadanos;
+    @Transient
+    private String cdv;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
+    private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_departamento", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private DepartamentoEntity idDepartamento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
     private List<CDVEntity> cDVEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
-    private List<CandidatoEntity> candidatoEntityList;
 
     public MunicipioEntity() {
     }
@@ -85,28 +87,21 @@ public class MunicipioEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
+    @XmlTransient
+    public List<CandidatoEntity> getCandidatoEntityList() {
+        return candidatoEntityList;
+    }
+
+    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
+        this.candidatoEntityList = candidatoEntityList;
+    }
+
     public DepartamentoEntity getIdDepartamento() {
         return idDepartamento;
     }
 
     public void setIdDepartamento(DepartamentoEntity idDepartamento) {
         this.idDepartamento = idDepartamento;
-    }
-
-    public int getCiudadanos() {
-        this.ciudadanos = 0;
-        try {
-            for (CDVEntity c : this.getCDVEntityList()) {
-                ciudadanos += c.getCiudadanoEntityList().size();
-            }
-        } catch (Exception ex) {
-            this.ciudadanos = 0;
-        }
-        return ciudadanos;
-    }
-
-    public void setCiudadanos(int ciudadanos) {
-        this.ciudadanos = ciudadanos;
     }
 
     @XmlTransient
@@ -118,13 +113,38 @@ public class MunicipioEntity implements Serializable {
         this.cDVEntityList = cDVEntityList;
     }
 
-    @XmlTransient
-    public List<CandidatoEntity> getCandidatoEntityList() {
-        return candidatoEntityList;
+    public int getCiudadanos() {
+        this.ciudadanos = 0;
+        try{
+            for(CDVEntity c:this.getCDVEntityList()){
+                ciudadanos += c.getCiudadanoEntityList().size();
+            }
+        }catch(Exception ex){
+            this.ciudadanos = 0;
+        }
+        return ciudadanos;
     }
 
-    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
-        this.candidatoEntityList = candidatoEntityList;
+    public void setCiudadanos(int ciudadanos) {
+        this.ciudadanos = ciudadanos;
+    }
+
+    public String getCdv() {
+        this.cdv ="";
+        try{
+            for(CDVEntity c:this.getCDVEntityList()){
+                cdv += c.getDireccion().toString();
+                cdv += ", ";
+            }
+            this.cdv = cdv.substring(0, cdv.length()-2);
+        }catch(Exception ex){
+            this.cdv = "";
+        }
+        return cdv;
+    }
+
+    public void setCdv(String cdv) {
+        this.cdv = cdv;
     }
 
     @Override
@@ -151,5 +171,5 @@ public class MunicipioEntity implements Serializable {
     public String toString() {
         return "sv.edu.udb.www.entities.MunicipioEntity[ id=" + id + " ]";
     }
-
+    
 }

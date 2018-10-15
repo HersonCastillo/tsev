@@ -97,7 +97,11 @@ public class MunicipioEntity implements Serializable {
         this.ciudadanos = 0;
         try {
             for (CDVEntity c : this.getCDVEntityList()) {
-                ciudadanos += c.getCiudadanoEntityList().size();
+                for (CiudadanoEntity ciudadano : c.getCiudadanoEntityList()) {
+                    if (ciudadano.getIdEstado().getId() == 1 && ciudadano.getId() != 1) {
+                        ciudadanos += 1;
+                    }
+                }
             }
         } catch (Exception ex) {
             this.ciudadanos = 0;
@@ -108,7 +112,6 @@ public class MunicipioEntity implements Serializable {
     public void setCiudadanos(int ciudadanos) {
         this.ciudadanos = ciudadanos;
     }
-
     @XmlTransient
     public List<CDVEntity> getCDVEntityList() {
         return cDVEntityList;
@@ -126,7 +129,6 @@ public class MunicipioEntity implements Serializable {
     public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
         this.candidatoEntityList = candidatoEntityList;
     }
-
     @Override
     public int hashCode() {
         int hash = 0;

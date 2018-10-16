@@ -5,11 +5,15 @@
  */
 package sv.edu.udb.www.models;
 
+import java.sql.ResultSet;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import sv.edu.udb.www.entities.EleccionEntity;
 import sv.edu.udb.www.entities.EstadoEleccionEntity;
 
@@ -29,10 +33,24 @@ public class EleccionModel {
             query.setParameter("tipo", eleccion.getIdTipo().getId());
             int resultado = query.getResultList().size();
             if (resultado == 0) {
-                eleccion.setIdEstado(em.find(EstadoEleccionEntity.class, 1));
+                StoredProcedureQuery store = em.createStoredProcedureQuery("crearEleccion");
+                //Registrar parametros
+                store.registerStoredProcedureParameter("inicio", Date.class, ParameterMode.IN);
+                store.registerStoredProcedureParameter("fin", Date.class, ParameterMode.IN);
+                store.registerStoredProcedureParameter("realizacion", Date.class, ParameterMode.IN);
+                store.registerStoredProcedureParameter("tipo", Integer.class, ParameterMode.IN);
+                //Setear parametros
+                store.setParameter("inicio", eleccion.getFechIniRegistro());
+                store.setParameter("fin", eleccion.getFechFinRegistro());
+                store.setParameter("realizacion", eleccion.getFechRealizacion());
+                store.setParameter("tipo", eleccion.getIdTipo().getId());
+                //Respuesta
+                store.execute();
+                return 1;
+                /*eleccion.setIdEstado(em.find(EstadoEleccionEntity.class, 1));
                 em.persist(eleccion);
                 em.flush();
-                return 1;
+                return 1;*/
             }
             return 0;
         } catch (Exception ex) {

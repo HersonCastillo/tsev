@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EleccionEntity.findAll", query = "SELECT e FROM EleccionEntity e")
+    , @NamedQuery(name = "EleccionEntity.findByTipo", query = "SELECT e FROM EleccionEntity e WHERE e.idTipo.id = :id")
     , @NamedQuery(name = "EleccionEntity.findById", query = "SELECT e FROM EleccionEntity e WHERE e.id = :id")
     , @NamedQuery(name = "EleccionEntity.findByFechIniRegistro", query = "SELECT e FROM EleccionEntity e WHERE e.fechIniRegistro = :fechIniRegistro")
     , @NamedQuery(name = "EleccionEntity.findByFechFinRegistro", query = "SELECT e FROM EleccionEntity e WHERE e.fechFinRegistro = :fechFinRegistro")

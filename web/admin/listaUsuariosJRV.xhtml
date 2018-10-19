@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="./../WEB-INF/template_admin_dep.xhtml">
+
+    <ui:define name="titulo">
+        Lista de usuarios
+    </ui:define>
+
+    <ui:define name="contenido">
+        <div class="row">
+            <h1 class="text-center mx-auto">Lista de usuarios</h1>
+        </div>
+        <div class="row pl-2 mb-2">
+            <h:form class="row">
+                <div class="col-12">
+                <h:commandButton value="Regresar" action="listaJRV?faces-redirect=true" styleClass="btn btn-primary"/>
+                </div>
+                <div class="col-4">
+                <h:commandButton value="Asignar presdente" action="#{rolesBean.obtenerRol(1)}" styleClass="btn btn-info"/>
+                </div>
+                <div class="col-4">
+                <h:commandButton value="Asignar vocal" action="#{rolesBean.obtenerRol(3)}" styleClass="btn btn-toolbar"/>
+                </div>
+                <div class="col-4">
+                <h:commandButton value="Asignar secretario/a" action="#{rolesBean.obtenerRol(2)}" styleClass="btn btn-secondary"/>
+                </div>
+            </h:form>
+        </div>
+        <div class="row pl-2 pr-2" style=" margin-left: 5px; margin-right: 5px; padding: 3px;
+             border: 0.4px solid black; border-radius: 3px;">
+            <f:view>
+                <h:form prependId="false" styleClass="col-sm-12">
+                    <h:dataTable id="data" styleClass="table table-hover text-center" value="#{rolesBean.listaUs}" var="item">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nombre"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCiudadano.nombre}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Apellido"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCiudadano.apellido}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="JRV"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idJrv.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Rol"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idRol.descripcion}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Operaciones"/>
+                            </f:facet>
+                            <h:commandButton value="Modificar" action="#{rolesBean.obtenerUsuario(item.id, item.idRol.id)}" styleClass="btn btn-info mr-2"/>
+                            <h:commandButton value="Eliminar" action="#{rolesBean.eliminarUsuario(item.id)}" onclick="return confirmacion('Seguro desea eliminar este candidato?')" styleClass="btn btn-danger"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </f:view>
+        </div>
+    </ui:define>
+
+</ui:composition>

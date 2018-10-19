@@ -3,59 +3,48 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <body>
 
         <ui:composition template="./../WEB-INF/template_admin_dep.xhtml">
 
             <ui:define name="titulo">
-                Lista de ciudadanos
+                Definir roles
             </ui:define>
 
             <ui:define name="contenido">
                 <div class="row">
-                    <h1 class="text-center mx-auto">Lista de ciudadanos</h1>
+                    <h1 class="text-center mx-auto">Lista de municipios</h1>
                 </div>
-                <div class="row pl-2 mb-2" style="margin-left: 5px;">
-                    <h:form>
-                        <h:commandButton value="Regresar" action="listaJRVCiud?faces-redirect=true" styleClass="btn btn-primary"/>
-                    </h:form>
-                </div>
-                <div class="row pl-2 pr-2" style=" margin-left: 5px; margin-right: 5px; padding: 3px;
-                     border: 0.4px solid black; border-radius: 3px;">
+                <div class="row pl-2 pr-2">
                     <f:view>
                         <h:form prependId="false" styleClass="col-sm-12">
-                            <h:dataTable id="datac" styleClass="table table-hover text-center" value="#{jrvBean.listaCe}" var="item">
+                            <h:dataTable id="data" styleClass="table table-hover text-center" value="#{municipioBean.listaMunicipios}" var="item">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Nombre"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.idCiudadano.nombre}"/>
+                                    <h:outputText value="#{item.descripcion}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Apellido"/>
+                                        <h:outputText value="Departamento"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.idCiudadano.apellido}"/>
+                                    <h:outputText value="#{item.idDepartamento.descripcion}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="DUI"/>
+                                        <h:outputText value="Ciudadanos"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.idCiudadano.dui}"/>
+                                    <h:outputText value="#{item.ciudadanos}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Direccion"/>
+                                        <h:outputText value="Ciudadanos"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.idCiudadano.direccion}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Eleccion"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idEleccion.id}"/>
+                                    <center><h:commandButton value="Ver centro de votaciones" action="#{cdvBean.obtenerCdvPormunC(item.id)}" styleClass="btn btn-success"/></center>
                                 </h:column>
                             </h:dataTable>
                         </h:form>

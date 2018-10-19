@@ -13,7 +13,7 @@ $(document).ready(function () {
             title: texto
         })
     }
-    
+
     var error = $("#error").val();
     if (error != "" && error != undefined) {
         toast({
@@ -34,10 +34,36 @@ $(document).ready(function () {
         }
     });
 
-    var ex =  $('#errorLogin').val();
+    $("#datac").DataTable({
+        "pageLength": 5,
+        "lengthMenu": [5, 10],
+        "language": {
+            "lengthMenu": "Filas _MENU_ por pagina",
+            "zeroRecords": "No se encontro - sorry",
+            "infoEmpty": "No hay informacion que mostrar",
+            "search": "Buscar:",
+            "info": "Mostrando pagina _PAGE_ de _PAGES_",
+        },
+        "dom": 'lBfrtip',
+        "buttons": [
+            {
+                extend: 'collection',
+                text: 'Exportar',
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print'
+                ]
+            }
+        ]
+    });
+
+    var ex = $('#errorLogin').val();
     console.log(ex);
-    if(ex != "" && ex != undefined){
-        swal("No se pudo acceder",'Correo o clave erronea','error');
+    if (ex != "" && ex != undefined) {
+        swal("No se pudo acceder", 'Correo o clave erronea', 'error');
     }
 })
 

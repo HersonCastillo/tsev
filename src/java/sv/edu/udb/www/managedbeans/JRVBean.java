@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import sv.edu.udb.www.entities.DetalleCEEntity;
 import sv.edu.udb.www.entities.JRVEntity;
 import sv.edu.udb.www.models.JRVModel;
 
@@ -24,13 +25,31 @@ public class JRVBean {
     private JRVModel jrvModel;
     static int id;
     private List<JRVEntity> listaJrv;
+    private List<DetalleCEEntity> listaCe;
 
     public List<JRVEntity> getListaJrv() {
         return jrvModel.obtenerJRVPorCDV(id);
     }
+
+    public List<DetalleCEEntity> getListaCe() {
+        return jrvModel.obtenerCiudPorJRV(id);
+    }
+
+    public void setListaCe(List<DetalleCEEntity> listaCe) {
+        this.listaCe = listaCe;
+    }
+    
     public String obtenerCdvPormun(int id){
         this.id = id;
         return "listaJRV?faces-redirect=true";
+    }
+    public String obtenerCdvPormunC(int id){
+        this.id = id;
+        return "listaJRVCiud?faces-redirect=true";
+    }
+    public String obtenerCiudJrv(int id){
+        this.id = id;
+        return "listaCiudadanos?faces-redirect=true";
     }
     public void setListaJrv(List<JRVEntity> listaJrv) {
         this.listaJrv = listaJrv;

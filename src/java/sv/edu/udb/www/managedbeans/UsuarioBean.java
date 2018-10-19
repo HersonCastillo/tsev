@@ -260,7 +260,7 @@ public class UsuarioBean {
         try{
             UsuarioEntity user = usuarioModel.obtenerUsuario(id);
             this.clave = "Pa$$w0rd";
-            user.setPassword(SecurityUtils.encriptarSHA(clave));
+            user.setPassword(SecurityUtils.encriptarSHA(this.clave));
             int resultado = usuarioModel.actualizarUsuario(user);
             if(resultado == 1){
                 this.respuesta = "Usuario reiniciado";

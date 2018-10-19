@@ -68,7 +68,7 @@ public class UsuarioModel {
     
     public List<UsuarioEntity> listaAdministradores(int id){
         try{
-            Query query = em.createQuery("SELECT u FROM UsuarioEntity u WHERE (u.idTipo.id = 1 OR u.idTipo.id = 2 OR u.idTipo.id = 3) AND u.id != :id");
+            Query query = em.createQuery("SELECT u FROM UsuarioEntity u WHERE (u.idTipo.id = 1 OR u.idTipo.id = 2 OR u.idTipo.id = 3) AND u.id != :id AND u.id != 1");
             query.setParameter("id", id);
             return query.getResultList();
         }catch(Exception ex){

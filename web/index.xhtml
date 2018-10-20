@@ -48,6 +48,7 @@
                             </div>
                             <h:selectOneMenu id="eleccion" value="#{chartView.eleccion}" styleClass="form-control" converter="sv.edu.udb.www.converters.EleccionConverter" >
                                 <f:selectItems value="#{chartView.listaElecciones}" var="eleccion" itemLabel="#{eleccion.fechRealizacion.date}-#{1 + eleccion.fechRealizacion.month}-#{(1900 + eleccion.fechRealizacion.year)}" itemValue="#{eleccion}"/>
+                                <f:ajax render="@this"/>
                             </h:selectOneMenu>
                         </div>
                         <label>Departamento:</label>
@@ -89,14 +90,18 @@
                                 <f:selectItems value="#{chartView.listaJRV}" var="jrv" itemLabel="#{jrv.id}" itemValue="#{jrv}"/>
                             </h:selectOneMenu>
                         </div>
-                        <h:commandButton value="Global" actionListener="#{chartView.createPieModel2()}" styleClass="btn btn-primary mr-1" rendered="#{chartView.tipo.id == 2}"/>
-                        <h:commandButton value="Departamento" styleClass="btn btn-success mr-1" rendered="#{chartView.tipo.id == 2}"/>
+                        <h:commandButton value="Global" actionListener="#{chartView.votosGlobales()}" styleClass="btn btn-primary mr-1" rendered="#{chartView.tipo.id == 2}"/>
+                        <h:commandButton value="Departamento" actionListener="#{chartView.votosDeartamentales()}" styleClass="btn btn-success mr-1" rendered="#{chartView.tipo.id == 2}"/>
                         <h:commandButton value="Municipio" styleClass="btn btn-info mr-1"/>
                         <h:commandButton value="CDV" styleClass="btn btn-warning mr-1"/>
                         <h:commandButton value="JRV" styleClass="btn btn-secondary"/>
                     </div>
                     <div class="col-md-7">
                         <p:chart type="pie" model="#{chartView.pieModel2}" styleClass="mx-auto" style="width:400px;height:300px" />
+                        <h:panelGroup styleClass="alert alert-danger mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                            <h5 class="alert-heading">Revise lo ingresado:</h5>
+                            <h:messages/>
+                    </h:panelGroup>
                     </div>
                 </div>
             </h:form>

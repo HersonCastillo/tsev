@@ -13,7 +13,7 @@ public class DetalleUJRV {
     @PersistenceContext(unitName = "TSEVPU")
     private EntityManager em;
     
-    public boolean obtenerPresidente(String dui){
+    public DetalleUJEntity obtenerPresidente(String dui){
         try{
             List<DetalleUJEntity> detalle = this.obtenerDetalle();
             for (DetalleUJEntity d : detalle) {
@@ -22,13 +22,13 @@ public class DetalleUJRV {
                         d.getIdCiudadano().getDui().equals(dui) && 
                         d.getIdCiudadano().getIdEstado().getId() == 1 
                       ){
-                        return true;
+                        return d;
                     }
                 }
             }
-            return false;
+            return null;
         }catch(Exception ex){
-            return false;
+            return null;
         }
     }
     public List<DetalleUJEntity> obtenerDetalle(){

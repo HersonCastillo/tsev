@@ -32,4 +32,20 @@ public class JRVModel {
             return null;
         }
     }
+    public List<JRVEntity> obetnerJRV(){
+        try{
+            Query q = em.createNamedQuery("JRVEntity.findAll");
+            return q.getResultList();
+        }catch(Exception ex){
+            return null;
+        }
+    }
+    
+    public JRVEntity obtenerJRVById(int id){
+        try{
+            return em.find(JRVEntity.class, id);
+        }catch(Exception ex){
+            return null;
+        }
+    }
 }

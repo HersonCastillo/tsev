@@ -23,6 +23,14 @@ public class CandidatoModel {
     @PersistenceContext(unitName = "TSEVPU")
     private EntityManager em;
     
+    public List<CandidatoEntity> listarCandidatos(){
+        try{
+            Query q = em.createNamedQuery("CandidatoEntity.findAll");
+            return q.getResultList();
+        }catch(Exception ex){
+            return null;
+        }
+    }
     public int insertarCandidatoPresidencial(CandidatoEntity candidato){
         try{
             Query query = em.createQuery("SELECT c FROM CandidatoEntity c WHERE c.idEleccion = :eleccion AND (c.idCiudano = :ciudadano OR c.idPartido = :partido) ");

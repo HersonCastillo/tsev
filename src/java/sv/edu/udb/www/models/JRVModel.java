@@ -35,7 +35,6 @@ public class JRVModel {
             return null;
         }
     }
-    
     public DetalleUJEntity obtenerUsuario(int id){
         try{
             return em.find(DetalleUJEntity.class, id);
@@ -71,6 +70,14 @@ public class JRVModel {
             return query.getResultList();
         }catch(Exception ex){
             System.out.println("Error obteniendo la lista filtrada de JRV (model) - " + ex.toString());
+            return null;
+        }
+    }
+    public List<JRVEntity> obetnerJRV(){
+        try{
+            Query q = em.createNamedQuery("JRVEntity.findAll");
+            return q.getResultList();
+        }catch(Exception ex){
             return null;
         }
     }
@@ -131,6 +138,13 @@ public class JRVModel {
             return query.getResultList();
         }catch(Exception ex){
             System.out.println("Error obteniendo lista de jrv pot centro de votacion (model) - " + ex.toString());
+            return null;
+        }
+    }
+    public JRVEntity obtenerJRVById(int id){
+        try{
+            return em.find(JRVEntity.class, id);
+        }catch(Exception ex){
             return null;
         }
     }

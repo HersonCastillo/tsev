@@ -32,6 +32,10 @@ public class CDVBean {
         this.id = id;
         return "listaCDV?faces-redirect=true";
     }
+    public String obtenerCdvPormunC(int id){
+        this.id = id;
+        return "listaCDVCiud?faces-redirect=true";
+    }
     public void setListaMunicipios(List<CDVEntity> listaMunicipios) {
         this.listaCdv = listaCdv;
     }

@@ -39,6 +39,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <h:form>
+                                    <h:link value="Index" styleClass="dropdown-item" outcome="/AdministradorGeneral/admingen"/> 
                                     <h:link styleClass="dropdown-item" value="Cambiar clave" outcome="/General/cambiarPassword"/>
                                     <h:commandLink immediate="true" action="#{loginBean.logOut()}" styleClass="dropdown-item" value="Logout"/>
                                     <div class="dropdown-divider"></div>
@@ -49,7 +50,8 @@
                     <div id="botones">
                         <li class="nav-item">
                             <h:form>
-                                <h:commandButton immediate="true" value="Cambiar clave" styleClass="btn btn-outline-light mt1 mb1 mr-1"/>
+                                <h:link value="Index" styleClass="text-light m-1" outcome="/AdministradorGeneral/admingen"/> 
+                                <h:link styleClass="text-light m-1" value="Cambiar" outcome="/General/cambiarPassword"/>
                                 <h:commandButton immediate="true" value="Logout" action="#{loginBean.logOut()}" styleClass="btn btn-outline-light mt-1 mb-1"/>
                             </h:form>
                         </li>

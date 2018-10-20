@@ -16,7 +16,7 @@
 
             <ui:define name="contenido">
                 <div class="row">
-                    <h1 class="text-center mx-auto">Lista de municipios</h1>
+                    <h1 class="text-center mx-auto">Lista de centro de votaciones</h1>
                 </div>
                 <div class="row pl-2 mb-2" style="margin-left: 5px;">
                     <h:form>
@@ -26,36 +26,24 @@
                 <div class="row pl-2 pr-2">
                     <f:view>
                         <h:form prependId="false" styleClass="col-sm-12">
-                            <h:dataTable id="data" styleClass="table table-hover text-center" value="#{jrvBean.listaJrv}" var="item">
+                            <h:dataTable id="data" styleClass="table table-hover text-center" value="#{cdvBean.listaCdv}" var="item">
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Nombre"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.id}"/>
+                                    <h:outputText value="#{item.direccion}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
-                                        <h:outputText value="Eleccion"/>
+                                        <h:outputText value="Departamento"/>
                                     </f:facet>
-                                    <h:outputText value="#{item.idEleccion.id}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Centro de votacion"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idCdv.direccion}"/>
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Estado"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idEstado.descripcion}"/>
+                                    <h:outputText value="#{item.idMunicipio.descripcion}"/>
                                 </h:column>
                                 <h:column>
                                     <f:facet name="header">
                                         <h:outputText value="Ciudadanos"/>
                                     </f:facet>
-                                    <center><h:commandButton value="Asignar roles" action="#{rolesBean.obtenerJRV(item.id)}" styleClass="btn btn-success"/></center>
+                                    <center><h:commandButton value="Ver jrv's" action="#{jrvBean.obtenerCdvPormunC(item.id)}" styleClass="btn btn-success"/></center>
                                 </h:column>
                             </h:dataTable>
                         </h:form>

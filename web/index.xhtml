@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>TSE - Resultados</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -14,10 +15,6 @@
     <h:body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">TSE</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -29,19 +26,77 @@
                 </ul>
             </div>
         </nav>
-        <div class="row">
-            <div class="col-md-6">
-                <p:chart type="pie" model="#{chartView.pieModel2}" style="width:400px;height:300px" />
-            </div>
-            <div class="col-md-6">
-                <p:chart type="pie" model="#{chartView.pieModel2}" style="width:400px;height:300px" />
-            </div>
-            <div class="col-md-6">
-                <p:chart type="pie" model="#{chartView.pieModel2}" style="width:400px;height:300px" />
-            </div>
-            <div class="col-md-6">
-                <p:chart type="pie" model="#{chartView.pieModel2}" style="width:400px;height:300px" />
-            </div>
+        <div class="container">
+            <h:form prependId="false">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h3 class="text-center">Seleccione la elección</h3>
+                        <label>Tipo de eleccion:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="tipo" value="#{chartView.tipo}" styleClass="form-control" converter="sv.edu.udb.www.converters.TipoEleccionConverter">
+                                <f:selectItems value="#{chartView.listaTipos}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo}"/>
+                                <f:ajax render="@form"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>Eleccion:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="eleccion" value="#{chartView.eleccion}" styleClass="form-control" converter="sv.edu.udb.www.converters.EleccionConverter" >
+                                <f:selectItems value="#{chartView.listaElecciones}" var="eleccion" itemLabel="#{eleccion.fechRealizacion.date}-#{1 + eleccion.fechRealizacion.month}-#{(1900 + eleccion.fechRealizacion.year)}" itemValue="#{eleccion}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>Departamento:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="departamento" value="#{chartView.departamento}" styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
+                                <f:selectItems value="#{chartView.listaDepartamentos}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                                <f:ajax render="municipio"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>Municipio:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="municipio" value="#{chartView.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" >
+                                <f:selectItems value="#{chartView.listaMunicipios}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                                <f:ajax render="cdv"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>CDV:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="cdv" styleClass="form-control" >
+                                <f:selectItems value="#{chartView.listaCDV}" var="cdv" itemLabel="#{cdv.direccion}" itemValue="#{cdv}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>JRV:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="jrv" styleClass="form-control" ></h:selectOneMenu>
+                        </div>
+                        <h:commandButton value="Global" actionListener="#{chartView.createPieModel2()}" styleClass="btn btn-primary mr-1" rendered="#{chartView.tipo.id == 2}"/>
+                        <h:commandButton value="Departamento" styleClass="btn btn-success mr-1" rendered="#{chartView.tipo.id == 2}"/>
+                        <h:commandButton value="Municipio" styleClass="btn btn-info mr-1"/>
+                        <h:commandButton value="CDV" styleClass="btn btn-warning mr-1"/>
+                        <h:commandButton value="JRV" styleClass="btn btn-secondary"/>
+                    </div>
+                    <div class="col-md-7">
+                        <p:chart type="pie" model="#{chartView.pieModel2}" styleClass="mx-auto" style="width:400px;height:300px" />
+                    </div>
+                </div>
+            </h:form>
         </div>
     </h:body>
 </html>

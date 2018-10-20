@@ -108,4 +108,15 @@ public class EleccionModel {
             return 0;
         }
     }
+    
+    public List<EleccionEntity> eleccionesPorTipo(int tipo){
+        try{
+            Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idTipo.id = :tipo AND (e.idEstado.id = 5 OR e.idEstado.id = 2)");
+            query.setParameter("tipo", tipo);
+            return query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Error listando las elecciones por tipo (model) - " + ex.toString());
+            return null;
+        }
+    }
 }

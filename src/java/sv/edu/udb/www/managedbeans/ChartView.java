@@ -21,6 +21,7 @@ import sv.edu.udb.www.entities.TipoEleccionEntity;
 import sv.edu.udb.www.models.CDVModel;
 import sv.edu.udb.www.models.DepartamentoModel;
 import sv.edu.udb.www.models.EleccionModel;
+import sv.edu.udb.www.models.JRVModel;
 import sv.edu.udb.www.models.MunicipioModel;
 import sv.edu.udb.www.models.TipoEleccionModel;
 
@@ -32,6 +33,8 @@ import sv.edu.udb.www.models.TipoEleccionModel;
 @SessionScoped
 public class ChartView implements Serializable {
 
+    @EJB
+    private JRVModel jrvModel;
     @EJB
     private CDVModel cdvModel;
     @EJB
@@ -55,6 +58,8 @@ public class ChartView implements Serializable {
     private EleccionEntity eleccion = null;
     private MunicipioEntity municipio = null;
     private CDVEntity cdv = null;
+    private JRVEntity jrv = null;
+    private int idEleccion = 0;
     
     @PostConstruct
     public void init() {
@@ -72,10 +77,10 @@ public class ChartView implements Serializable {
     public void createPieModel2() {
         pieModel2 = new PieChartModel();
          
-        pieModel2.set("Brand 1", 400);
-        pieModel2.set("Brand 2", 325);
-        pieModel2.set("Brand 3", 702);
-        pieModel2.set("Brand 4", 421);
+        pieModel2.set("Brand 1", 1);
+        pieModel2.set("Brand 2", 1);
+        pieModel2.set("Brand 3", 1);
+        pieModel2.set("Brand 4", 1);
          
         pieModel2.setTitle("Votos");
         pieModel2.setLegendPosition("e");
@@ -127,14 +132,9 @@ public class ChartView implements Serializable {
 
     public List<CDVEntity> getListaCDV() {
         if(this.municipio == null){
-            
-            cdv = null;
-            return null;
+            return cdvModel.obtenerCDVPorMunicipioCombo(0);
         }else{
-            listaCDV = cdvModel.obtenerCDVPorMunicipio(this.municipio.getId());
-            cdv = listaCDV.get(0);
-            
-           return listaCDV;
+            return cdvModel.obtenerCDVPorMunicipioCombo(this.municipio.getId());
         }
     }
 
@@ -143,7 +143,11 @@ public class ChartView implements Serializable {
     }
 
     public List<JRVEntity> getListaJRV() {
-        return listaJRV;
+        if(this.cdv == null){
+            return jrvModel.obtenerJRVPorCDV(1);
+        }else{
+            return jrvModel.obtenerJRVPorCDV(this.cdv.getId());
+        }
     }
 
     public void setListaJRV(List<JRVEntity> listaJRV) {
@@ -180,6 +184,30 @@ public class ChartView implements Serializable {
 
     public void setMunicipio(MunicipioEntity municipio) {
         this.municipio = municipio;
+    }
+
+    public CDVEntity getCdv() {
+        return cdv;
+    }
+
+    public void setCdv(CDVEntity cdv) {
+        this.cdv = cdv;
+    }
+
+    public JRVEntity getJrv() {
+        return jrv;
+    }
+
+    public void setJrv(JRVEntity jrv) {
+        this.jrv = jrv;
+    }
+
+    public int getIdEleccion() {
+        return idEleccion;
+    }
+
+    public void setIdEleccion(int idEleccion) {
+        this.idEleccion = idEleccion;
     }
     
 }

@@ -56,7 +56,7 @@ public class ComboRest {
     @Produces({MediaType.APPLICATION_JSON})
     public List<CDVEntity> listaCDV(@PathParam("codigo") String codigo) {
         int id = Integer.parseInt(codigo);
-        return cdvModel.obtenerCDVPorMunicipio(id);
+        return cdvModel.obtenerCDVPorMunicipioCombo(id);
     }
 
     @GET

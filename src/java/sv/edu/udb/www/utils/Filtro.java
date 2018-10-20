@@ -109,7 +109,7 @@ public class Filtro implements Filter {
                         chain.doFilter(request, response);
                         return;
                     }
-                    wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/admin/bienvenido.xhtml");
+                    wrappedResponse.sendRedirect(wrappedRequest.getContextPath() + "/faces/admin/admindep.xhtml");
                     break;
                 case "4":
                     if (url.contains("/presidente") || url.contains("/General")) {

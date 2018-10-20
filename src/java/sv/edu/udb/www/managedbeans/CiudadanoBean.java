@@ -177,7 +177,7 @@ public class CiudadanoBean implements Serializable {
                 JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
             //validar cdv
-            if (this.cdv == "0") {
+            if (this.cdv.equals("0") || this.cdv.equals("1")) {
                 JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
@@ -238,7 +238,7 @@ public class CiudadanoBean implements Serializable {
                 JsfUtils.addErrorMessages("genero", "Debe seleccionar el sexo");
             }
             //validar cdv
-            if (this.cdv == "0") {
+            if (this.cdv == "0" || this.cdv == "1") {
                 JsfUtils.addErrorMessages("cdv", "Debe seleccionar un centro de votacion");
             }
             if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {

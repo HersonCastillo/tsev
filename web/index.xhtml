@@ -13,15 +13,15 @@
         <h:outputStylesheet name="css/bootstrap.min.css"/>
     </h:head>
     <h:body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">TSE</a>
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <a class="navbar-brand text-light" href="#">TSE</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link text-light" href="${pageContext.request.contextPath}/tsev/faces/index.xhtml">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/tsev/faces/login.xhtml">Login</a>
+                        <a class="nav-link text-light" href="${pageContext.request.contextPath}/tsev/faces/login.xhtml">Login</a>
                     </li>
                 </ul>
             </div>
@@ -67,7 +67,7 @@
                             </div>
                             <h:selectOneMenu id="municipio" value="#{chartView.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" >
                                 <f:selectItems value="#{chartView.listaMunicipios}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
-                                <f:ajax render="cdv"/>
+                                <f:ajax render="@form"/>
                             </h:selectOneMenu>
                         </div>
                         <label>CDV:</label>
@@ -75,8 +75,9 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">*</span>
                             </div>
-                            <h:selectOneMenu id="cdv" styleClass="form-control" >
+                            <h:selectOneMenu id="cdv" value="#{chartView.cdv}" styleClass="form-control" converter="sv.edu.udb.www.converters.CDVConverter" >
                                 <f:selectItems value="#{chartView.listaCDV}" var="cdv" itemLabel="#{cdv.direccion}" itemValue="#{cdv}"/>
+                                <f:ajax render="jrv"/>
                             </h:selectOneMenu>
                         </div>
                         <label>JRV:</label>
@@ -84,7 +85,9 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">*</span>
                             </div>
-                            <h:selectOneMenu id="jrv" styleClass="form-control" ></h:selectOneMenu>
+                            <h:selectOneMenu id="jrv" value="#{chartView.jrv}" styleClass="form-control" converter="sv.edu.udb.www.converters.JRVConverter" >
+                                <f:selectItems value="#{chartView.listaJRV}" var="jrv" itemLabel="#{jrv.id}" itemValue="#{jrv}"/>
+                            </h:selectOneMenu>
                         </div>
                         <h:commandButton value="Global" actionListener="#{chartView.createPieModel2()}" styleClass="btn btn-primary mr-1" rendered="#{chartView.tipo.id == 2}"/>
                         <h:commandButton value="Departamento" styleClass="btn btn-success mr-1" rendered="#{chartView.tipo.id == 2}"/>

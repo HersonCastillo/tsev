@@ -31,7 +31,6 @@ function llenarMunicipios(id) {
 
 function llenarCDV(id,cdv) {
     $('#cdvWS').empty();
-    $('#cdvWS').append(new Option('Seleccione una opcion', 0));
     $.ajax({
         crossDomain: true,
         url: path + "/cdv/" + id,

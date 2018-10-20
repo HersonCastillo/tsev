@@ -5,6 +5,7 @@
  */
 package sv.edu.udb.www.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -24,9 +25,25 @@ public class CDVModel {
     
     public List<CDVEntity> obtenerCDVPorMunicipio(int id){
         try{
-            Query query = em.createQuery("SELECT c FROM CDVEntity c WHERE c.idMunicipio.id = :municipio");
+            CDVEntity seleccione = em.find(CDVEntity.class, 1);
+            Query query = em.createQuery("SELECT c FROM CDVEntity c WHERE c.idMunicipio.id = :municipio AND c.id != 1");
             query.setParameter("municipio", id);
             return query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo la lista filtrada de CDV (model) - " + ex.toString());
+            return null;
+        }
+    }
+    
+    public List<CDVEntity> obtenerCDVPorMunicipioCombo(int id){
+        try{
+            CDVEntity seleccione = em.find(CDVEntity.class, 1);
+            Query query = em.createQuery("SELECT c FROM CDVEntity c WHERE c.idMunicipio.id = :municipio AND c.id != 1");
+            query.setParameter("municipio", id);
+            List<CDVEntity> lista = new ArrayList();
+            lista.add(seleccione);
+            lista.addAll(query.getResultList());
+            return lista;
         }catch(Exception ex){
             System.out.println("Error obteniendo la lista filtrada de CDV (model) - " + ex.toString());
             return null;

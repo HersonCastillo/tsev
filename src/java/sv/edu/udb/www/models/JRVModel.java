@@ -122,4 +122,16 @@ public class JRVModel {
             return -1;
         }
     }
+    
+    public List<JRVEntity> obtenerJRVPorCDV(int cdv, int eleccion){
+        try{
+            Query query =em.createQuery("SELECT j FROM JRVEntity j WHERE j.idCdv.id = :cdv AND j.idEleccion.id = :eleccion");
+            query.setParameter("cdv", cdv);
+            query.setParameter("eleccion", eleccion);
+            return query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo lista de jrv pot centro de votacion (model) - " + ex.toString());
+            return null;
+        }
+    }
 }

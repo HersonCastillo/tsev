@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template_admin_dep.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Usuario
+    </ui:define>
+
+    <ui:define name="contenido">
+        <div class="row">
+            <c:if test="#{rolesBean.rr == 1}">
+                <c:if test="#{!rolesBean.editable}">
+                    <h1 class="text-center mx-auto">Insertar presidente</h1>
+                </c:if>
+                <c:if test="#{rolesBean.editable}">
+                    <h1 class="text-center mx-auto">Actualizar presidente</h1>
+                </c:if>
+            </c:if>
+            <c:if test="#{rolesBean.rr == 2}">
+
+                <c:if test="#{!rolesBean.editable}">
+                    <h1 class="text-center mx-auto">Insertar secretario/a</h1>
+                </c:if>
+                <c:if test="#{rolesBean.editable}">
+                    <h1 class="text-center mx-auto">Actualizar secretario/a</h1>
+                </c:if>
+            </c:if>
+            <c:if test="#{rolesBean.rr == 3}">
+
+                <c:if test="#{!rolesBean.editable}">
+                    <h1 class="text-center mx-auto">Insertar vocal</h1>
+                </c:if>
+                <c:if test="#{rolesBean.editable}">
+                    <h1 class="text-center mx-auto">Actualizar vocal</h1>
+                </c:if>
+            </c:if>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h:panelGroup styleClass="alert alert-danger col-sm-4 mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                        <h5 class="alert-heading">Revise lo ingresado:</h5>
+                        <h:messages/>
+                    </h:panelGroup>
+                </div>
+                <div class="row">
+                    <h:form class="mx-auto" enctype="multipart/form-data">
+                        <h:outputLabel value="DUI del ciudadano:" for="nombre"/>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">*</span>
+                            </div>
+                            <h:inputText id="nombre" value="#{rolesBean.dui}" required="true" styleClass="form-control"
+                                         requiredMessage="El DUI es obligatorio"
+                                         validatorMessage="El DUI debe tener el patron ########-#">
+                                <f:validateRegex pattern="^[0-9]{8}-[0-9]$"/>
+                            </h:inputText>
+                        </div>
+                        <c:if test="#{!rolesBean.editable}">
+                            <h:commandButton value="Insertar" action="#{rolesBean.insertarCandidato()}" styleClass="btn btn-info mr-2"/>
+                        </c:if>
+                        <c:if test="#{rolesBean.editable}">
+                            <h:commandButton value="Actualizar" action="#{rolesBean.actualizarCandidato()}" styleClass="btn btn-info mr-2"/>
+                        </c:if>
+                        <h:commandButton value="Cancelar" immediate="true" action="#{rolesBean.cancelar()}" styleClass="btn btn-danger mx-auto"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

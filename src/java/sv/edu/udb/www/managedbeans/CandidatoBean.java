@@ -108,12 +108,25 @@ public class CandidatoBean {
         return "listaCandidatosPresidenciales?faces-redirect=true";
     }
     
+    public String obtenerEleccionMun(int id){
+        this.eleccion = eleccionModel.obtenerEleccion(id);
+        return "listaCandidatosMunicipales?faces-redirect=true";
+    }
+    
     public String ingresar(){
         this.candidato = new CandidatoEntity();
         this.respuesta = "";
         this.editable = false;
         this.dui ="";
         return "ingresarCandidato?faces-redirect=true";
+    }
+    
+    public String ingresarM(){
+        this.candidato = new CandidatoEntity();
+        this.respuesta = "";
+        this.editable = false;
+        this.dui ="";
+        return "ingresarCandidatoM?faces-redirect=true";
     }
     
     public String insertarCandidato(){
@@ -140,12 +153,44 @@ public class CandidatoBean {
         }
     }
     
+    public String insertarCandidatoM(){
+        try{
+            CiudadanoEntity ciudadano = ciudadanoModel.obtenerCiudadanoPorDUI(this.dui);
+            if(ciudadano == null){
+                JsfUtils.addErrorMesages("dui", "No se encontro ningun ciudadano con el numero de DUI ingresado");
+                return null;
+            }
+            candidato.setIdCiudano(ciudadano);
+            candidato.setIdEleccion(this.eleccion);
+            int resultado = candidatoModel.insertarCandidatoMunicipal(candidato);
+            if(resultado == 1){
+                this.respuesta = "Candidato ingresado";
+                this.candidato = new CandidatoEntity();
+                this.dui = "";
+                return "listaCandidatosMunicipales  ?faces-redirect=true";
+            }
+            JsfUtils.addErrorMesages(null, "El ciudadano ya es candidato en esta eleccion u el partido ya tiene un candidato registrado");
+            return null;
+        }catch(Exception ex){
+            System.out.println("Error insertando candidato (bean) - " + ex.toString());
+            return null;
+        }
+    }
+    
     public String cancelar(){
         this.respuesta = "";
         this.editable = false;
         this.candidato = new CandidatoEntity();
         this.dui = "";
         return "listaCandidatosPresidenciales?faces-redirect=true";
+    }
+    
+    public String cancelarM(){
+        this.respuesta = "";
+        this.editable = false;
+        this.candidato = new CandidatoEntity();
+        this.dui = "";
+        return "listaCandidatosMunicipales?faces-redirect=true";
     }
     
     public String eliminarCandidato(int id){

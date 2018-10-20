@@ -14,8 +14,8 @@
     <h:body>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-4 col-sm-offset-4" style="margin-top: 150px;">
-                    <div class="panel mx-auto">
+                <div class="col-sm-4 col-sm-offset-4 mx-auto" style="margin-top: 150px; background-color: #fefefe;">
+                    <div class="panel">
                         <div class="panel-heading">
                             <h3 style="text-align: center;">Iniciar sesión</h3>
                             <hr></hr>
@@ -39,8 +39,7 @@
                                                    required="true" requiredMessage="Debes ingresar tu contraseña"/>
                                 </div>
                                 <br></br>
-                                <div class="col-md-7"></div>
-                                <div class="d-flex align-content-xl-end flex-wrap">
+                                <div class="d-flex align-content-xl-end flex-wrap offset-8">
                                     <h:commandButton class="btn btn-primary" 
                                                      value="INICIAR SESIÓN"  action="#{loginBean.validaLogin()}"/>
                                 </div>

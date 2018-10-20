@@ -27,10 +27,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Municipio")
+@Table(name = "municipio")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MunicipioEntity.findAll", query = "SELECT m FROM MunicipioEntity m")
@@ -49,13 +49,13 @@ public class MunicipioEntity implements Serializable {
     private String descripcion;
     @Transient
     private int ciudadanos;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
-    private List<CandidatoEntity> candidatoEntityList;
     @JoinColumn(name = "id_departamento", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private DepartamentoEntity idDepartamento;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
     private List<CDVEntity> cDVEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idMunicipio")
+    private List<CandidatoEntity> candidatoEntityList;
 
     public MunicipioEntity() {
     }
@@ -85,30 +85,12 @@ public class MunicipioEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
-    @XmlTransient
-    public List<CandidatoEntity> getCandidatoEntityList() {
-        return candidatoEntityList;
-    }
-
-    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
-        this.candidatoEntityList = candidatoEntityList;
-    }
-
     public DepartamentoEntity getIdDepartamento() {
         return idDepartamento;
     }
 
     public void setIdDepartamento(DepartamentoEntity idDepartamento) {
         this.idDepartamento = idDepartamento;
-    }
-
-    @XmlTransient
-    public List<CDVEntity> getCDVEntityList() {
-        return cDVEntityList;
-    }
-
-    public void setCDVEntityList(List<CDVEntity> cDVEntityList) {
-        this.cDVEntityList = cDVEntityList;
     }
 
     public int getCiudadanos() {
@@ -130,7 +112,23 @@ public class MunicipioEntity implements Serializable {
     public void setCiudadanos(int ciudadanos) {
         this.ciudadanos = ciudadanos;
     }
+    @XmlTransient
+    public List<CDVEntity> getCDVEntityList() {
+        return cDVEntityList;
+    }
 
+    public void setCDVEntityList(List<CDVEntity> cDVEntityList) {
+        this.cDVEntityList = cDVEntityList;
+    }
+
+    @XmlTransient
+    public List<CandidatoEntity> getCandidatoEntityList() {
+        return candidatoEntityList;
+    }
+
+    public void setCandidatoEntityList(List<CandidatoEntity> candidatoEntityList) {
+        this.candidatoEntityList = candidatoEntityList;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

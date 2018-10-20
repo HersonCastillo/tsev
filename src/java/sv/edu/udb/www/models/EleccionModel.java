@@ -86,6 +86,12 @@ public class EleccionModel {
         Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idEstado.id != 3");
         return query.getResultList();
     }
+    
+    public List<EleccionEntity> obtenerEleccionesMun() {
+        Query query = em.createNamedQuery("EleccionEntity.findByTipo");
+        query.setParameter("id", 1);
+        return query.getResultList();
+    }
 
     public List<EleccionEntity> obtenerEleccionesRealizadas() {
         Query query = em.createQuery("SELECT e FROM EleccionEntity e WHERE e.idEstado != 3");

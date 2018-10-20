@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/template_admin_dep.xhtml">
+
+            <ui:define name="titulo">
+                Lista de centro de votaciones
+            </ui:define>
+
+            <ui:define name="contenido">
+                <div class="row">
+                    <h1 class="text-center mx-auto">Lista de centro de votaciones</h1>
+                </div>
+                <div class="row pl-2 mb-2" style="margin-left: 5px;">
+                    <h:form>
+                        <h:commandButton value="Regresar" action="listaMunicipios?faces-redirect=true" styleClass="btn btn-primary"/>
+                    </h:form>
+                </div>
+                <div class="row pl-2 pr-2">
+                    <f:view>
+                        <h:form prependId="false" styleClass="col-sm-12">
+                            <h:dataTable id="data" styleClass="table table-hover text-center" value="#{cdvBean.listaCdv}" var="item">
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Nombre"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.direccion}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Departamento"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.idMunicipio.descripcion}"/>
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Ciudadanos"/>
+                                    </f:facet>
+                                    <center><h:commandButton value="Ver jrv's" action="#{jrvBean.obtenerCdvPormunC(item.id)}" styleClass="btn btn-success"/></center>
+                                </h:column>
+                            </h:dataTable>
+                        </h:form>
+                    </f:view>
+                </div>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

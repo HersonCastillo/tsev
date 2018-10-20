@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Departamento")
+@Table(name = "departamento")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DepartamentoEntity.findAll", query = "SELECT d FROM DepartamentoEntity d")
@@ -48,9 +48,9 @@ public class DepartamentoEntity implements Serializable {
     @Transient
     private int ciudadanos;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
-    private List<UsuarioEntity> usuarioEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
     private List<MunicipioEntity> municipioEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idDepartamento")
+    private List<UsuarioEntity> usuarioEntityList;
 
     public DepartamentoEntity() {
     }
@@ -79,25 +79,7 @@ public class DepartamentoEntity implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    @XmlTransient
-    public List<UsuarioEntity> getUsuarioEntityList() {
-        return usuarioEntityList;
-    }
-
-    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
-        this.usuarioEntityList = usuarioEntityList;
-    }
-
-    @XmlTransient
-    public List<MunicipioEntity> getMunicipioEntityList() {
-        return municipioEntityList;
-    }
-
-    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
-        this.municipioEntityList = municipioEntityList;
-    }
-
+    
     public int getCiudadanos() {
         this.ciudadanos = 0;
         try{
@@ -115,11 +97,27 @@ public class DepartamentoEntity implements Serializable {
         }
         return ciudadanos;
     }
-
+    
     public void setCiudadanos(int ciudadanos) {
         this.ciudadanos = ciudadanos;
     }
-    
+    @XmlTransient
+    public List<MunicipioEntity> getMunicipioEntityList() {
+        return municipioEntityList;
+    }
+
+    public void setMunicipioEntityList(List<MunicipioEntity> municipioEntityList) {
+        this.municipioEntityList = municipioEntityList;
+    }
+
+    @XmlTransient
+    public List<UsuarioEntity> getUsuarioEntityList() {
+        return usuarioEntityList;
+    }
+
+    public void setUsuarioEntityList(List<UsuarioEntity> usuarioEntityList) {
+        this.usuarioEntityList = usuarioEntityList;
+    }
     @Override
     public int hashCode() {
         int hash = 0;

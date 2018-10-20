@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "CDV")
+@Table(name = "cdv")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CDVEntity.findAll", query = "SELECT c FROM CDVEntity c")
@@ -43,13 +43,13 @@ public class CDVEntity implements Serializable {
     private Integer id;
     @Size(max = 150)
     private String direccion;
-    @OneToMany(mappedBy = "idCdv")
-    private List<CiudadanoEntity> ciudadanoEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idCdv")
     private List<JRVEntity> jRVEntityList;
     @JoinColumn(name = "id_municipio", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private MunicipioEntity idMunicipio;
+    @OneToMany(mappedBy = "idCdv")
+    private List<CiudadanoEntity> ciudadanoEntityList;
 
     public CDVEntity() {
     }
@@ -75,15 +75,6 @@ public class CDVEntity implements Serializable {
     }
 
     @XmlTransient
-    public List<CiudadanoEntity> getCiudadanoEntityList() {
-        return ciudadanoEntityList;
-    }
-
-    public void setCiudadanoEntityList(List<CiudadanoEntity> ciudadanoEntityList) {
-        this.ciudadanoEntityList = ciudadanoEntityList;
-    }
-
-    @XmlTransient
     public List<JRVEntity> getJRVEntityList() {
         return jRVEntityList;
     }
@@ -98,6 +89,15 @@ public class CDVEntity implements Serializable {
 
     public void setIdMunicipio(MunicipioEntity idMunicipio) {
         this.idMunicipio = idMunicipio;
+    }
+
+    @XmlTransient
+    public List<CiudadanoEntity> getCiudadanoEntityList() {
+        return ciudadanoEntityList;
+    }
+
+    public void setCiudadanoEntityList(List<CiudadanoEntity> ciudadanoEntityList) {
+        this.ciudadanoEntityList = ciudadanoEntityList;
     }
 
     @Override

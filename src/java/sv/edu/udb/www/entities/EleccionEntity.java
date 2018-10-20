@@ -30,13 +30,14 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "Eleccion")
+@Table(name = "eleccion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EleccionEntity.findAll", query = "SELECT e FROM EleccionEntity e")
+    , @NamedQuery(name = "EleccionEntity.findByTipo", query = "SELECT e FROM EleccionEntity e WHERE e.idTipo.id = :id")
     , @NamedQuery(name = "EleccionEntity.findById", query = "SELECT e FROM EleccionEntity e WHERE e.id = :id")
     , @NamedQuery(name = "EleccionEntity.findByFechIniRegistro", query = "SELECT e FROM EleccionEntity e WHERE e.fechIniRegistro = :fechIniRegistro")
     , @NamedQuery(name = "EleccionEntity.findByFechFinRegistro", query = "SELECT e FROM EleccionEntity e WHERE e.fechFinRegistro = :fechFinRegistro")
@@ -65,8 +66,12 @@ public class EleccionEntity implements Serializable {
     private Date fechRealizacion;
     @Transient
     private boolean ingresable;
+    @Transient
+    private boolean ingresablee;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<DetalleCEEntity> detalleCEEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
+    private List<JRVEntity> jRVEntityList;
     @JoinColumn(name = "id_tipo", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoEleccionEntity idTipo;
@@ -75,8 +80,6 @@ public class EleccionEntity implements Serializable {
     private EstadoEleccionEntity idEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
     private List<CandidatoEntity> candidatoEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idEleccion")
-    private List<JRVEntity> jRVEntityList;
 
     public EleccionEntity() {
     }
@@ -133,6 +136,15 @@ public class EleccionEntity implements Serializable {
         this.detalleCEEntityList = detalleCEEntityList;
     }
 
+    @XmlTransient
+    public List<JRVEntity> getJRVEntityList() {
+        return jRVEntityList;
+    }
+
+    public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
+        this.jRVEntityList = jRVEntityList;
+    }
+
     public TipoEleccionEntity getIdTipo() {
         return idTipo;
     }
@@ -158,17 +170,8 @@ public class EleccionEntity implements Serializable {
         this.candidatoEntityList = candidatoEntityList;
     }
 
-    @XmlTransient
-    public List<JRVEntity> getJRVEntityList() {
-        return jRVEntityList;
-    }
-
-    public void setJRVEntityList(List<JRVEntity> jRVEntityList) {
-        this.jRVEntityList = jRVEntityList;
-    }
-
     public boolean isIngresable() {
-        if(this.idTipo.getId() == 2 && this.idEstado.getId() == 1){
+        if (this.idTipo.getId() == 2 && this.idEstado.getId() == 1) {
             this.ingresable = true;
         }
         return ingresable;
@@ -178,6 +181,19 @@ public class EleccionEntity implements Serializable {
         this.ingresable = ingresable;
     }
 
+    public boolean isIngresablee() {
+        if (this.idTipo.getId() == 1 && this.idEstado.getId() == 1) {
+            this.ingresablee = true;
+        }
+        return ingresablee;
+    }
+
+    public void setIngresablee(boolean ingresablee) {
+        this.ingresablee = ingresablee;
+    }
+    
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

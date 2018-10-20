@@ -29,10 +29,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author kevin
+ * @author wecp123
  */
 @Entity
-@Table(name = "JRV")
+@Table(name = "jrv")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "JRVEntity.findAll", query = "SELECT j FROM JRVEntity j")
@@ -50,6 +50,10 @@ public class JRVEntity implements Serializable {
     @Column(name = "hora_cierre")
     @Temporal(TemporalType.TIME)
     private Date horaCierre;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJRV")
+    private List<VotoEntity> votoEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJrv")
+    private List<DetalleUJEntity> detalleUJEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJrv")
     private List<DetalleCEEntity> detalleCEEntityList;
     @JoinColumn(name = "id_cdv", referencedColumnName = "id")
@@ -61,10 +65,6 @@ public class JRVEntity implements Serializable {
     @JoinColumn(name = "id_estado", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EstadoJRVEntity idEstado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJrv")
-    private List<DetalleUJEntity> detalleUJEntityList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idJRV")
-    private List<VotoEntity> votoEntityList;
 
     public JRVEntity() {
     }
@@ -92,6 +92,24 @@ public class JRVEntity implements Serializable {
 
     public void setHoraCierre(Date horaCierre) {
         this.horaCierre = horaCierre;
+    }
+
+    @XmlTransient
+    public List<VotoEntity> getVotoEntityList() {
+        return votoEntityList;
+    }
+
+    public void setVotoEntityList(List<VotoEntity> votoEntityList) {
+        this.votoEntityList = votoEntityList;
+    }
+
+    @XmlTransient
+    public List<DetalleUJEntity> getDetalleUJEntityList() {
+        return detalleUJEntityList;
+    }
+
+    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
+        this.detalleUJEntityList = detalleUJEntityList;
     }
 
     @XmlTransient
@@ -125,24 +143,6 @@ public class JRVEntity implements Serializable {
 
     public void setIdEstado(EstadoJRVEntity idEstado) {
         this.idEstado = idEstado;
-    }
-
-    @XmlTransient
-    public List<DetalleUJEntity> getDetalleUJEntityList() {
-        return detalleUJEntityList;
-    }
-
-    public void setDetalleUJEntityList(List<DetalleUJEntity> detalleUJEntityList) {
-        this.detalleUJEntityList = detalleUJEntityList;
-    }
-
-    @XmlTransient
-    public List<VotoEntity> getVotoEntityList() {
-        return votoEntityList;
-    }
-
-    public void setVotoEntityList(List<VotoEntity> votoEntityList) {
-        this.votoEntityList = votoEntityList;
     }
 
     @Override

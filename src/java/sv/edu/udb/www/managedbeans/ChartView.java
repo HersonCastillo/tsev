@@ -256,7 +256,7 @@ public class ChartView implements Serializable {
                 pieModel2.setShadow(false);
 
             } else {
-                JsfUtils.addErrorMesages("eleccion", "Se debe seleccinar la eleccion");
+                JsfUtils.addErrorMesages("eleccion", "Se debe seleccionar la eleccion");
             }
         } catch (Exception ex) {
             System.out.println("Error obteniendo los votos globales (bean) - " + ex.toString());
@@ -267,7 +267,7 @@ public class ChartView implements Serializable {
         try {
             if (this.eleccion != null) {
                 if (this.departamento == null || this.departamento.getId() == 1) {
-                    JsfUtils.addErrorMesages("departamento", "Se debe selecconar el partido");
+                    JsfUtils.addErrorMesages("departamento", "Se debe seleccionar el departamento");
                 } else {
                     pieModel2 = new PieChartModel();
 
@@ -291,7 +291,7 @@ public class ChartView implements Serializable {
 
                 }
             } else {
-                JsfUtils.addErrorMesages("eleccion", "Se debe seleccinar la eleccion");
+                JsfUtils.addErrorMesages("eleccion", "Se debe seleccionar la eleccion");
             }
         } catch (Exception ex) {
             System.out.println("Error obteniendo los votos globales (bean) - " + ex.toString());
@@ -301,23 +301,23 @@ public class ChartView implements Serializable {
     public void votosMunicipales() {
         try {
             if (this.eleccion != null) {
-                if (this.departamento == null || this.departamento.getId() == 1) {
-                    JsfUtils.addErrorMesages("departamento", "Se debe selecconar el partido");
+                if (this.municipio == null || this.municipio.getId() == 1) {
+                    JsfUtils.addErrorMesages("municipio", "Se debe seleccionar el municipio");
                 } else {
                     pieModel2 = new PieChartModel();
 
-                    long nulos = graficoModel.nulosDepartamentales(this.eleccion.getId(),this.departamento.getId());
-                    long sv = graficoModel.sinDepartamentales(this.eleccion.getId(),this.departamento.getId());
+                    long nulos = graficoModel.nulosMunicipales(this.eleccion.getId(),this.municipio.getId());
+                    long sv = graficoModel.sinMunicipales(this.eleccion.getId(),this.municipio.getId());
                     pieModel2.set("Nulos", nulos);
                     pieModel2.set("Sin votar", sv);
 
                     List<PartidoEntity> listaPartidos = partidoModel.listaPartidosPorEleccion(this.eleccion.getId());
                     for (PartidoEntity partido : listaPartidos) {
-                        long votos = graficoModel.votosDepartamentales(this.eleccion.getId(),this.departamento.getId(), partido.getId());
+                        long votos = graficoModel.votosMunicipales(this.eleccion.getId(),this.municipio.getId(), partido.getId());
                         pieModel2.set(partido.getNombre(), votos);
                     }
 
-                    pieModel2.setTitle("Resultados departamentales");
+                    pieModel2.setTitle("Resultados municipales");
                     pieModel2.setLegendPosition("e");
                     pieModel2.setFill(false);
                     pieModel2.setShowDataLabels(true);
@@ -326,7 +326,76 @@ public class ChartView implements Serializable {
 
                 }
             } else {
-                JsfUtils.addErrorMesages("eleccion", "Se debe seleccinar la eleccion");
+                JsfUtils.addErrorMesages("eleccion", "Se debe seleccionar la eleccion");
+            }
+        } catch (Exception ex) {
+            System.out.println("Error obteniendo los votos globales (bean) - " + ex.toString());
+        }
+    }
+    
+    public void votosCDV() {
+        try {
+            if (this.eleccion != null) {
+                if (this.cdv == null || this.cdv.getId() == 1) {
+                    JsfUtils.addErrorMesages("cdv", "Se debe seleccionar el centro de votacion");
+                } else {
+                    pieModel2 = new PieChartModel();
+
+                    long nulos = graficoModel.nulosCDV(this.eleccion.getId(),this.cdv.getId());
+                    long sv = graficoModel.sinCDV(this.eleccion.getId(),this.cdv.getId());
+                    pieModel2.set("Nulos", nulos);
+                    pieModel2.set("Sin votar", sv);
+
+                    List<PartidoEntity> listaPartidos = partidoModel.listaPartidosPorEleccion(this.eleccion.getId());
+                    for (PartidoEntity partido : listaPartidos) {
+                        long votos = graficoModel.votosCDV(this.eleccion.getId(),this.cdv.getId(), partido.getId());
+                        pieModel2.set(partido.getNombre(), votos);
+                    }
+
+                    pieModel2.setTitle("Resultados municipales");
+                    pieModel2.setLegendPosition("e");
+                    pieModel2.setFill(false);
+                    pieModel2.setShowDataLabels(true);
+                    pieModel2.setDiameter(200);
+                    pieModel2.setShadow(false);
+
+                }
+            } else {
+                JsfUtils.addErrorMesages("eleccion", "Se debe seleccionar la eleccion");
+            }
+        } catch (Exception ex) {
+            System.out.println("Error obteniendo los votos globales (bean) - " + ex.toString());
+        }
+    }
+    public void votosJRV() {
+        try {
+            if (this.eleccion != null) {
+                if (this.jrv == null || this.jrv.getId() == 1) {
+                    JsfUtils.addErrorMesages("jrv", "Se debe seleccionar la junta receptora de votos");
+                } else {
+                    pieModel2 = new PieChartModel();
+
+                    long nulos = graficoModel.nulosJRV(this.eleccion.getId(),this.jrv.getId());
+                    long sv = graficoModel.sinJRV(this.eleccion.getId(),this.jrv.getId());
+                    pieModel2.set("Nulos", nulos);
+                    pieModel2.set("Sin votar", sv);
+
+                    List<PartidoEntity> listaPartidos = partidoModel.listaPartidosPorEleccion(this.eleccion.getId());
+                    for (PartidoEntity partido : listaPartidos) {
+                        long votos = graficoModel.votosJRV(this.eleccion.getId(),this.jrv.getId(), partido.getId());
+                        pieModel2.set(partido.getNombre(), votos);
+                    }
+
+                    pieModel2.setTitle("Resultados municipales");
+                    pieModel2.setLegendPosition("e");
+                    pieModel2.setFill(false);
+                    pieModel2.setShowDataLabels(true);
+                    pieModel2.setDiameter(200);
+                    pieModel2.setShadow(false);
+
+                }
+            } else {
+                JsfUtils.addErrorMesages("eleccion", "Se debe seleccionar la eleccion");
             }
         } catch (Exception ex) {
             System.out.println("Error obteniendo los votos globales (bean) - " + ex.toString());

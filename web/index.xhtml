@@ -92,9 +92,9 @@
                         </div>
                         <h:commandButton value="Global" actionListener="#{chartView.votosGlobales()}" styleClass="btn btn-primary mr-1" rendered="#{chartView.tipo.id == 2}"/>
                         <h:commandButton value="Departamento" actionListener="#{chartView.votosDeartamentales()}" styleClass="btn btn-success mr-1" rendered="#{chartView.tipo.id == 2}"/>
-                        <h:commandButton value="Municipio" styleClass="btn btn-info mr-1"/>
-                        <h:commandButton value="CDV" styleClass="btn btn-warning mr-1"/>
-                        <h:commandButton value="JRV" styleClass="btn btn-secondary"/>
+                        <h:commandButton value="Municipio" actionListener="#{chartView.votosMunicipales()}" styleClass="btn btn-info mr-1"/>
+                        <h:commandButton value="CDV" actionListener="#{chartView.votosCDV()}" styleClass="btn btn-warning mr-1"/>
+                        <h:commandButton value="JRV" actionListener="#{chartView.votosJRV()}" styleClass="btn btn-secondary"/>
                     </div>
                     <div class="col-md-7">
                         <p:chart type="pie" model="#{chartView.pieModel2}" styleClass="mx-auto" style="width:400px;height:300px" />

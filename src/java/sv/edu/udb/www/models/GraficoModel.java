@@ -128,4 +128,78 @@ public class GraficoModel {
             return 0;
         }
     }
+    
+    public long nulosCDV(int eleccion, int cdv){
+        try{
+            Query query = em.createQuery("SELECT COUNT(DCE) FROM DetalleCEEntity DCE WHERE DCE.idJrv.idEstado.id = 2 AND DCE.idEstado.id = 3 AND DCE.idEleccion.id = :eleccion AND DCE.idCiudadano.idCdv.id = :cdv");
+            query.setParameter("eleccion", eleccion);
+            query.setParameter("cdv", cdv);
+            return (long) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo votos nulos a nivel cdv (model) - " + ex.toString());
+            return 0;
+        }
+    }
+    
+    public long sinCDV(int eleccion, int cdv){
+        try{
+            Query query = em.createQuery("SELECT COUNT(DCE) FROM DetalleCEEntity DCE WHERE DCE.idJrv.idEstado.id = 2 AND DCE.idEstado.id = 1 AND DCE.idEleccion.id = :eleccion AND DCE.idCiudadano.idCdv.id = :cdv");
+            query.setParameter("eleccion", eleccion);
+            query.setParameter("cdv", cdv);
+            return (long) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo votos nulos a nivel cdv (model) - " + ex.toString());
+            return 0;
+        }
+    }
+    
+    public long votosCDV(int eleccion,int cdv,int partido){
+        try{
+            Query query = em.createQuery("SELECT COUNT(V.id) FROM VotoEntity V WHERE V.idJRV.idEstado.id = 2 AND V.idJRV.idEleccion.id = :eleccion AND V.idCandidato.idPartido.id = :partido AND V.idJRV.idCdv.id = :cdv");
+            query.setParameter("eleccion", eleccion);
+            query.setParameter("partido", partido);
+            query.setParameter("cdv", cdv);
+            return (long) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo votos cdv (model) - " + ex.toString());
+            return 0;
+        }
+    }
+    
+    public long nulosJRV(int eleccion, int jrv){
+        try{
+            Query query = em.createQuery("SELECT COUNT(DCE) FROM DetalleCEEntity DCE WHERE DCE.idJrv.idEstado.id = 2 AND DCE.idEstado.id = 3 AND DCE.idEleccion.id = :eleccion AND DCE.idJrv.id = :jrv");
+            query.setParameter("eleccion", eleccion);
+            query.setParameter("jrv", jrv);
+            return (long) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo votos nulos a nivel jrv (model) - " + ex.toString());
+            return 0;
+        }
+    }
+    
+    public long sinJRV(int eleccion, int jrv){
+        try{
+            Query query = em.createQuery("SELECT COUNT(DCE) FROM DetalleCEEntity DCE WHERE DCE.idJrv.idEstado.id = 2 AND DCE.idEstado.id = 1 AND DCE.idEleccion.id = :eleccion AND DCE.idJrv.id = :jrv");
+            query.setParameter("eleccion", eleccion);
+            query.setParameter("jrv", jrv);
+            return (long) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo votos nulos a nivel cdv (model) - " + ex.toString());
+            return 0;
+        }
+    }
+    
+    public long votosJRV(int eleccion,int jrv,int partido){
+        try{
+            Query query = em.createQuery("SELECT COUNT(V.id) FROM VotoEntity V WHERE V.idJRV.idEstado.id = 2 AND V.idJRV.idEleccion.id = :eleccion AND V.idCandidato.idPartido.id = :partido AND V.idJRV.id = :jrv");
+            query.setParameter("eleccion", eleccion);
+            query.setParameter("partido", partido);
+            query.setParameter("jrv", jrv);
+            return (long) query.getSingleResult();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo votos cdv (model) - " + ex.toString());
+            return 0;
+        }
+    }
 }

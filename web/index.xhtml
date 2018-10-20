@@ -1,12 +1,111 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>TSE - Resultados</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <!--css-->
+        <h:outputStylesheet name="css/estilo.css"/>
+        <!--Boststrap-->
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
     </h:head>
     <h:body>
-        Ejemplo de commit!
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <a class="navbar-brand text-light" href="#">TSE</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link text-light" href="${pageContext.request.contextPath}/tsev/faces/index.xhtml">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="${pageContext.request.contextPath}/tsev/faces/login.xhtml">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <h:form prependId="false">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h3 class="text-center">Seleccione la elección</h3>
+                        <label>Tipo de eleccion:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="tipo" value="#{chartView.tipo}" styleClass="form-control" converter="sv.edu.udb.www.converters.TipoEleccionConverter">
+                                <f:selectItems value="#{chartView.listaTipos}" var="tipo" itemLabel="#{tipo.descripcion}" itemValue="#{tipo}"/>
+                                <f:ajax render="@form"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>Eleccion:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="eleccion" value="#{chartView.eleccion}" styleClass="form-control" converter="sv.edu.udb.www.converters.EleccionConverter" >
+                                <f:selectItems value="#{chartView.listaElecciones}" var="eleccion" itemLabel="#{eleccion.fechRealizacion.date}-#{1 + eleccion.fechRealizacion.month}-#{(1900 + eleccion.fechRealizacion.year)}" itemValue="#{eleccion}"/>
+                                <f:ajax render="@this"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>Departamento:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="departamento" value="#{chartView.departamento}" styleClass="form-control" converter="sv.edu.udb.www.converters.DepartamentoConverter">
+                                <f:selectItems value="#{chartView.listaDepartamentos}" var="departamento" itemLabel="#{departamento.descripcion}" itemValue="#{departamento}"/>
+                                <f:ajax render="municipio"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>Municipio:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="municipio" value="#{chartView.municipio}" styleClass="form-control" converter="sv.edu.udb.www.converters.MunicipioConverter" >
+                                <f:selectItems value="#{chartView.listaMunicipios}" var="municipio" itemLabel="#{municipio.descripcion}" itemValue="#{municipio}"/>
+                                <f:ajax render="@form"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>CDV:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="cdv" value="#{chartView.cdv}" styleClass="form-control" converter="sv.edu.udb.www.converters.CDVConverter" >
+                                <f:selectItems value="#{chartView.listaCDV}" var="cdv" itemLabel="#{cdv.direccion}" itemValue="#{cdv}"/>
+                                <f:ajax render="jrv"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <label>JRV:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">*</span>
+                            </div>
+                            <h:selectOneMenu id="jrv" value="#{chartView.jrv}" styleClass="form-control" converter="sv.edu.udb.www.converters.JRVConverter" >
+                                <f:selectItems value="#{chartView.listaJRV}" var="jrv" itemLabel="#{jrv.id}" itemValue="#{jrv}"/>
+                            </h:selectOneMenu>
+                        </div>
+                        <h:commandButton value="Global" actionListener="#{chartView.votosGlobales()}" styleClass="btn btn-primary mr-1" rendered="#{chartView.tipo.id == 2}"/>
+                        <h:commandButton value="Departamento" actionListener="#{chartView.votosDeartamentales()}" styleClass="btn btn-success mr-1" rendered="#{chartView.tipo.id == 2}"/>
+                        <h:commandButton value="Municipio" actionListener="#{chartView.votosMunicipales()}" styleClass="btn btn-info mr-1"/>
+                        <h:commandButton value="CDV" actionListener="#{chartView.votosCDV()}" styleClass="btn btn-warning mr-1"/>
+                        <h:commandButton value="JRV" actionListener="#{chartView.votosJRV()}" styleClass="btn btn-secondary"/>
+                    </div>
+                    <div class="col-md-7">
+                        <p:chart type="pie" model="#{chartView.pieModel2}" styleClass="mx-auto" style="width:400px;height:300px" />
+                        <h:panelGroup styleClass="alert alert-danger mx-auto" layout="block" rendered="${not empty facesContext.messageList}">
+                            <h5 class="alert-heading">Revise lo ingresado:</h5>
+                            <h:messages/>
+                    </h:panelGroup>
+                    </div>
+                </div>
+            </h:form>
+        </div>
     </h:body>
 </html>
 

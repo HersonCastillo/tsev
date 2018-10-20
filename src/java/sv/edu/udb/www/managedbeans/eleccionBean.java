@@ -126,10 +126,12 @@ public class eleccionBean {
                 FacesContext.getCurrentInstance().addMessage("fechaRealizacion", new FacesMessage("La fecha de realizacion debe ser mayor a la de finalizacion de registro"));
             }
             //verificar que no se encuentren errores
-            if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
+            if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
+                eleccion.setFechFinRegistro(new Date(finalizacion.getTimeInMillis()));
+                eleccion.setFechRealizacion(new Date(realizacion.getTimeInMillis()));
                 int resultado = eleccionModel.insertarEleccion(eleccion);
                 if (resultado == 1) {
-                    this.respuesta = "Eleccion ingresada corrrectamente";
+                    this.respuesta = "Eleccion ingresada";
                     eleccion = new EleccionEntity();
                     return "listaElecciones?faces-redirect=true";
                 }
@@ -170,8 +172,8 @@ public class eleccionBean {
             realizacion.add(Calendar.DAY_OF_YEAR, 1);
             //validar fecha de finalizacion de registro
             int fechaValidacion = finalizacion.compareTo(inicio);
-            if (fechaValidacion < 0) {
-                FacesContext.getCurrentInstance().addMessage("fechaFin", new FacesMessage("La fecha de finalizacion de registro debe ser mayor igual a la actual"));
+            if(fechaValidacion < 0){
+                FacesContext.getCurrentInstance().addMessage("fechaFin", new FacesMessage("La fecha de finalizacion de registro debe ser mayor o igual a la actual"));
             }
             //validar fecha de realizacion
             fechaValidacion = realizacion.compareTo(finalizacion);
@@ -179,10 +181,12 @@ public class eleccionBean {
                 FacesContext.getCurrentInstance().addMessage("fechaRealizacion", new FacesMessage("La fecha de realizacion debe ser mayor a la de finalizacion de registro"));
             }
             //verificar que no se encuentren errores
-            if (FacesContext.getCurrentInstance().getMessageList().isEmpty()) {
+            if(FacesContext.getCurrentInstance().getMessageList().isEmpty()){
+                eleccion.setFechFinRegistro(new Date(finalizacion.getTimeInMillis()));
+                eleccion.setFechRealizacion(new Date(realizacion.getTimeInMillis()));
                 int resultado = eleccionModel.actualizarEleccion(eleccion);
                 if (resultado == 1) {
-                    this.respuesta = "Eleccion actualizada corrrectamente";
+                    this.respuesta = "Eleccion actualizada";
                     eleccion = new EleccionEntity();
                     this.editando = false;
                     return "listaElecciones?faces-redirect=true";

@@ -88,4 +88,15 @@ public class PartidoModel {
     public PartidoEntity obtenerPartido(int id){
         return em.find(PartidoEntity.class, id);
     }
+    
+    public List<PartidoEntity> listaPartidosPorEleccion(int eleccion){
+        try{
+            Query query = em.createQuery("SELECT c.idPartido FROM CandidatoEntity c WHERE c.idEleccion.id = :eleccion");
+            query.setParameter("eleccion", eleccion);
+            return query.getResultList();
+        }catch(Exception ex){
+            System.out.println("Error obteniendo los partidos por eleccion (model) - " + ex.toString());
+            return null;
+        }
+    }
 }
